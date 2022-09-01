@@ -1,0 +1,16 @@
+{
+    "mapa": "map.txt",
+    "vidas": 3,
+    "velocidade": 1,
+    "tempoAssustado": 7,
+    "tamanhoModos": [
+        7,
+        20,
+        7,
+        20,
+        5,
+        20,
+        5,
+        1000
+    ]
+}
