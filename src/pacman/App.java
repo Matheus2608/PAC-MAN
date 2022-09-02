@@ -52,7 +52,7 @@ public class App extends PApplet {
         // deixa a tela totalmente preta
         background(0, 0, 0);
 
-        // Atualiza os elementos through the entities
+        // Atualiza os elementos
         //atualizaElementos();
 
         // Draws the game grid and the entities
@@ -60,6 +60,14 @@ public class App extends PApplet {
 
         // Draws the ghost and waka entities to the screen
         // drawEntities();
+    }
+    
+    public void atualizaElementos() {
+//        for(Fantasma fantasma : game.fanstasmas){
+//            fantasma.atualiza();
+//        }
+        
+        //game.pacMan.atualiza();
     }
     
 //    public void resetGame() {
@@ -71,13 +79,12 @@ public class App extends PApplet {
 //        setup();
 //    }
 //    
-//    @Override
-//    public void keyPressed(){
-//        System.out.println(keyCode);
-//    }
+    @Override
+    public void keyPressed(){
+        System.out.println(keyCode);
+    }
     
     public static void main(String[] args) {
-        System.out.println("entrei");
         PApplet.main("pacman.App");
     }
     

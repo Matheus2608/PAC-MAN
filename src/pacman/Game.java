@@ -27,7 +27,6 @@ public class Game {
     public int vidas;
     public int velocidade;
     public int tempoAssustado;
-    public String filename;
     public HashMap<Character, String> mapElementos;
     public ArrayList<Integer> tamanhoModos;
     //public pacMan PacMan;
@@ -45,7 +44,7 @@ public class Game {
         //this.fantasmas = new ArrayList<Fantasma>();
         this.tamanhoModos = new ArrayList<Integer>();
         //this.pacMan = null;
-        this.nomeArquivo = "mapa.txt";
+        //this.nomeArquivo = "mapa.txt";
         
         carregaMapElementos();
     }
@@ -99,7 +98,7 @@ public class Game {
         }
     }
     
-    public boolean checkWinOrLose(App app) {
+    public boolean vitoritaOuDerrota(App app) {
         if (this.frutas == 0) {
             desenhaVitoria(app);
             return true;
