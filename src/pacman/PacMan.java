@@ -129,17 +129,18 @@ public class PacMan extends Vivo{
     @Override
     public void atualiza(){
         if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 39){
-            System.out.println("coordenada: " + this.getY() / 16 + " " + this.getX() / 16);
-            System.out.println("ultima tecla: " + this.getUltimaTecla());
-            App app = this.getApp();
-            Game game = app.game;
-            game.parseJSON();
-            if(game.vitoritaOuDerrota(app)) app.resetGame();
-            else if(!checaColisao()){
-                System.out.println("movi");
-                mover();
-            }
-            desenhar();
+            int[] posicao = fakeMover();
+//            System.out.println("coordenada: " + this.getY() / 16 + " " + this.getX() / 16);
+//            System.out.println("ultima tecla: " + this.getUltimaTecla());
+//            App app = this.getApp();
+//            Game game = app.game;
+//            game.parseJSON();
+//            if(game.vitoritaOuDerrota(app)) app.resetGame();
+//            else if(!checaColisao()){
+//                System.out.println("movi");
+//                mover();
+//            }
+//            desenhar();
         }
         
     }
@@ -165,7 +166,37 @@ public class PacMan extends Vivo{
                 break;
         }
         
-        System.out.println("coordenada depois: " + this.getY() / 16  + " " + this.getX() / 16);
+        System.out.println("coordenada depois: " + (this.getY() / 16) + 1  + " " + (this.getX() / 16) + 1);
+    }
+    
+    public int[] fakeMover(){
+        int tecla = this.getUltimaTecla();
+        System.out.println("entrei no fakemover");
+        System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
+        switch (tecla) {
+            case 37:
+                this.setX(this.getX() - 16);
+                break;
+            case 38:
+                this.setY(this.getY() - 16);
+                break;
+            case 39:
+                this.setX(this.getX() + 16);
+                break;
+            case 40:
+                this.setY(this.getY() + 16);
+                break;
+            default:
+                break;       
+        }
+        
+        System.out.println("coordenada depois: " + ((this.getY() / 16) + 1)  + " " + ((this.getX() / 16) + 1));
+        int[] res = new int[2];
+        res[0] = this.getY();
+        res[1] = this.getX();
+        
+        return res;
+        
     }
     
     public void desenhar() {
