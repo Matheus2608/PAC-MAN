@@ -17,6 +17,8 @@ import java.util.Scanner;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import fantasmas.*;
 import processing.core.PImage;
 
 
@@ -28,23 +30,27 @@ public class Game {
     public int velocidade;
     public int tempoAssustado;
     public HashMap<Character, String> mapElementos;
-    public ArrayList<Integer> tamanhoModos;
-    //public pacMan PacMan;
-    //public ArrayList<Fanstasma> fantasmas;
-    //public ArrayList<Elemento> paredes;
-    //public ArrayList<Elemento> frutas;
-    public int frutas;
+    //public ArrayList<Integer> tamanhoModos;
+    public PacMan pacMan;
+    public ArrayList<Vivo> fantasmas;
+    public ArrayList<Estatico> paredes;
+    public ArrayList<Estatico> frutas;
+    public ArrayList<Estatico> pastilhas;
+    public ArrayList<Estatico> superPastilhas;
+    public int numFrutas;
     public boolean resetarGame;
 
     public Game(App app) {
         this.app = app;
         this.mapElementos = new HashMap<Character, String>();
         this.mapa = new ArrayList<ArrayList<Elemento>>();
-        //this.paredes = new ArrayList<GameObject>();
-        //this.fantasmas = new ArrayList<Fantasma>();
-        this.tamanhoModos = new ArrayList<Integer>();
-        //this.pacMan = null;
-        //this.nomeArquivo = "mapa.txt";
+        this.paredes = new ArrayList<Estatico>();
+        this.frutas = new ArrayList<Estatico>();
+        this.pastilhas = new ArrayList<Estatico>();
+        this.superPastilhas = new ArrayList<Estatico>();
+        this.fantasmas = new ArrayList<Vivo>();
+        //this.tamanhoModos = new ArrayList<Integer>();
+        this.pacMan = null;
         
         carregaMapElementos();
     }
@@ -99,7 +105,7 @@ public class Game {
     }
     
     public boolean vitoritaOuDerrota(App app) {
-        if (this.frutas == 0) {
+        if (this.numFrutas == 0) {
             desenhaVitoria(app);
             return true;
         } else if (this.vidas == 0) {
@@ -138,11 +144,55 @@ public class Game {
                 // Iterate through the line
                 for (char idElemento : linha.toCharArray()) {
 
+                    int id = Character.getNumericValue(idElemento);
                     // acha o caminho da imagem no hashmap
                     String caminhoImagem = mapElementos.get(idElemento);
                     // carrega a imagem
                     PImage imagem = app.loadImage(caminhoImagem);
                     Elemento elem = new Elemento(x, y, imagem);
+                    
+                    Estatico estatico = estatico = new Estatico(x, y, imagem);
+                    
+                    if(id >= 0 && id <= 6){ // é uma parede
+                        estatico.setParede(true);
+                        paredes.add(estatico);
+                    }
+
+                    else if(id == 7){
+                        estatico.setPastilha(true);
+                        pastilhas.add(estatico);
+                    }
+
+                    else if(id == 8){
+                        estatico.setSuperPastilha(true);
+                        superPastilhas.add(estatico);
+                    }
+
+                    else if(idElemento == 'p') {
+                        this.pacMan =  new PacMan(x,y,imagem);
+                        this.pacMan.app = this.app;
+                    }
+
+                    else if(idElemento == 'a'){
+                        Rosa rosa = new Rosa(x,y,imagem);
+                        fantasmas.add(rosa);
+                    }
+
+                    else if(idElemento == 'c'){
+                        Vermelho vermelho = new Vermelho(x,y,imagem);
+                        fantasmas.add(vermelho);
+                    }
+
+                    else if(idElemento == 'i'){
+                        Laranja laranja = new Laranja(x,y,imagem);
+                        fantasmas.add(laranja);
+                    }
+
+                    else if(idElemento == 'w'){
+                        Azul azul = new Azul(x,y,imagem);
+                        fantasmas.add(azul);
+                    }
+                    
                     linhaAtual.add(elem);
                     x += 16;
                 }

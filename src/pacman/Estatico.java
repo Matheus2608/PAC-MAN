@@ -4,13 +4,19 @@
  */
 package pacman;
 
+import processing.core.PImage;
+
 /**
  *
  * @author matheus
  */
 public class Estatico extends Elemento{
-    private boolean fruta, parede, pastilha, superPastilha;
+    private boolean fruta, parede, pastilha, superPastilha, vazio;
 
+    Estatico(int x, int y, PImage imagem) {
+        super(x,y,imagem);
+    }
+    
     public boolean isFruta() {
         return fruta;
     }

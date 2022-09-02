@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package pacman;
-
+import processing.core.PImage;
 /**
  *
  * @author matheus
@@ -13,6 +13,10 @@ public abstract class Vivo extends Elemento {
     public int valocidade;
     public boolean vivo;
     private int xInicial, yInicial, ultimoMovimento;
+    
+    public Vivo(int x, int y, PImage imagem){
+        super(x,y,imagem);
+    }
     
     public abstract boolean checaColisao();
 
