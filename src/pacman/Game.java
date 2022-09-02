@@ -149,9 +149,9 @@ public class Game {
                     String caminhoImagem = mapElementos.get(idElemento);
                     // carrega a imagem
                     PImage imagem = app.loadImage(caminhoImagem);
-                    Elemento elem = new Elemento(x, y, imagem);
+                    Elemento elem = new Elemento(idElemento, x, y, imagem);
                     
-                    Estatico estatico = estatico = new Estatico(x, y, imagem);
+                    Estatico estatico = estatico = new Estatico(idElemento, x, y, imagem);
                     
                     if(id >= 0 && id <= 6){ // é uma parede
                         estatico.setParede(true);
@@ -169,27 +169,27 @@ public class Game {
                     }
 
                     else if(idElemento == 'p') {
-                        this.pacMan =  new PacMan(x,y,imagem);
+                        this.pacMan =  new PacMan(idElemento, x, y, imagem);
                         this.pacMan.app = this.app;
                     }
 
                     else if(idElemento == 'a'){
-                        Rosa rosa = new Rosa(x,y,imagem);
+                        Rosa rosa = new Rosa(idElemento,x,y,imagem);
                         fantasmas.add(rosa);
                     }
 
                     else if(idElemento == 'c'){
-                        Vermelho vermelho = new Vermelho(x,y,imagem);
+                        Vermelho vermelho = new Vermelho(idElemento, x,y,imagem);
                         fantasmas.add(vermelho);
                     }
 
                     else if(idElemento == 'i'){
-                        Laranja laranja = new Laranja(x,y,imagem);
+                        Laranja laranja = new Laranja(idElemento, x,y,imagem);
                         fantasmas.add(laranja);
                     }
 
                     else if(idElemento == 'w'){
-                        Azul azul = new Azul(x,y,imagem);
+                        Azul azul = new Azul(idElemento, x,y,imagem);
                         fantasmas.add(azul);
                     }
                     

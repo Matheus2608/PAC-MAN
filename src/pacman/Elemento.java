@@ -14,12 +14,16 @@ public class Elemento {
 
    protected final int ALTURA = 16, LARGURA = 16;
    private int x ,y;
+   private char idElemento;
    private PImage imagem;
+
+    
    
-   public Elemento(int x, int y, PImage imagem) {
+   public Elemento(char idElemento, int x, int y, PImage imagem) {
         this.x = x;
         this.y = y;
         this.imagem = imagem;
+        this.idElemento = idElemento;
     }
 
     public int getX() {
@@ -45,5 +49,12 @@ public class Elemento {
     public void setImagem(PImage imagem) {
         this.imagem = imagem;
     }
+    
+    public int getIdElemento() {
+        return idElemento;
+    }
 
+    public void setIdElemento(int id) {
+        this.idElemento = idElemento;
+    }
 }

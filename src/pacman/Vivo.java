@@ -12,10 +12,10 @@ public abstract class Vivo extends Elemento {
     public App app;
     public int valocidade;
     public boolean vivo;
-    private int xInicial, yInicial, ultimoMovimento;
+    private int xInicial, yInicial, ultimaTecla;
     
-    public Vivo(int x, int y, PImage imagem){
-        super(x,y,imagem);
+    public Vivo(char idElemento, int x, int y, PImage imagem){
+        super(idElemento, x,y,imagem);
     }
     
     public abstract boolean checaColisao();
@@ -64,12 +64,12 @@ public abstract class Vivo extends Elemento {
         this.yInicial = yInicial;
     }
 
-    public int getUltimoMovimento() {
-        return ultimoMovimento;
+    public int getUltimaTecla() {
+        return ultimaTecla;
     }
 
-    public void setUltimoMovimento(int ultimoMovimento) {
-        this.ultimoMovimento = ultimoMovimento;
+    public void setUltimaTecla(int ultimaTecla) {
+        this.ultimaTecla = ultimaTecla;
     }
     
     

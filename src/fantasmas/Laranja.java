@@ -15,33 +15,33 @@ import processing.core.PImage;
  */
 public class Laranja extends Vivo implements Fantasma{
 
-    public Laranja(int x, int y, PImage imagem){
-        super(x,y,imagem);
+    public Laranja(char idElemento, int x, int y, PImage imagem){
+        super(idElemento, x,y,imagem);
     }
 
     @Override
     public boolean checaColisao() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return false;
     }
 
     @Override
     public void atualiza() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
 
     @Override
     public void mover() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
-
+    
     @Override
     public void estrategia() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        
     }
-
+    
     @Override
     public void draw(App app) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
     }
     
 }

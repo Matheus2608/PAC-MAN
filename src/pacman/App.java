@@ -52,8 +52,8 @@ public class App extends PApplet {
         // deixa a tela totalmente preta
         background(0, 0, 0);
 
-        // Atualiza os elementos
-        //atualizaElementos();
+        //Atualiza os elementos
+        atualizaElementos();
 
         // Draws the game grid and the entities
         this.game.desenhaMapa();
@@ -63,25 +63,28 @@ public class App extends PApplet {
     }
     
     public void atualizaElementos() {
-//        for(Fantasma fantasma : game.fanstasmas){
-//            fantasma.atualiza();
-//        }
+        for(Vivo fantasma : game.fantasmas){
+            fantasma.atualiza();
+        }
         
-        //game.pacMan.atualiza();
+        game.pacMan.atualiza();
     }
     
-//    public void resetGame() {
-//        // colocando os atributos para seus valores iniciais
-//        this.time = 0;
-//        this.debug = false;
-//        
-//        this.game = new Game(this);
-//        setup();
-//    }
+        public void resetGame() {
+            // colocando os atributos para seus valores iniciais
+            this.tempo = 0;
+            this.debug = false;
+            
+            this.game = new Game(this);
+            setup();
+        }
 //    
     @Override
     public void keyPressed(){
-        System.out.println(keyCode);
+        // 37 é esquerda, 38 pra cima, 39 direita, 40 pra baixo
+        if (keyCode >= 37 && keyCode <= 40) { // é uma das setas
+            this.game.pacMan.setUltimaTecla(keyCode);
+        }
     }
     
     public static void main(String[] args) {
