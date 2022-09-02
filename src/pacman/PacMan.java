@@ -23,14 +23,17 @@ public class PacMan extends Vivo{
         // vao ser considerados verdadeiras colisoes se forem com uma parede ou com fantasma
         // para melhor funcionamento e legibilidade do codigo
         if(checaColisaoFantasmas()){
+            System.out.println("colide com fantasma");
             return true;
         }
         
         
         if(checaColisaoComParede()){
+            System.out.println("colide com parede");
             return true;
         }
         
+        System.out.println("nao colide e retonar falso");
 //        if(checaColisaoComSuperPastilha()){ 
 //            return false;
 //        }
@@ -125,22 +128,28 @@ public class PacMan extends Vivo{
 
     @Override
     public void atualiza(){
-        System.out.println("entrei");
-        App app = this.getApp();
-        Game game = app.game;
-        game.parseJSON();
-        if(game.vitoritaOuDerrota(app)) app.resetGame();
-        else if(!checaColisao()){
-            System.out.println("movi");
-            mover();
+        if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 39){
+            System.out.println("coordenada: " + this.getX() / 16 + " " + this.getY() / 16);
+            System.out.println("ultima tecla: " + this.getUltimaTecla());
+            App app = this.getApp();
+            Game game = app.game;
+            game.parseJSON();
+            if(game.vitoritaOuDerrota(app)) app.resetGame();
+            else if(!checaColisao()){
+                System.out.println("movi");
+                mover();
+            }
+            desenhar();
         }
-        desenhar();
+        
     }
         
     
     @Override
     public void mover(){
-        int tecla = this.getUltimaTecla(); 
+        int tecla = this.getUltimaTecla();
+        System.out.println("entrei no mover");
+        System.out.println("coordenada antes: " + this.getX() / 16 + " " + this.getY() / 16);
         switch (tecla) {
             case 37:
                 this.setX(this.getX() - 16);
@@ -155,6 +164,8 @@ public class PacMan extends Vivo{
                 this.setY(this.getY() + 16);
                 break;
         }
+        
+        System.out.println("coordenada depois: " + this.getX() / 16 + " " + this.getY() / 16);
     }
     
     public void desenhar() {
@@ -162,7 +173,6 @@ public class PacMan extends Vivo{
         int indY = this.getY() / 16;
         System.out.println(indX + " " + indY);
         Elemento elem = new Elemento(this.getIdElemento(), indX, indY, this.getImagem());
-        ArrayList<Elemento> linha = this.getApp().game.mapa.get(indX);
-        linha.set(indY, elem);
+        this.getApp().game.mapa.get(indX).set(indY, elem);
     }
 }

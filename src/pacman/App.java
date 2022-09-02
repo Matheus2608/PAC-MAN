@@ -56,7 +56,7 @@ public class App extends PApplet {
         atualizaElementos();
 
         // Draws the game grid and the entities
-        this.game.desenhaMapa();
+        this.game.carregaJogo(this);
 
         // Draws the ghost and waka entities to the screen
         // drawEntities();

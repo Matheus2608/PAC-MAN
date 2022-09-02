@@ -206,6 +206,8 @@ public class Game {
         catch (FileNotFoundException fnfe) {
             fnfe.printStackTrace();
         }
+        
+        desenhaMapa();
     }
     
     public void desenhaMapa(){
