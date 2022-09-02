@@ -129,7 +129,7 @@ public class PacMan extends Vivo{
     @Override
     public void atualiza(){
         if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 39){
-            System.out.println("coordenada: " + this.getX() / 16 + " " + this.getY() / 16);
+            System.out.println("coordenada: " + this.getY() / 16 + " " + this.getX() / 16);
             System.out.println("ultima tecla: " + this.getUltimaTecla());
             App app = this.getApp();
             Game game = app.game;
@@ -165,13 +165,13 @@ public class PacMan extends Vivo{
                 break;
         }
         
-        System.out.println("coordenada depois: " + this.getX() / 16 + " " + this.getY() / 16);
+        System.out.println("coordenada depois: " + this.getY() / 16  + " " + this.getX() / 16);
     }
     
     public void desenhar() {
         int indX = this.getX() / 16;
         int indY = this.getY() / 16;
-        System.out.println(indX + " " + indY);
+        System.out.println(indY + " " + indX);
         Elemento elem = new Elemento(this.getIdElemento(), indX, indY, this.getImagem());
         this.getApp().game.mapa.get(indX).set(indY, elem);
     }
