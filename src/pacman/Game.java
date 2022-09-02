@@ -37,7 +37,6 @@ public class Game {
     public ArrayList<Estatico> frutas;
     public ArrayList<Estatico> pastilhas;
     public ArrayList<Estatico> superPastilhas;
-    public int numFrutas;
     public boolean resetarGame;
 
     public Game(App app) {
@@ -77,7 +76,7 @@ public class Game {
     
     
     
-    public void parseJSON(App app) {
+    public void parseJSON() {
         // Create a JSONParser object
         JSONParser jsonParser = new JSONParser();
         try {
@@ -105,7 +104,7 @@ public class Game {
     }
     
     public boolean vitoritaOuDerrota(App app) {
-        if (this.numFrutas == 0) {
+        if (this.pastilhas.isEmpty()) {
             desenhaVitoria(app);
             return true;
         } else if (this.vidas == 0) {
@@ -212,12 +211,11 @@ public class Game {
     public void desenhaMapa(){
         for(ArrayList<Elemento> linha : this.mapa){
             for(Elemento elem : linha){
-                if(elem != null){
+                //if (!("aciwgp".contains(Character.toString(elem.getIdElemento())))) {
                     app.image(elem.getImagem(), elem.getX(), elem.getY());
-                }
+                //}
             }
         }
-        
     }
 }
         

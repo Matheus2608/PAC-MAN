@@ -50,11 +50,11 @@ public class Elemento {
         this.imagem = imagem;
     }
     
-    public int getIdElemento() {
+    public char getIdElemento() {
         return idElemento;
     }
 
-    public void setIdElemento(int id) {
+    public void setIdElemento(char id) {
         this.idElemento = idElemento;
     }
 }

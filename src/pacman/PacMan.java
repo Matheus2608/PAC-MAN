@@ -20,17 +20,20 @@ public class PacMan extends Vivo{
     
     @Override
     public boolean checaColisao(){
+        // vao ser considerados verdadeiras colisoes se forem com uma parede ou com fantasma
+        // para melhor funcionamento e legibilidade do codigo
         if(checaColisaoFantasmas()){
             return true;
         }
         
-        if(checaColisaoComSuperPastilha()){
-            return true;
-        }
         
         if(checaColisaoComParede()){
             return true;
         }
+        
+//        if(checaColisaoComSuperPastilha()){ 
+//            return false;
+//        }
         
         // se nao chocou com nenhum dos anterioes, chocou com uma pastilha, q nao vamos considerar com uma colisao
         
@@ -122,16 +125,44 @@ public class PacMan extends Vivo{
 
     @Override
     public void atualiza(){
-        
+        System.out.println("entrei");
+        App app = this.getApp();
+        Game game = app.game;
+        game.parseJSON();
+        if(game.vitoritaOuDerrota(app)) app.resetGame();
+        else if(!checaColisao()){
+            System.out.println("movi");
+            mover();
+        }
+        desenhar();
     }
         
     
     @Override
     public void mover(){
-        
+        int tecla = this.getUltimaTecla(); 
+        switch (tecla) {
+            case 37:
+                this.setX(this.getX() - 16);
+                break;
+            case 38:
+                this.setY(this.getY() - 16);
+                break;
+            case 39:
+                this.setX(this.getX() + 16);
+                break;
+            default:
+                this.setY(this.getY() + 16);
+                break;
+        }
     }
     
     public void desenhar() {
-        this.getApp().image(getImagem(), getX(), getY());
+        int indX = this.getX() / 16;
+        int indY = this.getY() / 16;
+        System.out.println(indX + " " + indY);
+        Elemento elem = new Elemento(this.getIdElemento(), indX, indY, this.getImagem());
+        ArrayList<Elemento> linha = this.getApp().game.mapa.get(indX);
+        linha.set(indY, elem);
     }
 }
