@@ -35,6 +35,9 @@ public class Laranja extends Vivo implements Fantasma{
     }
     
     @Override
+    public void mover(int y, int x){}
+    
+    @Override
     public void estrategia() {
         
     }

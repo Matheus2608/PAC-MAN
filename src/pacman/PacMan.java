@@ -44,7 +44,7 @@ public class PacMan extends Vivo{
     }
     
     public boolean checaColisaoFantasmas(){
-        ArrayList<Vivo> fantasmas = getApp().game.fantasmas;
+        ArrayList<Vivo> fantasmas = getApp().game.getFantasmas();
         
         int tecla = getUltimaTecla();
         if(tecla == 37 || tecla == 39){
@@ -72,7 +72,7 @@ public class PacMan extends Vivo{
         
     }
     public boolean checaColisaoComSuperPastilha(){
-        ArrayList<Estatico> superPastilha = getApp().game.superPastilhas;
+        ArrayList<Estatico> superPastilha = getApp().game.getSuperPastilhas();
         
         int tecla = getUltimaTecla();
         if(tecla == 37 || tecla == 39){
@@ -100,7 +100,7 @@ public class PacMan extends Vivo{
     }
     
     public boolean checaColisaoComParede(){
-        ArrayList<Estatico> paredes = getApp().game.paredes;
+        ArrayList<Estatico> paredes = getApp().game.getParedes();
         int tecla = getUltimaTecla();
         if(tecla == 37 || tecla == 39){
             this.checarX = true;
@@ -128,9 +128,9 @@ public class PacMan extends Vivo{
 
     @Override
     public void atualiza(){
-        if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 39){
+        if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){
             int[] posicao = fakeMover();
-//            System.out.println("coordenada: " + this.getY() / 16 + " " + this.getX() / 16);
+            mover(posicao[0], posicao[1]);
 //            System.out.println("ultima tecla: " + this.getUltimaTecla());
 //            App app = this.getApp();
 //            Game game = app.game;
@@ -140,34 +140,55 @@ public class PacMan extends Vivo{
 //                System.out.println("movi");
 //                mover();
 //            }
-//            desenhar();
+            desenhar();
         }
         
     }
         
     
     @Override
-    public void mover(){
-        int tecla = this.getUltimaTecla();
-        System.out.println("entrei no mover");
-        System.out.println("coordenada antes: " + this.getX() / 16 + " " + this.getY() / 16);
-        switch (tecla) {
-            case 37:
-                this.setX(this.getX() - 16);
-                break;
-            case 38:
-                this.setY(this.getY() - 16);
-                break;
-            case 39:
-                this.setX(this.getX() + 16);
-                break;
-            default:
-                this.setY(this.getY() + 16);
-                break;
-        }
+    public void mover(int y, int x){
         
-        System.out.println("coordenada depois: " + (this.getY() / 16) + 1  + " " + (this.getX() / 16) + 1);
+        //atualiza a posicao onde ele estava para vazia
+        PImage imagemVazia = getApp().loadImage("src/imagens/empty.png");
+        Elemento elem = new Elemento('0', getX(), getY(), imagemVazia);
+        //this.getApp().image(this.getImagem(), this.getX(), this.getY()); Forca diretamente
+        ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.getMapa();
+        mapa.get(getY()).set(getX(), elem);
+        this.getApp().game.setMapa(mapa);
+        
+        
+        // atualiza a posicao(move)
+        this.setX(x);
+        this.setY(y);
+        
+        
+        
     }
+    
+    @Override
+    // vazia pois nao vai ser implementada.
+    public void mover(){}
+//        int tecla = this.getUltimaTecla();
+//        System.out.println("entrei no mover");
+//        System.out.println("coordenada antes: " + this.getX() / 16 + " " + this.getY() / 16);
+//        switch (tecla) {
+//            case 37:
+//                this.setX(this.getX() - 16);
+//                break;
+//            case 38:
+//                this.setY(this.getY() - 16);
+//                break;
+//            case 39:
+//                this.setX(this.getX() + 16);
+//                break;
+//            default:
+//                this.setY(this.getY() + 16);
+//                break;
+//        }
+//        
+//        System.out.println("coordenada depois: " + (this.getY() / 16) + 1  + " " + (this.getX() / 16) + 1);
+    
     
     public int[] fakeMover(){
         int tecla = this.getUltimaTecla();
@@ -202,8 +223,11 @@ public class PacMan extends Vivo{
     public void desenhar() {
         int indX = this.getX() / 16;
         int indY = this.getY() / 16;
-        System.out.println(indY + " " + indX);
+        //System.out.println(indY + " " + indX);
         Elemento elem = new Elemento(this.getIdElemento(), indX, indY, this.getImagem());
-        this.getApp().game.mapa.get(indX).set(indY, elem);
+        //this.getApp().image(this.getImagem(), this.getX(), this.getY()); Forca diretamente
+        ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.getMapa();
+        mapa.get(indY).set(indX, elem);
+        this.getApp().game.setMapa(mapa);
     }
 }

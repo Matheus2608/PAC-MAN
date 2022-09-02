@@ -33,6 +33,9 @@ public class Rosa extends Vivo implements Fantasma{
     public void mover() {
         
     }
+    
+    @Override
+    public void mover(int y, int x){}
 
     @Override
     public void estrategia() {

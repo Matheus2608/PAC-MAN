@@ -23,6 +23,8 @@ public abstract class Vivo extends Elemento {
     public abstract void atualiza();
         
     public abstract void mover();
+    
+    public abstract void mover(int y, int x);
 
     public App getApp() {
         return app;
