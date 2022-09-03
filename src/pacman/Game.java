@@ -207,7 +207,7 @@ public class Game {
             fnfe.printStackTrace();
         }
         
-       
+        
     }
     
     public void desenhaMapa(){

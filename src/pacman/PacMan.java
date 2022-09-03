@@ -12,7 +12,7 @@ import processing.core.PImage;
  * @author matheus
  */
 public class PacMan extends Vivo{
-    private boolean checarX, checarY;
+    //private boolean checarX, checarY;
     
     public PacMan(char idElemento, int x, int y, PImage imagem){
         super(idElemento, x, y, imagem);
@@ -22,105 +22,60 @@ public class PacMan extends Vivo{
     public boolean checaColisao(){
         // vao ser considerados verdadeiras colisoes se forem com uma parede ou com fantasma
         // para melhor funcionamento e legibilidade do codigo
-        if(checaColisaoFantasmas()){
+        
+        int[] posicao = fakeMover(); 
+        int y = posicao[0];
+        int x = posicao[1];
+        
+        if(checaColisaoFantasmas(y, x)){
             System.out.println("colide com fantasma");
             return true;
         }
         
         
-        if(checaColisaoComParede()){
+        if(checaColisaoComParede(y, x)){
             System.out.println("colide com parede");
             return true;
         }
         
-        System.out.println("nao colide e retonar falso");
-//        if(checaColisaoComSuperPastilha()){ 
-//            return false;
-//        }
+        
+        if(checaColisaoComSuperPastilha(y, x)){
+            System.out.println("colide com superpastilha");
+            mover(y,x);
+            return false;
+        }
         
         // se nao chocou com nenhum dos anterioes, chocou com uma pastilha, q nao vamos considerar com uma colisao
-        
+        System.out.println("nao colide e retonar falso");
+        mover(y,x);
         return false;
     }
     
-    public boolean checaColisaoFantasmas(){
+    public boolean checaColisaoFantasmas(int y, int x){
         ArrayList<Vivo> fantasmas = getApp().game.getFantasmas();
-        
-        int tecla = getUltimaTecla();
-        if(tecla == 37 || tecla == 39){
-            this.checarX = true;
-            this.checarY = false;
-        }
-        else{
-            this.checarX = false;
-            this.checarY = true;
-        }
-        
-        for(Vivo fanstasma : fantasmas){
-            if(checarX){
-                if(tecla == 37 && this.getX() - 16 == fanstasma.getX()) return true;
-                if(tecla == 39 && this.getX() + 16 == fanstasma.getX()) return true;
-            }
-            
-            if(checarY){
-                if(tecla == 38 && this.getY() - 16 == fanstasma.getY()) return true;
-                if(tecla == 40 && this.getY() + 16 == fanstasma.getY()) return true;
-            }
+
+        for(Vivo fantasma : fantasmas){
+            if(fantasma.getX() == x && fantasma.getY() == y) return true;
         }
         
         return false;
         
     }
-    public boolean checaColisaoComSuperPastilha(){
+    public boolean checaColisaoComSuperPastilha(int y, int x){
         ArrayList<Estatico> superPastilha = getApp().game.getSuperPastilhas();
         
-        int tecla = getUltimaTecla();
-        if(tecla == 37 || tecla == 39){
-            this.checarX = true;
-            this.checarY = false;
-        }
-        else{
-            this.checarX = false;
-            this.checarY = true;
-        }
-        
         for(Estatico pastilha : superPastilha){
-            if(checarX){
-                if(tecla == 37 && this.getX() - 16 == pastilha.getX()) return true;
-                if(tecla == 39 && this.getX() + 16 == pastilha.getX()) return true;
-            }
-            
-            if(checarY){
-                if(tecla == 38 && this.getY() - 16 == pastilha.getY()) return true;
-                if(tecla == 40 && this.getY() + 16 == pastilha.getY()) return true;
-            }
+            if(pastilha.getX() == x && pastilha.getY() == y) return true;
         }
         
         return false;
     }
     
-    public boolean checaColisaoComParede(){
+    public boolean checaColisaoComParede(int y, int x){
         ArrayList<Estatico> paredes = getApp().game.getParedes();
-        int tecla = getUltimaTecla();
-        if(tecla == 37 || tecla == 39){
-            this.checarX = true;
-            this.checarY = false;
-        }
-        else{
-            this.checarX = false;
-            this.checarY = true;
-        }
         
         for(Estatico parede :  paredes){
-            if(checarX){
-                if(tecla == 37 && this.getX() - 16 == parede.getX()) return true;
-                if(tecla == 39 && this.getX() + 16 == parede.getX()) return true;
-            }
-            
-            if(checarY){
-                if(tecla == 38 && this.getY() - 16 == parede.getY()) return true;
-                if(tecla == 40 && this.getY() + 16 == parede.getY()) return true;
-            }
+            if(parede.getX() == x && parede.getY() == y) return true;
         }
         
         return false;
@@ -128,19 +83,18 @@ public class PacMan extends Vivo{
 
     @Override
     public void atualiza(){
-        if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){
-            int[] posicao = fakeMover();
-            mover(posicao[0], posicao[1]);
+        if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){          
 //            System.out.println("ultima tecla: " + this.getUltimaTecla());
-//            App app = this.getApp();
-//            Game game = app.game;
-//            game.parseJSON();
-//            if(game.vitoritaOuDerrota(app)) app.resetGame();
+            App app = this.getApp();
+            Game game = app.game;
+            game.parseJSON();
+            if(game.vitoritaOuDerrota(app)) app.resetGame();
+            checaColisao();
 //            else if(!checaColisao()){
 //                System.out.println("movi");
-//                mover();
+//                mover(posicao[0], posicao[1]);
 //            }
-            desenhar();
+            //desenhar();
         }
         
     }
@@ -148,20 +102,32 @@ public class PacMan extends Vivo{
     
     @Override
     public void mover(int y, int x){
+        System.out.println("y = " + y + " x = " + x);
+        
+        int indX = x / 16;
+        int indY = y / 16;
+        //System.out.println(indY + " " + indX);
+        Elemento elem = new Elemento(this.getIdElemento(), indX, indY, this.getImagem());
+        //this.getApp().image(this.getImagem(), this.getX(), this.getY()); Forca diretamente
+        ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.getMapa();
+        mapa.get(indY).set(indX, elem);
+        this.getApp().game.setMapa(mapa);
         
         //atualiza a posicao onde ele estava para vazia
         PImage imagemVazia = getApp().loadImage("src/imagens/empty.png");
-        Elemento elem = new Elemento('0', getX(), getY(), imagemVazia);
+        elem = new Elemento('0', getX(), getY(), imagemVazia);
         //this.getApp().image(this.getImagem(), this.getX(), this.getY()); Forca diretamente
-        ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.getMapa();
-        mapa.get(getY()).set(getX(), elem);
+        
+        mapa.get(getY() / 16).set(getX() / 16, elem);
         this.getApp().game.setMapa(mapa);
+        
+        
+        
         
         
         // atualiza a posicao(move)
         this.setX(x);
         this.setY(y);
-        
         
         
     }
@@ -194,18 +160,19 @@ public class PacMan extends Vivo{
         int tecla = this.getUltimaTecla();
         System.out.println("entrei no fakemover");
         System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
+        int x = this.getX(), y = this.getY();
         switch (tecla) {
             case 37:
-                this.setX(this.getX() - 16);
+                x = this.getX() - 16;
                 break;
             case 38:
-                this.setY(this.getY() - 16);
+                y = this.getY() - 16;
                 break;
             case 39:
-                this.setX(this.getX() + 16);
+                x = this.getX() + 16;
                 break;
             case 40:
-                this.setY(this.getY() + 16);
+                y = this.getY() + 16;
                 break;
             default:
                 break;       
@@ -213,21 +180,14 @@ public class PacMan extends Vivo{
         
         System.out.println("coordenada depois: " + ((this.getY() / 16) + 1)  + " " + ((this.getX() / 16) + 1));
         int[] res = new int[2];
-        res[0] = this.getY();
-        res[1] = this.getX();
+        res[0] = y;
+        res[1] = x;
         
         return res;
         
     }
     
     public void desenhar() {
-        int indX = this.getX() / 16;
-        int indY = this.getY() / 16;
-        //System.out.println(indY + " " + indX);
-        Elemento elem = new Elemento(this.getIdElemento(), indX, indY, this.getImagem());
-        //this.getApp().image(this.getImagem(), this.getX(), this.getY()); Forca diretamente
-        ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.getMapa();
-        mapa.get(indY).set(indX, elem);
-        this.getApp().game.setMapa(mapa);
+        
     }
 }
