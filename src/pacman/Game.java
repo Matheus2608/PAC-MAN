@@ -153,7 +153,7 @@ public class Game {
                     
                     Estatico estatico = estatico = new Estatico(idElemento, x, y, imagem);
                     
-                    if(id >= 0 && id <= 6){ // é uma parede
+                    if(id >= 1 && id <= 6){ // é uma parede
                         estatico.setParede(true);
                         paredes.add(estatico);
                     }
