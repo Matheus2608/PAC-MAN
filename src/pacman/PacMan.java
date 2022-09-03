@@ -13,14 +13,17 @@ import processing.core.PImage;
  */
 public class PacMan extends Vivo{
     //private boolean checarX, checarY;
-    private PImage imCima, imBaixo, imEsq, imDir;
+    private PImage imCima, imBaixo, imEsq, imDir, imagemVazia;
     public PacMan(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x, y, imagem, app);
+        super.xInicial = x;
+        super.yInicial = y;
         
         this.imCima = this.app.loadImage("src/imagens/pacman//playerUp.png");
         this.imBaixo = this.app.loadImage("src/imagens/pacman/playerDown.png");
         this.imEsq = this.app.loadImage("src/imagens/pacman/playerLeft.png");
         this.imDir = this.app.loadImage("src/imagens/pacman/playerRight.png");
+        this.imagemVazia = this.app.loadImage("src/imagens/empty.png");
         
     }
     
@@ -34,21 +37,20 @@ public class PacMan extends Vivo{
         int x = posicao[1];
         
         if(checaColisaoFantasmas(y, x)){
-            //System.out.println("colide com fantasma");
+            System.out.println("colide com fantasma");
+            mover();
             return true;
         }
         
         
         if(checaColisaoComParede(y, x)){
-            //System.out.println("colide com parede");
+            System.out.println("colide com parede");
             return true;
         }
         
         
         if(checaColisaoComSuperPastilha(y, x)){
-            //System.out.println("colide com superpastilha");
-            mover(y,x);
-            return false;
+            System.out.println("colide com superpastilha");
         }
         
         // se nao chocou com nenhum dos anterioes, chocou com uma pastilha, q nao vamos considerar com uma colisao
@@ -90,7 +92,6 @@ public class PacMan extends Vivo{
     @Override
     public void atualiza(){
         if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){          
-//            System.out.println("ultima tecla: " + this.getUltimaTecla());
             App app = this.getApp();
             Game game = app.game;
             game.parseJSON();
@@ -109,8 +110,8 @@ public class PacMan extends Vivo{
         App app = this.getApp();
         
         //atualiza a posicao onde ele estava para vazia
-        PImage imagemVazia = app.loadImage("src/imagens/empty.png");
-        Elemento elem = new Elemento('0', getX(), getY(), imagemVazia);
+        
+        Elemento elem = new Elemento('0', getX(), getY(), this.imagemVazia);
         
         mapa.get(getY() / 16).set(getX() / 16, elem);
         app.game.setMapa(mapa);
@@ -133,15 +134,28 @@ public class PacMan extends Vivo{
     }
     
     @Override
-    // vazia pois nao vai ser implementada.
-    public void mover(){}
+    // move o pacman para posicao inicial
+    public void mover(){
+        System.out.println("entrei no mover");
+        Elemento elem = new Elemento('0', this.getX(), this.getY(), this.imagemVazia);
+        ArrayList<ArrayList<Elemento>> mapa = app.game.getMapa();
+        System.out.println("posicao que estou: " + this.getY() / 16 + " " + this.getX() / 16);
+        mapa.get(this.getY() / 16).set(this.getX() / 16, elem);
+        
+        System.out.println("posicao inicial: " + this.yInicial / 16 + " " + xInicial / 16);
+        elem = new Elemento(this.getIdElemento(), xInicial, yInicial, this.getImagem());
+        mapa.get(this.yInicial / 16).set(this.xInicial / 16, elem);
+        
+        app.game.setMapa(mapa);
+        this.setX(xInicial);
+        this.setY(yInicial);
+    }
 
     
     
     public int[] fakeMover(){
         int tecla = this.getUltimaTecla();
-        System.out.println("entrei no fakemover");
-        System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
+        //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
         int x = this.getX(), y = this.getY();
         switch (tecla) {
             case 37:
@@ -164,7 +178,7 @@ public class PacMan extends Vivo{
                 break;       
         }
         
-        System.out.println("coordenada depois: " + ((this.getY() / 16) + 1)  + " " + ((this.getX() / 16) + 1));
+        //System.out.println("coordenada depois: " + ((this.getY() / 16) + 1)  + " " + ((this.getX() / 16) + 1));
         int[] res = new int[2];
         res[0] = y;
         res[1] = x;

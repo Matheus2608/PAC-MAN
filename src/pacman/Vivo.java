@@ -9,10 +9,10 @@ import processing.core.PImage;
  * @author matheus
  */
 public abstract class Vivo extends Elemento {
-    public App app;
-    public int valocidade;
-    public boolean vivo;
-    private int xInicial, yInicial, ultimaTecla;
+    protected App app;
+    protected int valocidade;
+    protected boolean vivo;
+    protected int xInicial, yInicial, ultimaTecla;
     
     public Vivo(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem);
