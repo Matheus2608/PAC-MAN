@@ -168,27 +168,26 @@ public class Game {
                     }
 
                     else if(idElemento == 'p') {
-                        this.pacMan =  new PacMan(idElemento, x, y, imagem);
-                        this.pacMan.app = this.app;
+                        this.pacMan =  new PacMan(idElemento, x, y, imagem, app);
                     }
 
                     else if(idElemento == 'a'){
-                        Rosa rosa = new Rosa(idElemento,x,y,imagem);
+                        Rosa rosa = new Rosa(idElemento,x,y,imagem, app);
                         fantasmas.add(rosa);
                     }
 
                     else if(idElemento == 'c'){
-                        Vermelho vermelho = new Vermelho(idElemento, x,y,imagem);
+                        Vermelho vermelho = new Vermelho(idElemento, x,y,imagem,app);
                         fantasmas.add(vermelho);
                     }
 
                     else if(idElemento == 'i'){
-                        Laranja laranja = new Laranja(idElemento, x,y,imagem);
+                        Laranja laranja = new Laranja(idElemento, x,y,imagem, app);
                         fantasmas.add(laranja);
                     }
 
                     else if(idElemento == 'w'){
-                        Azul azul = new Azul(idElemento, x,y,imagem);
+                        Azul azul = new Azul(idElemento, x,y,imagem, app);
                         fantasmas.add(azul);
                     }
                     
@@ -213,6 +212,7 @@ public class Game {
     public void desenhaMapa(){
         for(ArrayList<Elemento> linha : this.mapa){
             for(Elemento elem : linha){
+                
                 //if (!("aciwgp".contains(Character.toString(elem.getIdElemento())))) {
                     app.image(elem.getImagem(), elem.getX(), elem.getY());
                 //}

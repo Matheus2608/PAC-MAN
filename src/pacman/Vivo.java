@@ -14,8 +14,9 @@ public abstract class Vivo extends Elemento {
     public boolean vivo;
     private int xInicial, yInicial, ultimaTecla;
     
-    public Vivo(char idElemento, int x, int y, PImage imagem){
+    public Vivo(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem);
+        this.app = app;
     }
     
     public abstract boolean checaColisao();

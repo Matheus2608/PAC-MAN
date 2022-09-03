@@ -15,8 +15,8 @@ import processing.core.PImage;
  */
 public class Laranja extends Vivo implements Fantasma{
 
-    public Laranja(char idElemento, int x, int y, PImage imagem){
-        super(idElemento, x,y,imagem);
+    public Laranja(char idElemento, int x, int y, PImage imagem, App app){
+        super(idElemento, x,y,imagem, app);
     }
 
     @Override
