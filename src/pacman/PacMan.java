@@ -37,6 +37,12 @@ public class PacMan extends Vivo{
         int y = posicao[0];
         int x = posicao[1];
         
+        
+        if(checaColisaoComPastilha(y, x)){
+            System.out.println("colide com pastilha");
+        }
+        
+        
         if(checaColisaoFantasmas(y, x)){
             System.out.println("colide com fantasma");
             mover();
@@ -56,14 +62,7 @@ public class PacMan extends Vivo{
         
         // se nao chocou com nenhum dos anterioes, chocou com uma pastilha, q nao vamos considerar com uma colisao
         //System.out.println("nao colide e retonar falso");
-        ArrayList<Estatico> pastilhas = app.game.getPastilhas();
-        Estatico remover = null;
-        for(Estatico pastilha : pastilhas){
-            if(pastilha.getX() == x && pastilha.getY() == y) {remover = pastilha; break;}
-        }
-        pastilhas.remove(remover);
         
-        app.game.setPastilhas(pastilhas);
         mover(y,x);
         return false;
     }
@@ -78,10 +77,27 @@ public class PacMan extends Vivo{
         return false;
         
     }
-    public boolean checaColisaoComSuperPastilha(int y, int x){
-        ArrayList<Estatico> superPastilha = getApp().game.getSuperPastilhas();
+    
+    public boolean checaColisaoComPastilha(int y, int x){
+        Estatico remover = null;
+        ArrayList<Estatico> pastilhas = getApp().game.getPastilhas();
+        System.out.println("tamanho de pastilhas" + " " + pastilhas.size());
         
-        for(Estatico pastilha : superPastilha){
+        for(Estatico pastilha : pastilhas){
+            if(pastilha.getX() == x && pastilha.getY() == y) {remover = pastilha; break;}
+        }
+        
+        if(remover == null) return false;
+        
+        pastilhas.remove(remover);
+        app.game.setPastilhas(pastilhas);
+        return true;
+    }
+    
+    public boolean checaColisaoComSuperPastilha(int y, int x){
+        ArrayList<Estatico> superPastilhas = getApp().game.getSuperPastilhas();
+        
+        for(Estatico pastilha : superPastilhas){
             if(pastilha.getX() == x && pastilha.getY() == y) return true;
         }
         

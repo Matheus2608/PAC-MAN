@@ -104,7 +104,7 @@ public class Game {
     }
     
     public boolean vitoriaOuDerrota(App app) {
-        System.out.println(this.vidas);
+        
         if (this.pastilhas.isEmpty()) {
             desenhaVitoria(app);
             return true;
