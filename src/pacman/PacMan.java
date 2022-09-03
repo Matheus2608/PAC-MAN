@@ -69,9 +69,12 @@ public class PacMan extends Vivo{
     
     public boolean checaColisaoFantasmas(int y, int x){
         ArrayList<Vivo> fantasmas = getApp().game.getFantasmas();
-
+        
+        int indX = x / 16;
+        int indY = y / 16;
+        
         for(Vivo fantasma : fantasmas){
-            if(fantasma.getX() == x && fantasma.getY() == y) return true;
+            if(fantasma.getX() / 16 == indX && fantasma.getY() / 16 == indY) return true;
         }
         
         return false;
@@ -81,10 +84,12 @@ public class PacMan extends Vivo{
     public boolean checaColisaoComPastilha(int y, int x){
         Estatico remover = null;
         ArrayList<Estatico> pastilhas = getApp().game.getPastilhas();
-        System.out.println("tamanho de pastilhas" + " " + pastilhas.size());
+        
+        int indX = x / 16;
+        int indY = y / 16;
         
         for(Estatico pastilha : pastilhas){
-            if(pastilha.getX() == x && pastilha.getY() == y) {remover = pastilha; break;}
+            if(pastilha.getX() / 16 == indX && pastilha.getY() / 16 == indY) {remover = pastilha; break;}
         }
         
         if(remover == null) return false;
@@ -95,10 +100,12 @@ public class PacMan extends Vivo{
     }
     
     public boolean checaColisaoComSuperPastilha(int y, int x){
+        int indX = x / 16;
+        int indY = y / 16;
         ArrayList<Estatico> superPastilhas = getApp().game.getSuperPastilhas();
         
         for(Estatico pastilha : superPastilhas){
-            if(pastilha.getX() == x && pastilha.getY() == y) return true;
+            if(pastilha.getX() / 16 == indX && pastilha.getY() / 16 == indY) return true;
         }
         
         return false;
@@ -107,8 +114,11 @@ public class PacMan extends Vivo{
     public boolean checaColisaoComParede(int y, int x){
         ArrayList<Estatico> paredes = getApp().game.getParedes();
         
+        int indX = x / 16;
+        int indY = y / 16;
+        
         for(Estatico parede :  paredes){
-            if(parede.getX() == x && parede.getY() == y) return true;
+            if(parede.getX()  / 16 == indX && parede.getY() / 16 == indY) return true;
         }
         
         return false;
@@ -184,21 +194,22 @@ public class PacMan extends Vivo{
         int tecla = this.getUltimaTecla();
         //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
         int x = this.getX(), y = this.getY();
+        int velocidade = app.game.getVelocidade();
         switch (tecla) {
             case 37:
-                x = this.getX() - 16;
+                x = this.getX() - velocidade;
                 this.setImagem(imEsq);
                 break;
             case 38:
-                y = this.getY() - 16;
+                y = this.getY() - velocidade;
                 this.setImagem(imCima);
                 break;
             case 39:
-                x = this.getX() + 16;
+                x = this.getX() + velocidade;
                 this.setImagem(imDir);
                 break;
             case 40:
-                y = this.getY() + 16;
+                y = this.getY() + velocidade;
                 this.setImagem(imBaixo);
                 break;
             default:
