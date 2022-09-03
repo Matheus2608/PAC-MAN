@@ -88,6 +88,9 @@ public class App extends PApplet {
     }
     
         public void resetGame() {
+            // tela preta por 5 segundos
+            this.delay(5000);
+            
             // colocando os atributos para seus valores iniciais
             this.tempo = 0;
             this.debug = false;

@@ -13,7 +13,7 @@ import processing.core.PImage;
  */
 public class PacMan extends Vivo{
     //private boolean checarX, checarY;
-    private PImage imCima, imBaixo, imEsq, imDir, imagemVazia;
+    private PImage imCima, imBaixo, imEsq, imDir, imagemVazia, imVida;
     public PacMan(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x, y, imagem, app);
         super.xInicial = x;
@@ -24,6 +24,7 @@ public class PacMan extends Vivo{
         this.imEsq = this.app.loadImage("src/imagens/pacman/playerLeft.png");
         this.imDir = this.app.loadImage("src/imagens/pacman/playerRight.png");
         this.imagemVazia = this.app.loadImage("src/imagens/empty.png");
+        this.imVida = this.app.loadImage("src/imagens/pacman/playerRight.png");
         
     }
     
@@ -99,15 +100,15 @@ public class PacMan extends Vivo{
 
     @Override
     public void atualiza(){
+        desenhaVidas();
         if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){          
             App app = this.getApp();
             Game game = app.game;
             //game.parseJSON();
             game.vitoriaOuDerrota(app);
             checaColisao();
-
-        }
-        
+            
+        }   
     }
         
     
@@ -157,9 +158,8 @@ public class PacMan extends Vivo{
         app.game.setMapa(mapa);
         this.setX(xInicial);
         this.setY(yInicial);
-        int vidas = this.app.game.getVidas();
-        System.out.println("vidas na funcao pacman:" + (vidas - 1));
-        this.app.game.setVidas(vidas - 1);
+        
+        this.app.game.setVidas(this.app.game.getVidas() - 1);
     }
 
     
@@ -198,4 +198,12 @@ public class PacMan extends Vivo{
         
     }
     
+    public void desenhaVidas(){
+        int x = 20;
+        int y = 540;
+        for(int i = 0; i < app.game.getVidas(); i++){
+            app.image(imVida, x, y);
+            x += 40;
+        }
+    }
 }
