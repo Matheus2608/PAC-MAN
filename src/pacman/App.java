@@ -9,6 +9,8 @@ package pacman;
  * @author matheus
  */
 import processing.core.PApplet;
+import processing.core.PFont;
+
 public class App extends PApplet {
     
     // tamanho da tela
@@ -17,6 +19,7 @@ public class App extends PApplet {
     public int tempo; // usado para verificar o tempo entre os estados dos fanstasmas
     public boolean debug;
     public Game game;
+    public PFont font;
 
     
     /**
@@ -37,6 +40,8 @@ public class App extends PApplet {
         frameRate(60);
         this.game.parseJSON();
         this.game.carregaJogo(this);
+        this.font = this.createFont("src/imagens/PressStart2P-Regular.ttf", 16f);
+        textFont(this.font);
     }
     
    
@@ -51,10 +56,22 @@ public class App extends PApplet {
     public void draw() {
         // deixa a tela totalmente preta
         background(0, 0, 0);
-
+        
+        
+        if (this.game.isResetarGame()) {
+            resetGame();
+        }
+        
         //Atualiza os elementos
         atualizaElementos();
-
+        
+        // checar se eh pra resetar o game
+        
+       if (this.game.vitoriaOuDerrota(this)) {
+            this.game.setResetarGame(true);
+            return;
+        }
+        
         // Draws the game grid and the entities
         this.game.desenhaMapa();
 

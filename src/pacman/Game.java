@@ -50,7 +50,7 @@ public class Game {
         this.fantasmas = new ArrayList<Vivo>();
         //this.tamanhoModos = new ArrayList<Integer>();
         this.pacMan = null;
-        
+        this.resetarGame = false;
         carregaMapElementos();
     }
     
@@ -103,7 +103,8 @@ public class Game {
         }
     }
     
-    public boolean vitoritaOuDerrota(App app) {
+    public boolean vitoriaOuDerrota(App app) {
+        System.out.println(this.vidas);
         if (this.pastilhas.isEmpty()) {
             desenhaVitoria(app);
             return true;

@@ -55,6 +55,14 @@ public class PacMan extends Vivo{
         
         // se nao chocou com nenhum dos anterioes, chocou com uma pastilha, q nao vamos considerar com uma colisao
         //System.out.println("nao colide e retonar falso");
+        ArrayList<Estatico> pastilhas = app.game.getPastilhas();
+        Estatico remover = null;
+        for(Estatico pastilha : pastilhas){
+            if(pastilha.getX() == x && pastilha.getY() == y) {remover = pastilha; break;}
+        }
+        pastilhas.remove(remover);
+        
+        app.game.setPastilhas(pastilhas);
         mover(y,x);
         return false;
     }
@@ -94,8 +102,8 @@ public class PacMan extends Vivo{
         if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){          
             App app = this.getApp();
             Game game = app.game;
-            game.parseJSON();
-            if(game.vitoritaOuDerrota(app)) app.resetGame();
+            //game.parseJSON();
+            game.vitoriaOuDerrota(app);
             checaColisao();
 
         }
@@ -107,7 +115,7 @@ public class PacMan extends Vivo{
     public void mover(int y, int x){
         //this.getApp().image(this.getImagem(), this.getX(), this.getY()); Forca diretamente
         ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.getMapa();
-        App app = this.getApp();
+        //App app = this.getApp();
         
         //atualiza a posicao onde ele estava para vazia
         
@@ -136,19 +144,22 @@ public class PacMan extends Vivo{
     @Override
     // move o pacman para posicao inicial
     public void mover(){
-        System.out.println("entrei no mover");
+        
         Elemento elem = new Elemento('0', this.getX(), this.getY(), this.imagemVazia);
         ArrayList<ArrayList<Elemento>> mapa = app.game.getMapa();
-        System.out.println("posicao que estou: " + this.getY() / 16 + " " + this.getX() / 16);
+        //System.out.println("posicao que estou: " + this.getY() / 16 + " " + this.getX() / 16);
         mapa.get(this.getY() / 16).set(this.getX() / 16, elem);
         
-        System.out.println("posicao inicial: " + this.yInicial / 16 + " " + xInicial / 16);
+        //System.out.println("posicao inicial: " + this.yInicial / 16 + " " + xInicial / 16);
         elem = new Elemento(this.getIdElemento(), xInicial, yInicial, this.getImagem());
         mapa.get(this.yInicial / 16).set(this.xInicial / 16, elem);
         
         app.game.setMapa(mapa);
         this.setX(xInicial);
         this.setY(yInicial);
+        int vidas = this.app.game.getVidas();
+        System.out.println("vidas na funcao pacman:" + (vidas - 1));
+        this.app.game.setVidas(vidas - 1);
     }
 
     
