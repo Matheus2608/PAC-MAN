@@ -117,16 +117,3 @@ public class App extends PApplet {
     
 }
 
-//    public void atualizaDinamicos() {
-//        for(Fantasma fantasma : this.game.fanstasmas) {
-//            fantasma.atualiza(this);
-//        }
-//        this.game.pacMan.atualiza(this);
-//    }
-//
-//    public void desenhaDinamicos() {
-//        for(Ghost ghost : this.game.ghosts) {
-//            ghost.draw(this);
-//        }
-//        this.game.waka.draw(this);
-//    }

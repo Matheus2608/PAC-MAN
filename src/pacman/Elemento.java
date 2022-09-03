@@ -13,9 +13,9 @@ import processing.core.PImage;
 public class Elemento {
 
    protected final int ALTURA = 16, LARGURA = 16;
-   private int x ,y;
-   private char idElemento;
-   private PImage imagem;
+   protected int x ,y;
+   protected char idElemento;
+   protected PImage imagem;
 
     
    

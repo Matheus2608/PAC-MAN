@@ -13,7 +13,7 @@ import processing.core.PImage;
  */
 public class PacMan extends Vivo{
     //private boolean checarX, checarY;
-    private PImage imCima, imBaixo, imEsq, imDir, imagemVazia, imVida;
+    private PImage imCima, imBaixo, imEsq, imDir, imagemVazia, imVida, imBocaFechada;
     public PacMan(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x, y, imagem, app);
         super.xInicial = x;
@@ -25,7 +25,7 @@ public class PacMan extends Vivo{
         this.imDir = this.app.loadImage("src/imagens/pacman/playerRight.png");
         this.imagemVazia = this.app.loadImage("src/imagens/empty.png");
         this.imVida = this.app.loadImage("src/imagens/pacman/playerRight.png");
-        
+        this.imBocaFechada = this.app.loadImage("src/imagens/pacman/playerClosed.png");
     }
     
     @Override
@@ -204,6 +204,11 @@ public class PacMan extends Vivo{
             default:
                 break;       
         }
+        
+        if (app.frameCount % 8 >= 0 && app.frameCount % 16 <= 8) {
+            this.setImagem(this.imBocaFechada);
+        }
+        
         
         //System.out.println("coordenada depois: " + ((this.getY() / 16) + 1)  + " " + ((this.getX() / 16) + 1));
         int[] res = new int[2];
