@@ -37,26 +37,37 @@ public class PacMan extends Vivo{
         int y = posicao[0];
         int x = posicao[1];
         
+        boolean foraEscopoX = x < 0 || x > 448;
+        boolean foraEscopoY = y < 0 || y > 576;
+        if (foraEscopoX || foraEscopoY) {
+            return true;
+        }
         
-        if(checaColisaoComPastilha(y, x)){
+        int coordEsq = x;
+        int coordDir = x + 16;
+        int coordCima = y;
+        int coordBaixo = y + 16;
+        
+        
+        if(checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo)){
             System.out.println("colide com pastilha");
         }
         
         
-        if(checaColisaoFantasmas(y, x)){
+        if(checaColisaoFantasmas(coordEsq, coordDir, coordCima, coordBaixo)){
             System.out.println("colide com fantasma");
             mover();
             return true;
         }
         
         
-        if(checaColisaoComParede(y, x)){
+        if(checaColisaoComParede(coordEsq, coordDir, coordCima, coordBaixo)){
             System.out.println("colide com parede");
             return true;
         }
         
         
-        if(checaColisaoComSuperPastilha(y, x)){
+        if(checaColisaoComSuperPastilha(coordEsq, coordDir, coordCima, coordBaixo)){
             System.out.println("colide com superpastilha");
         }
         
@@ -67,29 +78,31 @@ public class PacMan extends Vivo{
         return false;
     }
     
-    public boolean checaColisaoFantasmas(int y, int x){
+    public boolean checaColisaoFantasmas(int coordEsq, int coordDir, int coordCima, int coordBaixo){
         ArrayList<Vivo> fantasmas = getApp().game.getFantasmas();
         
-        int indX = x / 16;
-        int indY = y / 16;
-        
         for(Vivo fantasma : fantasmas){
-            if(fantasma.getX() / 16 == indX && fantasma.getY() / 16 == indY) return true;
+            int fantasmaEsq = fantasma.getX();
+            int fantasmaDir = fantasmaEsq + 16;
+            int fantasmaCima = fantasma.getY();
+            int fantasmaBaixo = fantasmaCima + 16;
+            if(coordEsq < fantasmaDir && coordDir > fantasmaEsq && coordCima < fantasmaBaixo && coordBaixo > fantasmaCima)return true;
         }
         
         return false;
         
     }
     
-    public boolean checaColisaoComPastilha(int y, int x){
+    public boolean checaColisaoComPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
         Estatico remover = null;
         ArrayList<Estatico> pastilhas = getApp().game.getPastilhas();
-        
-        int indX = x / 16;
-        int indY = y / 16;
-        
+
         for(Estatico pastilha : pastilhas){
-            if(pastilha.getX() / 16 == indX && pastilha.getY() / 16 == indY) {remover = pastilha; break;}
+            int pastilhaEsq = pastilha.getX();
+            int pastilhaDir = pastilhaEsq + 16;
+            int pastilhaCima = pastilha.getY();
+            int pastilhaBaixo = pastilhaCima + 16;
+            if(coordEsq < pastilhaDir && coordDir > pastilhaEsq && coordCima < pastilhaBaixo && coordBaixo > pastilhaCima) {remover = pastilha; break;}
         }
         
         if(remover == null) return false;
@@ -99,26 +112,36 @@ public class PacMan extends Vivo{
         return true;
     }
     
-    public boolean checaColisaoComSuperPastilha(int y, int x){
-        int indX = x / 16;
-        int indY = y / 16;
+    public boolean checaColisaoComSuperPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
         ArrayList<Estatico> superPastilhas = getApp().game.getSuperPastilhas();
         
-        for(Estatico pastilha : superPastilhas){
-            if(pastilha.getX() / 16 == indX && pastilha.getY() / 16 == indY) return true;
+        for(Estatico superPastilha : superPastilhas){
+            int superPastilhaEsq = superPastilha.getX();
+            int superPastilhaDir = superPastilhaEsq + 16;
+            int superPastilhaCima = superPastilha.getY();
+            int superPastilhaBaixo = superPastilhaCima + 16;
+            
+            if(coordEsq < superPastilhaDir && coordDir > superPastilhaEsq && coordCima < superPastilhaBaixo && coordBaixo > superPastilhaCima) return true;
         }
         
         return false;
     }
     
-    public boolean checaColisaoComParede(int y, int x){
+    public boolean checaColisaoComParede(int coordEsq, int coordDir, int coordCima, int coordBaixo){
         ArrayList<Estatico> paredes = getApp().game.getParedes();
         
-        int indX = x / 16;
-        int indY = y / 16;
+        
+        
+        // tratando como caixas
+        
         
         for(Estatico parede :  paredes){
-            if(parede.getX()  / 16 == indX && parede.getY() / 16 == indY) return true;
+            int paredeEsq = parede.getX();
+            int paredeDir = paredeEsq + 16;
+            int paredeCima = parede.getY();
+            int paredeBaixo = paredeCima + 16;
+            
+            if(coordEsq < paredeDir && coordDir > paredeEsq && coordCima < paredeBaixo && coordBaixo > paredeCima) return true;
         }
         
         return false;
