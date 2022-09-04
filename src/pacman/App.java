@@ -71,13 +71,13 @@ public class App extends PApplet {
             this.game.setResetarGame(true);
             return;
         }
-        
-        // Draws the game grid and the entities
+ 
         this.game.desenhaMapa();
 
-        // Draws the ghost and waka entities to the screen
-        // drawEntities();
+        this.tempo += 1;
     }
+    
+    
     
     public void atualizaElementos() {
         for(Vivo fantasma : game.getFantasmas()){
@@ -102,10 +102,6 @@ public class App extends PApplet {
     @Override
     public void keyPressed(){
         // 37 é esquerda, 38 pra cima, 39 direita, 40 pra baixo
-        if(keyCode == 37) System.out.println("esquerda");
-        else if(keyCode == 38) System.out.println("cima");
-        else if(keyCode == 39) System.out.println("direita");
-        else if(keyCode == 40) System.out.println("baixo");
         if (keyCode >= 37 && keyCode <= 40) { // é uma das setas
             this.game.getPacMan().setUltimaTecla(keyCode);
         }

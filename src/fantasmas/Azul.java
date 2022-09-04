@@ -12,7 +12,7 @@ import processing.core.PImage;
  *
  * @author matheus
  */
-public class Azul extends Vivo implements Fantasma{
+public class Azul extends Fantasma{
 
     public Azul(char IdElemento, int x, int y, PImage imagem, App app){
         super(IdElemento, x,y,imagem, app);
@@ -44,6 +44,11 @@ public class Azul extends Vivo implements Fantasma{
     @Override
     public void draw(App app) {
         
+    }
+    
+    @Override
+    public boolean estaPerseguindo() {
+        return false;
     }
     
 }

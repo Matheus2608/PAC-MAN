@@ -14,6 +14,7 @@ import processing.core.PImage;
 public class PacMan extends Vivo{
     //private boolean checarX, checarY;
     private PImage imCima, imBaixo, imEsq, imDir, imagemVazia, imVida, imBocaFechada;
+    
     public PacMan(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x, y, imagem, app);
         super.xInicial = x;

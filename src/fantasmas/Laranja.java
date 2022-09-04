@@ -13,7 +13,7 @@ import processing.core.PImage;
  *
  * @author matheus
  */
-public class Laranja extends Vivo implements Fantasma{
+public class Laranja extends Fantasma{
 
     public Laranja(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem, app);
@@ -47,4 +47,8 @@ public class Laranja extends Vivo implements Fantasma{
 
     }
     
+    @Override
+    public boolean estaPerseguindo() {
+        return false;
+    }
 }

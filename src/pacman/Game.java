@@ -19,6 +19,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import fantasmas.*;
+import org.json.simple.JSONArray;
 import processing.core.PImage;
 
 
@@ -30,7 +31,7 @@ public class Game {
     private int velocidade;
     private int tempoAssustado;
     private HashMap<Character, String> mapElementos;
-    //public ArrayList<Integer> tamanhoModos;
+    public ArrayList<Integer> tamanhoModos;
     private PacMan pacMan;
     private ArrayList<Vivo> fantasmas;
     private ArrayList<Estatico> paredes;
@@ -38,6 +39,7 @@ public class Game {
     private ArrayList<Estatico> pastilhas;
     private ArrayList<Estatico> superPastilhas;
     private boolean resetarGame;
+    private boolean perseguindo; 
 
     public Game(App app) {
         this.app = app;
@@ -48,9 +50,10 @@ public class Game {
         this.pastilhas = new ArrayList<Estatico>();
         this.superPastilhas = new ArrayList<Estatico>();
         this.fantasmas = new ArrayList<Vivo>();
-        //this.tamanhoModos = new ArrayList<Integer>();
+        this.tamanhoModos = new ArrayList<Integer>();
         this.pacMan = null;
         this.resetarGame = false;
+        this.perseguindo = false;
         carregaMapElementos();
     }
     
@@ -90,6 +93,12 @@ public class Game {
             this.velocidade = Integer.parseInt(jsonObject.get("velocidade").toString());
             String tempoAssustado = jsonObject.get("tempoAssustado").toString();
             this.tempoAssustado = Integer.parseInt(tempoAssustado);
+            
+            JSONArray vetorJson = (JSONArray) jsonObject.get("tamanhoModos");
+            for (Object obj : vetorJson) {
+                int modo = Integer.parseInt(obj.toString());
+                this.tamanhoModos.add(modo);
+            }
 
         } catch (FileNotFoundException fnfe) {
             fnfe.printStackTrace();
@@ -331,6 +340,22 @@ public class Game {
 
     public void setResetarGame(boolean resetarGame) {
         this.resetarGame = resetarGame;
+    }
+
+    public ArrayList<Integer> getTamanhoModos() {
+        return tamanhoModos;
+    }
+
+    public void setTamanhoModos(ArrayList<Integer> tamanhoModos) {
+        this.tamanhoModos = tamanhoModos;
+    }
+
+    public boolean isPerseguindo() {
+        return perseguindo;
+    }
+
+    public void setPerseguindo(boolean perseguindo) {
+        this.perseguindo = perseguindo;
     }
     
     

@@ -13,7 +13,7 @@ import processing.core.PImage;
  *
  * @author matheus
  */
-public class Vermelho extends Vivo implements Fantasma{
+public class Vermelho extends Fantasma{
 
     public Vermelho(char IdElemento, int x, int y, PImage imagem, App app){
         super(IdElemento, x,y,imagem, app);
@@ -46,5 +46,7 @@ public class Vermelho extends Vivo implements Fantasma{
     public void draw(App app) {
         
     }
+    
+    
     
 }

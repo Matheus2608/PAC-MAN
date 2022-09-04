@@ -13,12 +13,12 @@ import processing.core.PImage;
  *
  * @author matheus
  */
-public class Rosa extends Vivo implements Fantasma{
-
+public class Rosa extends Fantasma{
+    
     public Rosa(char IdElemento, int x, int y, PImage imagem, App app){
         super(IdElemento, x,y,imagem, app);
     }
-
+    
     @Override
     public boolean checaColisao() {
        return false;
@@ -46,5 +46,5 @@ public class Rosa extends Vivo implements Fantasma{
     public void draw(App app) {
         
     }
-    
+
 }

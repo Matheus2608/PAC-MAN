@@ -1,7 +1,7 @@
 {
     "mapa": "map.txt",
     "vidas": 3,
-    "velocidade": 1,
+    "velocidade": 2,
     "tempoAssustado": 7,
     "tamanhoModos": [
         7,
