@@ -4,7 +4,9 @@
  */
 package fantasmas;
 
+import static java.lang.Math.abs;
 import pacman.App;
+import pacman.Estatico;
 import pacman.Fantasma;
 import pacman.Vivo;
 import processing.core.PImage;
@@ -19,23 +21,45 @@ public class Vermelho extends Fantasma{
         super(IdElemento, x,y,imagem, app);
     }
 
-    @Override
-    public boolean checaColisao() {
-        return false;
-    }
 
     @Override
     public void atualiza() {
-        
+        // seu alvo é o pacman
+        if(estaPerseguindo()){ 
+            this.ultimaTecla = this.calculaDirecao(this.app.game.getPacMan().getY(), this.app.game.getPacMan().getX());
+        }
+        // seu alvo é um canto superior esquerdo mais proximo
+        else{
+            for(Estatico parede : app.game.getParedes()){
+                // se for essa parede superior esquerda
+                if(parede.getIdElemento() - '0' == 6){
+                    this.ultimaTecla = this.calculaDirecao(parede.getY(), parede.getX());
+                }
+        }
+            
+        mover();
+                 
+            
+        }
     }
 
+    
+    
+    
     @Override
-    public void mover() {
+    public void mover(){
+        if(this.ultimaTecla >= 37 && this.ultimaTecla <= 40){
+            int[] posicao = fakeMover();
+            if(!checaColisao()){
+                this.y = posicao[0];
+                this.x = posicao[1];
+            }
+        }
         
     }
     
-    @Override
-    public void mover(int y, int x){}
+    
+
 
     @Override
     public void estrategia() {
@@ -47,6 +71,31 @@ public class Vermelho extends Fantasma{
         
     }
     
-    
+    @Override
+    public int calculaDirecao(int y, int x){
+        y /= 16;
+        x /= 16;
+        
+        int meuX = getX() / 16;
+        int meuY = getY() / 16;
+        
+        int diffX = abs(meuX - x);
+        int diffY = abs(meuY - y);
+        
+        // se a distancia for maior em x, ande primeiro em x
+        if(diffX > diffY){
+            // se eu estiver na direita do alvo
+            if(meuX > x) return 37;
+            // esquerda do alvo
+            else return 39;
+        }
+        
+        else {
+            // se eu estiver abaixo do alvo
+            if(meuY > y) return 38;
+            // acima do alvo
+            else return 40;
+        }
+    }
     
 }

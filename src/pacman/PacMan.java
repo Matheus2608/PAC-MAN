@@ -79,21 +79,7 @@ public class PacMan extends Vivo{
         return false;
     }
     
-    public boolean checaColisaoFantasmas(int coordEsq, int coordDir, int coordCima, int coordBaixo){
-        ArrayList<Vivo> fantasmas = getApp().game.getFantasmas();
-        
-        for(Vivo fantasma : fantasmas){
-            int fantasmaEsq = fantasma.getX();
-            int fantasmaDir = fantasmaEsq + 16;
-            int fantasmaCima = fantasma.getY();
-            int fantasmaBaixo = fantasmaCima + 16;
-            if(coordEsq < fantasmaDir && coordDir > fantasmaEsq && coordCima < fantasmaBaixo && coordBaixo > fantasmaCima)return true;
-        }
-        
-        return false;
-        
-    }
-    
+    @Override
     public boolean checaColisaoComPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
         Estatico remover = null;
         ArrayList<Estatico> pastilhas = getApp().game.getPastilhas();
@@ -113,40 +99,6 @@ public class PacMan extends Vivo{
         return true;
     }
     
-    public boolean checaColisaoComSuperPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
-        ArrayList<Estatico> superPastilhas = getApp().game.getSuperPastilhas();
-        
-        for(Estatico superPastilha : superPastilhas){
-            int superPastilhaEsq = superPastilha.getX();
-            int superPastilhaDir = superPastilhaEsq + 16;
-            int superPastilhaCima = superPastilha.getY();
-            int superPastilhaBaixo = superPastilhaCima + 16;
-            
-            if(coordEsq < superPastilhaDir && coordDir > superPastilhaEsq && coordCima < superPastilhaBaixo && coordBaixo > superPastilhaCima) return true;
-        }
-        
-        return false;
-    }
-    
-    public boolean checaColisaoComParede(int coordEsq, int coordDir, int coordCima, int coordBaixo){
-        ArrayList<Estatico> paredes = getApp().game.getParedes();
-        
-        
-        
-        // tratando como caixas
-        
-        
-        for(Estatico parede :  paredes){
-            int paredeEsq = parede.getX();
-            int paredeDir = paredeEsq + 16;
-            int paredeCima = parede.getY();
-            int paredeBaixo = paredeCima + 16;
-            
-            if(coordEsq < paredeDir && coordDir > paredeEsq && coordCima < paredeBaixo && coordBaixo > paredeCima) return true;
-        }
-        
-        return false;
-    }
 
     @Override
     public void atualiza(){
@@ -162,7 +114,6 @@ public class PacMan extends Vivo{
     }
         
     
-    @Override
     public void mover(int y, int x){
         //this.getApp().image(this.getImagem(), this.getX(), this.getY()); Forca diretamente
         ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.getMapa();
@@ -213,7 +164,7 @@ public class PacMan extends Vivo{
     }
 
     
-    
+    @Override
     public int[] fakeMover(){
         int tecla = this.getUltimaTecla();
         //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));

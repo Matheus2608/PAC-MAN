@@ -4,6 +4,7 @@
  */
 package pacman;
 
+import java.util.ArrayList;
 import processing.core.PImage;
 
 /**
@@ -18,10 +19,6 @@ public abstract class Fantasma extends Vivo{
         this.indModoAtual = 0;
     }
     
-    public abstract void atualiza();
-    public abstract void estrategia();
-    public abstract void draw(App app);
-
     public boolean estaPerseguindo() {
         // se esta no ultimo segundo do modo
         if(app.tempo == this.app.game.tamanhoModos.get(indModoAtual)){
@@ -40,4 +37,78 @@ public abstract class Fantasma extends Vivo{
         return this.app.game.isPerseguindo();
     }
     
+    @Override
+    public boolean checaColisao(){
+        int[] posicao = fakeMover(); 
+        int y = posicao[0];
+        int x = posicao[1];
+
+        boolean foraEscopoX = x < 0 || x > 448;
+        boolean foraEscopoY = y < 0 || y > 576;
+        if (foraEscopoX || foraEscopoY) {
+            return true;
+        }
+
+        int coordEsq = x;
+        int coordDir = x + 16;
+        int coordCima = y;
+        int coordBaixo = y + 16;
+
+        if(checaColisaoComParede(coordEsq, coordDir, coordCima, coordBaixo)){
+            System.out.println("colide com parede");
+            return true;
+        }
+
+
+        if(checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo)){
+            System.out.println("colide com pastilha");
+        }
+
+        if(checaColisaoComSuperPastilha(coordEsq, coordDir, coordCima, coordBaixo)){
+            System.out.println("colide com superpastilha");
+        }
+
+        return false;
+    }
+
+    public abstract void atualiza();
+    public abstract void estrategia();
+    public abstract void draw(App app);
+    public abstract int calculaDirecao(int y, int x); // recebe a posicao do alvo
+    
+    @Override
+    public int[] fakeMover(){
+        int tecla = this.getUltimaTecla();
+        //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
+        int x = this.getX(), y = this.getY();
+        int velocidade = app.game.getVelocidade();
+        switch (tecla) {
+            case 37:
+                x = this.getX() - velocidade;
+                break;
+            case 38:
+                y = this.getY() - velocidade;
+                break;
+            case 39:
+                x = this.getX() + velocidade;
+                break;
+            case 40:
+                y = this.getY() + velocidade;
+                break;
+            default:
+                break;       
+        }
+        
+        int[] res = new int[2];
+        res[0] = y;
+        res[1] = x;
+        
+        return res;
+    }
+    
+    @Override
+    public boolean checaColisaoComPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
+        return false;
+    }
+
 }
