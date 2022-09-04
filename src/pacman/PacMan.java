@@ -16,8 +16,6 @@ public class PacMan extends Vivo{
     private PImage imCima, imBaixo, imEsq, imDir, imagemVazia, imVida, imBocaFechada;
     public PacMan(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x, y, imagem, app);
-        super.xInicial = x;
-        super.yInicial = y;
         
         this.imCima = this.app.loadImage("src/imagens/pacman//playerUp.png");
         this.imBaixo = this.app.loadImage("src/imagens/pacman/playerDown.png");
@@ -29,11 +27,128 @@ public class PacMan extends Vivo{
     }
     
     @Override
-    public boolean checaColisao(){
+    public void atualiza(){
+        desenhaVidas();
+        if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){          
+            App app = this.getApp();
+            Game game = app.game;
+            //game.parseJSON();
+            game.vitoriaOuDerrota(app);
+            if(checaColisao(this.proximaTecla)) checaColisao(this.ultimaTecla);
+            else this.ultimaTecla = this.proximaTecla;
+            
+        }   
+    }
+    
+    @Override
+    public void mover(int y, int x){
+        //this.getApp().image(this.getImagem(), this.getX(), this.getY()); Forca diretamente
+        ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.getMapa();
+        //App app = this.getApp();
+        
+        //atualiza a posicao onde ele estava para vazia
+        
+        Elemento elem = new Elemento('0', getX(), getY(), this.imagemVazia);
+        
+        mapa.get(getY() / 16).set(getX() / 16, elem);
+        app.game.setMapa(mapa);
+        
+        int indX = x / 16;
+        int indY = y / 16;
+        //System.out.println(indY + " " + indX);
+        elem = new Elemento(this.getIdElemento(), x, y, this.getImagem());
+        
+        
+        mapa.get(indY).set(indX, elem);
+        app.game.setMapa(mapa);
+        
+        app.game.desenhaMapa();
+        // atualiza a posicao(move)
+        this.setX(x);
+        this.setY(y);
+        
+        
+    }
+    
+    @Override
+    // move o pacman para posicao inicial
+    public void mover(){
+        
+        Elemento elem = new Elemento('0', this.getX(), this.getY(), this.imagemVazia);
+        ArrayList<ArrayList<Elemento>> mapa = app.game.getMapa();
+        //System.out.println("posicao que estou: " + this.getY() / 16 + " " + this.getX() / 16);
+        mapa.get(this.getY() / 16).set(this.getX() / 16, elem);
+        
+        //System.out.println("posicao inicial: " + this.yInicial / 16 + " " + xInicial / 16);
+        elem = new Elemento(this.getIdElemento(), xInicial, yInicial, this.getImagem());
+        mapa.get(this.yInicial / 16).set(this.xInicial / 16, elem);
+        
+        app.game.setMapa(mapa);
+        this.setX(xInicial);
+        this.setY(yInicial);
+        
+        this.app.game.setVidas(this.app.game.getVidas() - 1);
+    }
+
+    
+    
+    public int[] fakeMover(int tecla){
+        //int tecla = this.getUltimaTecla();
+        //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
+        int x = this.getX(), y = this.getY();
+        int velocidade = app.game.getVelocidade();
+        switch (tecla) {
+            case 37:
+                x = this.getX() - velocidade;
+                this.setImagem(imEsq);
+                break;
+            case 38:
+                y = this.getY() - velocidade;
+                this.setImagem(imCima);
+                break;
+            case 39:
+                x = this.getX() + velocidade;
+                this.setImagem(imDir);
+                break;
+            case 40:
+                y = this.getY() + velocidade;
+                this.setImagem(imBaixo);
+                break;
+            default:
+                break;       
+        }
+        
+        if (app.frameCount % 8 >= 0 && app.frameCount % 16 <= 8) {
+            this.setImagem(this.imBocaFechada);
+        }
+        
+        
+        //System.out.println("coordenada depois: " + ((this.getY() / 16) + 1)  + " " + ((this.getX() / 16) + 1));
+        int[] res = new int[2];
+        res[0] = y;
+        res[1] = x;
+        
+        return res;
+        
+    }
+    
+    public void desenhaVidas(){
+        int x = 20;
+        int y = 540;
+        for(int i = 0; i < app.game.getVidas(); i++){
+            app.image(imVida, x, y);
+            x += 40;
+        }
+    }
+    
+    @Override
+    public boolean checaColisao() {return false;}
+    
+    public boolean checaColisao(int tecla){
         // vao ser considerados verdadeiras colisoes se forem com uma parede ou com fantasma
         // para melhor funcionamento e legibilidade do codigo
         
-        int[] posicao = fakeMover(); 
+        int[] posicao = fakeMover(tecla); 
         int y = posicao[0];
         int x = posicao[1];
         
@@ -147,118 +262,8 @@ public class PacMan extends Vivo{
         return false;
     }
 
-    @Override
-    public void atualiza(){
-        desenhaVidas();
-        if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){          
-            App app = this.getApp();
-            Game game = app.game;
-            //game.parseJSON();
-            game.vitoriaOuDerrota(app);
-            checaColisao();
-            
-        }   
-    }
+    
         
     
-    @Override
-    public void mover(int y, int x){
-        //this.getApp().image(this.getImagem(), this.getX(), this.getY()); Forca diretamente
-        ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.getMapa();
-        //App app = this.getApp();
-        
-        //atualiza a posicao onde ele estava para vazia
-        
-        Elemento elem = new Elemento('0', getX(), getY(), this.imagemVazia);
-        
-        mapa.get(getY() / 16).set(getX() / 16, elem);
-        app.game.setMapa(mapa);
-        
-        int indX = x / 16;
-        int indY = y / 16;
-        //System.out.println(indY + " " + indX);
-        elem = new Elemento(this.getIdElemento(), x, y, this.getImagem());
-        
-        
-        mapa.get(indY).set(indX, elem);
-        app.game.setMapa(mapa);
-        
-        app.game.desenhaMapa();
-        // atualiza a posicao(move)
-        this.setX(x);
-        this.setY(y);
-        
-        
-    }
     
-    @Override
-    // move o pacman para posicao inicial
-    public void mover(){
-        
-        Elemento elem = new Elemento('0', this.getX(), this.getY(), this.imagemVazia);
-        ArrayList<ArrayList<Elemento>> mapa = app.game.getMapa();
-        //System.out.println("posicao que estou: " + this.getY() / 16 + " " + this.getX() / 16);
-        mapa.get(this.getY() / 16).set(this.getX() / 16, elem);
-        
-        //System.out.println("posicao inicial: " + this.yInicial / 16 + " " + xInicial / 16);
-        elem = new Elemento(this.getIdElemento(), xInicial, yInicial, this.getImagem());
-        mapa.get(this.yInicial / 16).set(this.xInicial / 16, elem);
-        
-        app.game.setMapa(mapa);
-        this.setX(xInicial);
-        this.setY(yInicial);
-        
-        this.app.game.setVidas(this.app.game.getVidas() - 1);
-    }
-
-    
-    
-    public int[] fakeMover(){
-        int tecla = this.getUltimaTecla();
-        //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
-        int x = this.getX(), y = this.getY();
-        int velocidade = app.game.getVelocidade();
-        switch (tecla) {
-            case 37:
-                x = this.getX() - velocidade;
-                this.setImagem(imEsq);
-                break;
-            case 38:
-                y = this.getY() - velocidade;
-                this.setImagem(imCima);
-                break;
-            case 39:
-                x = this.getX() + velocidade;
-                this.setImagem(imDir);
-                break;
-            case 40:
-                y = this.getY() + velocidade;
-                this.setImagem(imBaixo);
-                break;
-            default:
-                break;       
-        }
-        
-        if (app.frameCount % 8 >= 0 && app.frameCount % 16 <= 8) {
-            this.setImagem(this.imBocaFechada);
-        }
-        
-        
-        //System.out.println("coordenada depois: " + ((this.getY() / 16) + 1)  + " " + ((this.getX() / 16) + 1));
-        int[] res = new int[2];
-        res[0] = y;
-        res[1] = x;
-        
-        return res;
-        
-    }
-    
-    public void desenhaVidas(){
-        int x = 20;
-        int y = 540;
-        for(int i = 0; i < app.game.getVidas(); i++){
-            app.image(imVida, x, y);
-            x += 40;
-        }
-    }
 }

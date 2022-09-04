@@ -12,11 +12,14 @@ public abstract class Vivo extends Elemento {
     protected App app;
     protected int valocidade;
     protected boolean vivo;
-    protected int xInicial, yInicial, ultimaTecla;
+    protected int xInicial, yInicial, ultimaTecla, proximaTecla;
     
     public Vivo(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem);
         this.app = app;
+        this.xInicial = x;
+        this.yInicial = y;
+        this.ultimaTecla = 0;
     }
     
     public abstract boolean checaColisao();
@@ -73,6 +76,14 @@ public abstract class Vivo extends Elemento {
 
     public void setUltimaTecla(int ultimaTecla) {
         this.ultimaTecla = ultimaTecla;
+    }
+
+    public int getProximaTecla() {
+        return proximaTecla;
+    }
+
+    public void setProximaTecla(int proximaTecla) {
+        this.proximaTecla = proximaTecla;
     }
     
     
