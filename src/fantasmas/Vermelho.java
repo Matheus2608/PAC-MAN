@@ -24,12 +24,15 @@ public class Vermelho extends Fantasma{
 
     @Override
     public void atualiza() {
+        
         // seu alvo é o pacman
         if(estaPerseguindo()){ 
+            System.out.println("esta no modo de perseguir");
             this.ultimaTecla = this.calculaDirecao(this.app.game.getPacMan().getY(), this.app.game.getPacMan().getX());
         }
         // seu alvo é um canto superior esquerdo mais proximo
         else{
+            System.out.println("nao esta no modo de perseguir");
             for(Estatico parede : app.game.getParedes()){
                 // se for essa parede superior esquerda
                 if(parede.getIdElemento() - '0' == 6){
@@ -54,6 +57,8 @@ public class Vermelho extends Fantasma{
                 this.y = posicao[0];
                 this.x = posicao[1];
             }
+            
+            app.image(this.imagem, this.x, this.y);
         }
         
     }

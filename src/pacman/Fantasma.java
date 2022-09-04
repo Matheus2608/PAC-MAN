@@ -20,16 +20,20 @@ public abstract class Fantasma extends Vivo{
     }
     
     public boolean estaPerseguindo() {
+        System.out.println("segundo: " + app.tempo / 60);
         // se esta no ultimo segundo do modo
-        if(app.tempo == this.app.game.tamanhoModos.get(indModoAtual)){
+        
+        if(app.tempo / 60 == this.app.game.tamanhoModos.get(indModoAtual)){
             // segue para o proximo modo e muda o estado
             this.indModoAtual++;
+            app.tempo = 0;
             this.app.game.setPerseguindo(!(this.app.game.isPerseguindo()));
         }
         
         // se ja tiver iterado por todos os modos reinicia e faz denovo
         if(indModoAtual == this.app.game.getTamanhoModos().size()){
             indModoAtual = 0;
+            app.tempo = 0;
             this.app.game.setPerseguindo(false);
         }
         
@@ -55,17 +59,17 @@ public abstract class Fantasma extends Vivo{
         int coordBaixo = y + 16;
 
         if(checaColisaoComParede(coordEsq, coordDir, coordCima, coordBaixo)){
-            System.out.println("colide com parede");
+            //System.out.println("colide com parede");
             return true;
         }
 
 
         if(checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo)){
-            System.out.println("colide com pastilha");
+            //System.out.println("colide com pastilha");
         }
 
         if(checaColisaoComSuperPastilha(coordEsq, coordDir, coordCima, coordBaixo)){
-            System.out.println("colide com superpastilha");
+            //System.out.println("colide com superpastilha");
         }
 
         return false;
@@ -108,6 +112,11 @@ public abstract class Fantasma extends Vivo{
     
     @Override
     public boolean checaColisaoComPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
+        return false;
+    }
+    
+    @Override
+    public boolean checaColisaoComSuperPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
         return false;
     }
 

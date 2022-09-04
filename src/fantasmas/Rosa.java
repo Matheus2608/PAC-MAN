@@ -33,9 +33,6 @@ public class Rosa extends Fantasma{
     public void mover() {
         
     }
-    
-    @Override
-    public void mover(int y, int x){}
 
     @Override
     public void estrategia() {
@@ -45,6 +42,11 @@ public class Rosa extends Fantasma{
     @Override
     public void draw(App app) {
         
+    }
+    
+    @Override
+    public int calculaDirecao(int y, int x){
+        return 1;
     }
 
 }

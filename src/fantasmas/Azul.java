@@ -34,9 +34,6 @@ public class Azul extends Fantasma{
     }
     
     @Override
-    public void mover(int y, int x){}
-
-    @Override
     public void estrategia() {
         
     }
@@ -51,4 +48,8 @@ public class Azul extends Fantasma{
         return false;
     }
     
+    @Override
+    public int calculaDirecao(int y, int x){
+        return 1;
+    }
 }

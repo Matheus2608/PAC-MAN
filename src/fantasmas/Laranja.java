@@ -35,9 +35,6 @@ public class Laranja extends Fantasma{
     }
     
     @Override
-    public void mover(int y, int x){}
-    
-    @Override
     public void estrategia() {
         
     }
@@ -50,5 +47,10 @@ public class Laranja extends Fantasma{
     @Override
     public boolean estaPerseguindo() {
         return false;
+    }
+    
+    @Override
+    public int calculaDirecao(int y, int x){
+        return 1;
     }
 }

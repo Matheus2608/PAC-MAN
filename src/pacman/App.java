@@ -62,8 +62,7 @@ public class App extends PApplet {
             resetGame();
         }
         
-        //Atualiza os elementos
-        atualizaElementos();
+        
         
         // checar se eh pra resetar o game
         
@@ -71,9 +70,13 @@ public class App extends PApplet {
             this.game.setResetarGame(true);
             return;
         }
- 
+       
+       // desenhar os elementos
         this.game.desenhaMapa();
-
+        
+        // atualizar os elementos vivos
+        //Atualiza os elementos
+        atualizaElementos();
         this.tempo += 1;
     }
     
