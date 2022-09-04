@@ -13,27 +13,27 @@ import processing.core.PImage;
  */
 public abstract class Fantasma extends Vivo{
     protected int indModoAtual;
+    protected int diffAcumuladaModos;
         
     public Fantasma(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem, app);
         this.indModoAtual = 0;
+        this.diffAcumuladaModos = 0;
     }
     
     public boolean estaPerseguindo() {
-        System.out.println("segundo: " + app.tempo / 60);
+        //System.out.println(app.tempo / 60);
         // se esta no ultimo segundo do modo
-        
-        if(app.tempo / 60 == this.app.game.tamanhoModos.get(indModoAtual)){
+        if(app.tempo / 60 - this.diffAcumuladaModos == this.app.game.tamanhoModos.get(indModoAtual)){
             // segue para o proximo modo e muda o estado
+            this.diffAcumuladaModos += this.app.game.tamanhoModos.get(indModoAtual);
             this.indModoAtual++;
-            app.tempo = 0;
             this.app.game.setPerseguindo(!(this.app.game.isPerseguindo()));
         }
         
         // se ja tiver iterado por todos os modos reinicia e faz denovo
         if(indModoAtual == this.app.game.getTamanhoModos().size()){
             indModoAtual = 0;
-            app.tempo = 0;
             this.app.game.setPerseguindo(false);
         }
         
