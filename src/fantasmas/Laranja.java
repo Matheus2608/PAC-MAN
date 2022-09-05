@@ -40,7 +40,7 @@ public class Laranja extends Fantasma{
     }
     
     @Override
-    public void draw(App app) {
+    public void desenha(App app) {
 
     }
     
@@ -50,7 +50,7 @@ public class Laranja extends Fantasma{
     }
     
     @Override
-    public int calculaDirecao(int y, int x){
-        return 1;
+    public void calculaDirecao(int y, int x){
+        
     }
 }

@@ -223,9 +223,9 @@ public class Game {
         for(ArrayList<Elemento> linha : this.mapa){
             for(Elemento elem : linha){
                 
-                //if (!("aciwgp".contains(Character.toString(elem.getIdElemento())))) {
+                if (!("aciwg".contains(Character.toString(elem.getIdElemento())))) {
                     app.image(elem.getImagem(), elem.getX(), elem.getY());
-                //}
+                }
             }
         }
     }

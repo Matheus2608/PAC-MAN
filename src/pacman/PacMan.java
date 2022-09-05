@@ -17,8 +17,6 @@ public class PacMan extends Vivo{
     
     public PacMan(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x, y, imagem, app);
-        super.xInicial = x;
-        super.yInicial = y;
         
         this.imCima = this.app.loadImage("src/imagens/pacman//playerUp.png");
         this.imBaixo = this.app.loadImage("src/imagens/pacman/playerDown.png");
@@ -123,7 +121,11 @@ public class PacMan extends Vivo{
             int fantasmaDir = fantasmaEsq + 16;
             int fantasmaCima = fantasma.getY();
             int fantasmaBaixo = fantasmaCima + 16;
-            if(coordEsq < fantasmaDir && coordDir > fantasmaEsq && coordCima < fantasmaBaixo && coordBaixo > fantasmaCima)return true;
+            if(coordEsq < fantasmaDir && coordDir > fantasmaEsq && coordCima < fantasmaBaixo && coordBaixo > fantasmaCima){
+                Fantasma fColide = (Fantasma) fantasma;
+                fColide.moverFanstasmasPosInicial();
+                return true;
+            }
         }
         
         return false;

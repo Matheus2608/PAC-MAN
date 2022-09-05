@@ -17,6 +17,8 @@ public abstract class Vivo extends Elemento {
     
     public Vivo(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem);
+        xInicial = x;
+        yInicial = y;
         this.app = app;
     }
     
@@ -27,8 +29,6 @@ public abstract class Vivo extends Elemento {
     public abstract void mover();
     
     public abstract int[] fakeMover();
-    
-    
     
     public abstract boolean checaColisaoComPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo);
     
@@ -49,6 +49,7 @@ public abstract class Vivo extends Elemento {
         
         return false;
     }
+    
 
     public App getApp() {
         return app;

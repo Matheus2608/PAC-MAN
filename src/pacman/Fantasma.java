@@ -14,6 +14,7 @@ import processing.core.PImage;
 public abstract class Fantasma extends Vivo{
     protected int indModoAtual;
     protected int diffAcumuladaModos;
+    //paredeSuperiorDireita, paredeInferiorEsquerda, paredeInferiorDireita;
         
     public Fantasma(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem, app);
@@ -22,8 +23,6 @@ public abstract class Fantasma extends Vivo{
     }
     
     public boolean estaPerseguindo() {
-        //System.out.println(app.tempo / 60);
-        // se esta no ultimo segundo do modo
         if(app.tempo / 60 - this.diffAcumuladaModos == this.app.game.tamanhoModos.get(indModoAtual)){
             // segue para o proximo modo e muda o estado
             this.diffAcumuladaModos += this.app.game.tamanhoModos.get(indModoAtual);
@@ -40,6 +39,14 @@ public abstract class Fantasma extends Vivo{
         // retorna se esta perseguindo
         return this.app.game.isPerseguindo();
     }
+    
+    public void moverFanstasmasPosInicial(){
+        for(Vivo fantasma: app.game.getFantasmas()){
+            fantasma.x = fantasma.xInicial;
+            fantasma.y = fantasma.yInicial;
+        }
+    }
+    
     
     @Override
     public boolean checaColisao(){
@@ -62,42 +69,31 @@ public abstract class Fantasma extends Vivo{
             //System.out.println("colide com parede");
             return true;
         }
-
-
-        if(checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo)){
-            //System.out.println("colide com pastilha");
-        }
-
-        if(checaColisaoComSuperPastilha(coordEsq, coordDir, coordCima, coordBaixo)){
-            //System.out.println("colide com superpastilha");
-        }
-
+        
         return false;
     }
 
-    public abstract void atualiza();
     public abstract void estrategia();
-    public abstract void draw(App app);
-    public abstract int calculaDirecao(int y, int x); // recebe a posicao do alvo
+    public abstract void desenha(App app);
+    public abstract void calculaDirecao(int y, int x); // recebe a posicao do alvo
     
     @Override
     public int[] fakeMover(){
-        int tecla = this.getUltimaTecla();
         //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
         int x = this.getX(), y = this.getY();
         int velocidade = app.game.getVelocidade();
-        switch (tecla) {
+        switch (this.ultimaTecla) {
             case 37:
-                x = this.getX() - velocidade;
+                x -=  velocidade;
                 break;
             case 38:
-                y = this.getY() - velocidade;
+                y -= velocidade;
                 break;
             case 39:
-                x = this.getX() + velocidade;
+                x += velocidade;
                 break;
             case 40:
-                y = this.getY() + velocidade;
+                y += velocidade;
                 break;
             default:
                 break;       
@@ -107,6 +103,7 @@ public abstract class Fantasma extends Vivo{
         res[0] = y;
         res[1] = x;
         
+        //System.out.println(y + " " + x);
         return res;
     }
     
