@@ -37,20 +37,28 @@ public class Rosa extends Fantasma{
         }
     }
     
-//    public int[] posicaoAlvoPacMan(){
-//        PacMan pacMan = this.app.game.getPacMan();
-//        int direcaoPacMan = pacMan.getUltimaTecla();
-//        int x, y;
-//        if(direcaoPacMan == 37){
-//            x = pacMan.getX() + (4 * app.game.getVelocidade());
-//        }
-//        
-//        else if(direcaoPacMan == 37){
-//            x = pacMan.getX() + (4 * app.game.getVelocidade());
-//        }
-//        return null;
-//        
-//    }
+    public int[] posicaoAlvoPacMan(){
+        PacMan pacMan = this.app.game.getPacMan();
+        int direcaoPacMan = pacMan.getUltimaTecla();
+        int x = 0, y = 0;
+        
+        if(direcaoPacMan == 37) x = pacMan.getX() + (4 * app.game.getVelocidade());
+        
+        else if(direcaoPacMan == 38) y = pacMan.getY() - (4 * app.game.getVelocidade());
+        
+        else if(direcaoPacMan == 39) x = pacMan.getX() - (4 * app.game.getVelocidade());
+        
+        else if(direcaoPacMan == 40) y = pacMan.getY() - (4 * app.game.getVelocidade());
+        
+        if(x < 0) x = 0;
+        else if(x > 448) x = 448;
+        
+        if(y < 0) y = 0;
+        else if(y > 576) y = 576;
+        
+        int[] resposta = {x,y};
+        return resposta;   
+    }
     
     
     @Override
@@ -58,7 +66,8 @@ public class Rosa extends Fantasma{
         // seu alvo é o pacman
         if(this.app.game.isPerseguindo()){ 
             //System.out.println("perseguindo");
-            this.calculaDirecao(this.app.game.getPacMan().getX(), this.app.game.getPacMan().getY());
+            int[] posicaoAlvoPacMan = posicaoAlvoPacMan();
+            this.calculaDirecao(posicaoAlvoPacMan[0], posicaoAlvoPacMan[1]);
         }
         // seu alvo é o canto superior esquerdo mais proximo
         else{
