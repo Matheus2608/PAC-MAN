@@ -27,31 +27,58 @@ public class PacMan extends Vivo{
         this.imBocaFechada = this.app.loadImage("src/imagens/pacman/playerClosed.png");
     }
     
+    @Override 
+    public int[] fakeMover() {return null;}
+    
     @Override
     public boolean checaColisao(){
-        // vao ser considerados verdadeiras colisoes se forem com uma parede ou com fantasma
+         // vao ser considerados verdadeiras colisoes se forem com uma parede ou com fantasma
         // para melhor funcionamento e legibilidade do codigo
         
-        int[] posicao = fakeMover(); 
+        int[] posicao = fakeMoverUltimaTecla(); 
         int y = posicao[0];
         int x = posicao[1];
         
         boolean foraEscopoX = x < 0 || x > 448;
         boolean foraEscopoY = y < 0 || y > 576;
-        if (foraEscopoX || foraEscopoY) {
-            return true;
-        }
         
         int coordEsq = x;
         int coordDir = x + 16;
         int coordCima = y;
         int coordBaixo = y + 16;
         
-        
-        if(checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo)){
-            //System.out.println("colide com pastilha");
+
+        if(checaColisaoFantasmas(coordEsq, coordDir, coordCima, coordBaixo)){
+            //System.out.println("colide com fantasma");
+            mover();
+            return true;
         }
         
+        if (! ( (foraEscopoX || foraEscopoY) || checaColisaoComParede(coordEsq, coordDir, coordCima, coordBaixo) ) ) {
+            // se nao tiver nenhuma colisao
+            // atualiza a tecla atual para ultima tecla
+            this.teclaAtual = this.ultimaTecla;
+            // e move o pacman de acordo com as coordenadas da ultima tecla
+            mover(y,x);
+        }
+        
+        else{
+            // se chocou
+            posicao = fakeMoverTeclaAtual(); 
+            y = posicao[0];
+            x = posicao[1];
+
+            foraEscopoX = x < 0 || x > 448;
+            foraEscopoY = y < 0 || y > 576;
+            
+             if (foraEscopoX || foraEscopoY) {
+            return true;
+        }
+        
+        coordEsq = x;
+        coordDir = x + 16;
+        coordCima = y;
+        coordBaixo = y + 16;
         
         if(checaColisaoFantasmas(coordEsq, coordDir, coordCima, coordBaixo)){
             //System.out.println("colide com fantasma");
@@ -65,16 +92,10 @@ public class PacMan extends Vivo{
             return true;
         }
         
-        
-        if(checaColisaoComSuperPastilha(coordEsq, coordDir, coordCima, coordBaixo)){
-            //System.out.println("colide com superpastilha");
-        }
-        
-        // se nao chocou com nenhum dos anterioes, chocou com uma pastilha, q nao vamos considerar com uma colisao
-        //System.out.println("nao colide e retonar falso");
-        
-        mover(y,x);
+        mover(y, x);
         return false;
+        }
+     return false;
     }
     
     @Override
@@ -136,7 +157,8 @@ public class PacMan extends Vivo{
     @Override
     public void atualiza(){
         desenhaVidas();
-        if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){          
+        if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){
+            
             App app = this.getApp();
             Game game = app.game;
             //game.parseJSON();
@@ -197,27 +219,67 @@ public class PacMan extends Vivo{
     }
 
     
-    @Override
-    public int[] fakeMover(){
-        int tecla = this.getUltimaTecla();
+
+    
+    public int[] fakeMoverUltimaTecla(){
+        int ultimaTecla = this.getUltimaTecla();
+        
         //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
         int x = this.getX(), y = this.getY();
         int velocidade = app.game.getVelocidade();
-        switch (tecla) {
+        switch (ultimaTecla) {
             case 37:
-                x = this.getX() - velocidade;
+                x -= velocidade;
                 this.setImagem(imEsq);
                 break;
             case 38:
-                y = this.getY() - velocidade;
+                y -= velocidade;
                 this.setImagem(imCima);
                 break;
             case 39:
-                x = this.getX() + velocidade;
+                x += velocidade;
                 this.setImagem(imDir);
                 break;
             case 40:
-                y = this.getY() + velocidade;
+                y += velocidade;
+                this.setImagem(imBaixo);
+                break;
+            default:
+                break;       
+        }
+        
+        if (app.frameCount % 8 >= 0 && app.frameCount % 16 <= 8) {
+            this.setImagem(this.imBocaFechada);
+        }
+        
+        
+        //System.out.println("coordenada depois: " + ((this.getY() / 16) + 1)  + " " + ((this.getX() / 16) + 1));
+        int[] res = new int[2];
+        res[0] = y;
+        res[1] = x;
+        
+        return res;
+        
+    }
+    
+    public int[] fakeMoverTeclaAtual(){
+        int teclaAtual = this.teclaAtual, velocidade = app.game.getVelocidade();
+        int x = this.x, y = this.y;
+        switch (teclaAtual) {
+            case 37:
+                x -= velocidade;
+                this.setImagem(imEsq);
+                break;
+            case 38:
+                y -= velocidade;
+                this.setImagem(imCima);
+                break;
+            case 39:
+                x += velocidade;
+                this.setImagem(imDir);
+                break;
+            case 40:
+                y += velocidade;
                 this.setImagem(imBaixo);
                 break;
             default:

@@ -6,7 +6,6 @@ package fantasmas;
 
 import pacman.App;
 import pacman.Fantasma;
-import pacman.Vivo;
 import processing.core.PImage;
 /**
  *
