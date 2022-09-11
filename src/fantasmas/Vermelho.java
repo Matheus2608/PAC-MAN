@@ -17,7 +17,7 @@ import processing.core.PImage;
  * @author matheus
  */
 public class Vermelho extends Fantasma{
-    protected Estatico paredeSuperiorEsquerda;
+    private Estatico paredeSuperiorEsquerda;
     
     public Vermelho(char IdElemento, int x, int y, PImage imagem, App app){
         super(IdElemento, x,y,imagem, app);
@@ -36,12 +36,26 @@ public class Vermelho extends Fantasma{
 
         }
         
-        //System.out.println(paredeSuperiorEsquerda.getY() / 16 + " " + paredeSuperiorEsquerda.getX() / 16);
-        
     }
     
-    public long calculaQuadradoDistanciaEuclidiana(int x1, int y1, int x2, int y2){
-        return ((x1 - x2) * (x1 - x2)) + ((y1- y2) * (y1 - y2));
+    public boolean estaPerseguindo() {
+        //System.out.println(app.tempo / 60);
+        if(app.tempo / 60 - this.diffAcumuladaModos == this.app.game.tamanhoModos.get(indModoAtual)){
+            // segue para o proximo modo e muda o estado
+            this.diffAcumuladaModos += this.app.game.tamanhoModos.get(indModoAtual);
+            this.indModoAtual++;
+            this.app.game.setPerseguindo(!(this.app.game.isPerseguindo()));
+        }
+        
+        // se ja tiver iterado por todos os modos reinicia e faz denovo
+        if(indModoAtual == this.app.game.getTamanhoModos().size()){
+            indModoAtual = 0;
+            this.app.game.setPerseguindo(false);
+        }
+        
+        // retorna se esta perseguindo
+        System.out.println(this.app.game.isPerseguindo());
+        return this.app.game.isPerseguindo();
     }
 
     @Override

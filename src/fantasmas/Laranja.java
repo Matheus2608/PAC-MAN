@@ -44,10 +44,7 @@ public class Laranja extends Fantasma{
 
     }
     
-    @Override
-    public boolean estaPerseguindo() {
-        return false;
-    }
+    
     
     @Override
     public void calculaDirecao(int y, int x){

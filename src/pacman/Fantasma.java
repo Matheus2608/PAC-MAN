@@ -32,24 +32,11 @@ public abstract class Fantasma extends Vivo{
         return true;
     }
     
-    
-    public boolean estaPerseguindo() {
-        if(app.tempo / 60 - this.diffAcumuladaModos == this.app.game.tamanhoModos.get(indModoAtual)){
-            // segue para o proximo modo e muda o estado
-            this.diffAcumuladaModos += this.app.game.tamanhoModos.get(indModoAtual);
-            this.indModoAtual++;
-            this.app.game.setPerseguindo(!(this.app.game.isPerseguindo()));
-        }
-        
-        // se ja tiver iterado por todos os modos reinicia e faz denovo
-        if(indModoAtual == this.app.game.getTamanhoModos().size()){
-            indModoAtual = 0;
-            this.app.game.setPerseguindo(false);
-        }
-        
-        // retorna se esta perseguindo
-        return this.app.game.isPerseguindo();
+    public long calculaQuadradoDistanciaEuclidiana(int x1, int y1, int x2, int y2){
+        return ((x1 - x2) * (x1 - x2)) + ((y1- y2) * (y1 - y2));
     }
+    
+    
     
     public void moverFanstasmasPosInicial(){
         for(Vivo fantasma: app.game.getFantasmas()){
@@ -88,7 +75,7 @@ public abstract class Fantasma extends Vivo{
 
     public abstract void estrategia();
     public abstract void desenha(App app);
-    public abstract void calculaDirecao(int y, int x); // recebe a posicao do alvo
+    public abstract void calculaDirecao(int x, int y); // recebe a posicao do alvo
     
     @Override
     public int[] fakeMover(){return null;}
