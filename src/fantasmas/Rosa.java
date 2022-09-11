@@ -22,6 +22,7 @@ public class Rosa extends Fantasma{
     public Rosa(char IdElemento, int x, int y, PImage imagem, App app){
         super(IdElemento, x,y,imagem, app);
         ArrayList<Estatico> paredes = app.game.getParedes();
+        
         paredeSuperiorDireita = paredes.get(0);
         for(Estatico parede: paredes){
             if(parede.getY() < paredeSuperiorDireita.getY()){

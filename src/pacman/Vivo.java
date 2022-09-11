@@ -14,6 +14,7 @@ public abstract class Vivo extends Elemento {
     protected int valocidade;
     protected boolean vivo;
     protected int xInicial, yInicial, ultimaTecla, teclaAtual;
+    public ArrayList<Estatico> paredes;
     
     public Vivo(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem);
@@ -22,6 +23,7 @@ public abstract class Vivo extends Elemento {
         this.app = app;
         this.ultimaTecla = 0;
         this.teclaAtual = 0;
+        paredes = app.game.getParedes();
     }
     
     public abstract boolean checaColisao();

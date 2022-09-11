@@ -19,13 +19,16 @@ import processing.core.PImage;
  * @author matheus
  */
 public class Laranja extends Fantasma{
+    
     private Estatico paredeInferiorEsquerda;
     
     public Laranja(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem, app);
+   
         ArrayList<Estatico> paredes = app.game.getParedes();
         paredeInferiorEsquerda = paredes.get(0);
         for(Estatico parede: paredes){
+            //System.out.println("parede y: " + parede.getY());
             if(parede.getY() > paredeInferiorEsquerda.getY()){
                 paredeInferiorEsquerda = parede;
             }
@@ -37,8 +40,10 @@ public class Laranja extends Fantasma{
             }
 
         }
+
+        paredeInferiorEsquerda.setY(528);
+        paredeInferiorEsquerda.setX(432);
         
-        System.out.println(paredeInferiorEsquerda.getY() / 16 + 1 + " " + paredeInferiorEsquerda.getX() / 16 + 1 );
     }
     
     public int distanciaRetilineaAtePacMan(){

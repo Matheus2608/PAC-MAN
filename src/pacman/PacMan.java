@@ -160,6 +160,7 @@ public class PacMan extends Vivo{
 
     @Override
     public void atualiza(){
+        
         desenhaVidas();
         if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){
             
