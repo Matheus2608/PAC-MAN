@@ -4,12 +4,12 @@
  */
 package fantasmas;
 
-import static java.lang.Math.abs;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import pacman.App;
 import pacman.Estatico;
 import pacman.Fantasma;
-import pacman.Vivo;
 import processing.core.PImage;
 
 /**
@@ -36,14 +36,12 @@ public class Vermelho extends Fantasma{
 
         }
         
-        System.out.println(paredeSuperiorEsquerda.getY() / 16 + " " + paredeSuperiorEsquerda.getX() / 16);
+        //System.out.println(paredeSuperiorEsquerda.getY() / 16 + " " + paredeSuperiorEsquerda.getX() / 16);
         
     }
     
-    public int calculaDistancia(int y, int x){
-        int diffX = abs(this.x / 16 - x / 16);
-        int diffY = abs(this.y / 16 - y / 16);
-        return diffY + diffX;
+    public long calculaQuadradoDistanciaEuclidiana(int x1, int y1, int x2, int y2){
+        return ((x1 - x2) * (x1 - x2)) + ((y1- y2) * (y1 - y2));
     }
 
     @Override
@@ -51,11 +49,13 @@ public class Vermelho extends Fantasma{
         
         // seu alvo é o pacman
         if(estaPerseguindo()){ 
-            this.calculaDirecao(this.app.game.getPacMan().getY(), this.app.game.getPacMan().getX());
+            System.out.println("perseguindo");
+            this.calculaDirecao(this.app.game.getPacMan().getX(), this.app.game.getPacMan().getY());
         }
         // seu alvo é o canto superior esquerdo mais proximo
         else{
-            this.calculaDirecao(paredeSuperiorEsquerda.getY(), paredeSuperiorEsquerda.getX());
+            System.out.println("disperso");
+            this.calculaDirecao(paredeSuperiorEsquerda.getX(), paredeSuperiorEsquerda.getY());
         }
         
         mover(); 
@@ -67,14 +67,12 @@ public class Vermelho extends Fantasma{
     @Override
     public void mover(){
         if(this.ultimaTecla >= 37 && this.ultimaTecla <= 40){
-            int[] posicao = fakeMover();
-            
-            this.y = posicao[0];
-            this.x = posicao[1];
-            
-            
-            app.image(this.imagem, this.x, this.y);
+            int[] posicao = fakeMover(ultimaTecla);
+            this.x = posicao[0];
+            this.y = posicao[1];
         }
+        
+        app.image(this.imagem, this.x, this.y);
         
     }
     
@@ -91,72 +89,51 @@ public class Vermelho extends Fantasma{
         
     }
     
+    
+    
     @Override
     // vai retornar a primeira opcao, senao puder usa a segunda
-    public void calculaDirecao(int y, int x){
-        int diffX = abs(this.x - x);
-        int diffY = abs(this.y - y);
+    public void calculaDirecao(int x, int y){
         
-        // se a distancia for maior em x, ande primeiro em x
-        if(diffX > diffY){
-            // se eu estiver na direita do alvo
-            if(this.x > x) {
-                //System.out.println("esquerda");
-                this.ultimaTecla = 37;
-            }
-            // esquerda do alvo
-            else {
-                //System.out.println("direita");
-                this.ultimaTecla = 39;
+        HashMap<Long, Integer> distanciaTecla = new HashMap<>();
+        ArrayList<Long> distancias = new ArrayList<>();
+        
+        long distancia;
+        // 37 -> esquerda
+        distancia = calculaQuadradoDistanciaEuclidiana(this.x - 16, this.y, x, y);
+        distanciaTecla. put(distancia, 37);
+        distancias.add(distancia);
+        
+        // 38 -> pra cima
+        distancia = calculaQuadradoDistanciaEuclidiana(this.x, this.y - 16, x, y);
+        distanciaTecla. put(distancia, 38);
+        distancias.add(distancia);
+        
+        // 39 -> pra direita
+        distancia = calculaQuadradoDistanciaEuclidiana(this.x + 16, this.y, x, y);
+        distanciaTecla. put(distancia, 39);
+        distancias.add(distancia);
+        
+        // 40 -> pra baixo
+        distancia = calculaQuadradoDistanciaEuclidiana(this.x, this.y + 16, x, y);
+        distanciaTecla. put(distancia, 40);
+        distancias.add(distancia);
+        
+        Collections.sort(distancias);
+        
+        for(long dist : distancias){
+            if(Math.pow(dist, 0.5) / 16 <= 1 && !(estaPerseguindo())){
+                this.ultimaTecla = 0;
+                break;
             }
             
-            if(checaColisao()){
-                if(this.y > y) {
-                    //System.out.println("pra cima"); 
-                    this.ultimaTecla = 38;
-                }
-                // acima do alvo
-                else {
-                    //System.out.println("pra baixo");
-                    this.ultimaTecla = 40;
-                }
-            }
-        }
-        
-        
-        
-        if(diffX <= diffY){
-            if(this.y > y) {
-                //System.out.println("pra cima"); 
-                this.ultimaTecla = 38;
-            }
-            // acima do alvo
-            else {
-                //System.out.println("pra baixo");
-                this.ultimaTecla = 40;
+            int tecla = distanciaTecla.get(dist);
+            
+            if(movimentoValido(tecla)){
+                this.ultimaTecla = tecla;
+                break;
             }
             
-            if(checaColisao()){
-                if(this.x > x) {
-                    //System.out.println("esquerda");
-                    this.ultimaTecla = 37;
-                }
-                // esquerda do alvo
-                else {
-                    //System.out.println("direita");
-                    this.ultimaTecla = 39;
-                } 
-            }
-        }
-        
-        if(checaColisao()){
-            this.ultimaTecla = 37;
-            if(checaColisao())
-            this.ultimaTecla = 38;
-            if(checaColisao())
-            this.ultimaTecla = 39;
-            if(checaColisao())
-            this.ultimaTecla = 40;
         }
     }
     

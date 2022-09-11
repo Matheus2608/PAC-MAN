@@ -11,7 +11,7 @@ import processing.core.PImage;
  * @author matheus
  */
 public class Estatico extends Elemento{
-    private boolean fruta, parede, pastilha, superPastilha, vazio;
+    private boolean fruta, parede, pastilha, superPastilha;
 
     Estatico(char idElemento, int x, int y, PImage imagem) {
         super(idElemento, x, y, imagem);

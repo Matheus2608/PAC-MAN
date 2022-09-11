@@ -113,7 +113,6 @@ public class Game {
     }
     
     public boolean vitoriaOuDerrota(App app) {
-        
         if (this.pastilhas.isEmpty()) {
             desenhaVitoria(app);
             return true;
@@ -127,7 +126,7 @@ public class Game {
     
     public void desenhaVitoria(App app) {
         app.background(0, 0, 0);
-        app.text("VITÓRIA!!!", 160, 260);
+        app.text("VITORIA!!!", 160, 260);
     }
     
     public void desenhaDerrota(App app) {

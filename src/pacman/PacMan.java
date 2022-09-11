@@ -58,6 +58,10 @@ public class PacMan extends Vivo{
             // se nao tiver nenhuma colisao
             // atualiza a tecla atual para ultima tecla
             this.teclaAtual = this.ultimaTecla;
+            
+            // remove a pastilha se for colidir com ela para funcionar a funcao VitoriaOuDerrota
+            checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo);
+            
             // e move o pacman de acordo com as coordenadas da ultima tecla
             mover(y,x);
         }
@@ -92,6 +96,7 @@ public class PacMan extends Vivo{
             return true;
         }
         
+        checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo);
         mover(y, x);
         return false;
         }
@@ -150,7 +155,6 @@ public class PacMan extends Vivo{
         }
         
         return false;
-        
     }
     
 

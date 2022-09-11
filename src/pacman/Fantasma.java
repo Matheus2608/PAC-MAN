@@ -4,7 +4,6 @@
  */
 package pacman;
 
-import java.util.ArrayList;
 import processing.core.PImage;
 
 /**
@@ -21,6 +20,18 @@ public abstract class Fantasma extends Vivo{
         this.indModoAtual = 0;
         this.diffAcumuladaModos = 0;
     }
+    
+    public boolean movimentoValido(int tecla){
+        if(checaColisao(tecla)) return false;
+            
+        if( (tecla == 37 && this.ultimaTecla == 39) || (tecla == 39 && this.ultimaTecla == 37) ) 
+            return false;
+        if( (tecla == 38 && this.ultimaTecla == 40) || (tecla == 40 && this.ultimaTecla == 38) )
+            return false;
+        
+        return true;
+    }
+    
     
     public boolean estaPerseguindo() {
         if(app.tempo / 60 - this.diffAcumuladaModos == this.app.game.tamanhoModos.get(indModoAtual)){
@@ -49,10 +60,13 @@ public abstract class Fantasma extends Vivo{
     
     
     @Override
-    public boolean checaColisao(){
-        int[] posicao = fakeMover(); 
-        int y = posicao[0];
-        int x = posicao[1];
+    public boolean checaColisao(){return false;}
+    public boolean checaColisao(int tecla){
+        if(tecla == 0) return true;
+        
+        int[] posicao = fakeMover(tecla); 
+        int x = posicao[0];
+        int y = posicao[1];
 
         boolean foraEscopoX = x < 0 || x > 448;
         boolean foraEscopoY = y < 0 || y > 576;
@@ -66,7 +80,6 @@ public abstract class Fantasma extends Vivo{
         int coordBaixo = y + 16;
 
         if(checaColisaoComParede(coordEsq, coordDir, coordCima, coordBaixo)){
-            //System.out.println("colide com parede");
             return true;
         }
         
@@ -78,11 +91,15 @@ public abstract class Fantasma extends Vivo{
     public abstract void calculaDirecao(int y, int x); // recebe a posicao do alvo
     
     @Override
-    public int[] fakeMover(){
+    public int[] fakeMover(){return null;}
+    
+    public int[] fakeMover(int tecla){
         //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
-        int x = this.getX(), y = this.getY();
+        int x = this.x;
+        int y = this.y;
+        
         int velocidade = app.game.getVelocidade();
-        switch (this.ultimaTecla) {
+        switch (tecla) {
             case 37:
                 x -=  velocidade;
                 break;
@@ -100,8 +117,8 @@ public abstract class Fantasma extends Vivo{
         }
         
         int[] res = new int[2];
-        res[0] = y;
-        res[1] = x;
+        res[0] = x;
+        res[1] = y;
         
         //System.out.println(y + " " + x);
         return res;

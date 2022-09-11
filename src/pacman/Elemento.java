@@ -55,6 +55,6 @@ public class Elemento {
     }
 
     public void setIdElemento(char id) {
-        this.idElemento = idElemento;
+        this.idElemento = id;
     }
 }
