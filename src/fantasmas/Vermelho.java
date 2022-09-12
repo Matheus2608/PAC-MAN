@@ -21,7 +21,7 @@ public class Vermelho extends Fantasma{
     
     public Vermelho(char IdElemento, int x, int y, PImage imagem, App app){
         super(IdElemento, x,y,imagem, app);
-        ArrayList<Estatico> paredes = app.game.getParedes();
+        ArrayList<Estatico> paredes = app.game.paredes;
         paredeSuperiorEsquerda = paredes.get(0);
         for(Estatico parede: paredes){
             if(parede.getY() < paredeSuperiorEsquerda.getY()){
@@ -44,18 +44,18 @@ public class Vermelho extends Fantasma{
             // segue para o proximo modo e muda o estado
             this.diffAcumuladaModos += this.app.game.tamanhoModos.get(indModoAtual);
             this.indModoAtual++;
-            this.app.game.setPerseguindo(!(this.app.game.isPerseguindo()));
+            this.app.game.perseguindo = !(this.app.game.perseguindo);
         }
         
         // se ja tiver iterado por todos os modos reinicia e faz denovo
-        if(indModoAtual == this.app.game.getTamanhoModos().size()){
+        if(indModoAtual == this.app.game.tamanhoModos.size()){
             indModoAtual = 0;
-            this.app.game.setPerseguindo(false);
+            this.app.game.perseguindo = false;
         }
         
         // retorna se esta perseguindo
-        System.out.println(this.app.game.isPerseguindo());
-        return this.app.game.isPerseguindo();
+        System.out.println(this.app.game.perseguindo);
+        return this.app.game.perseguindo;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class Vermelho extends Fantasma{
         // seu alvo é o pacman
         if(estaPerseguindo()){ 
             System.out.println("perseguindo");
-            this.calculaDirecao(this.app.game.getPacMan().getX(), this.app.game.getPacMan().getY());
+            this.calculaDirecao(this.app.game.pacMan.getX(), this.app.game.pacMan.getY());
         }
         // seu alvo é o canto superior esquerdo mais proximo
         else{

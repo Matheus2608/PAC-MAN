@@ -39,7 +39,7 @@ public abstract class Fantasma extends Vivo{
     
     
     public void moverFanstasmasPosInicial(){
-        for(Vivo fantasma: app.game.getFantasmas()){
+        for(Vivo fantasma: app.game.fantasmas){
             fantasma.x = fantasma.xInicial;
             fantasma.y = fantasma.yInicial;
         }
@@ -85,7 +85,7 @@ public abstract class Fantasma extends Vivo{
         int x = this.x;
         int y = this.y;
         
-        int velocidade = app.game.getVelocidade();
+        int velocidade = app.game.velocidade;
         switch (tecla) {
             case 37:
                 x -=  velocidade;

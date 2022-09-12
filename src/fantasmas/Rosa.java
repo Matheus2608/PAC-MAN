@@ -21,7 +21,7 @@ public class Rosa extends Fantasma{
     private Estatico paredeSuperiorDireita;
     public Rosa(char IdElemento, int x, int y, PImage imagem, App app){
         super(IdElemento, x,y,imagem, app);
-        ArrayList<Estatico> paredes = app.game.getParedes();
+        ArrayList<Estatico> paredes = app.game.paredes;
         
         paredeSuperiorDireita = paredes.get(0);
         for(Estatico parede: paredes){
@@ -39,17 +39,17 @@ public class Rosa extends Fantasma{
     }
     
     public int[] posicaoAlvoPacMan(){
-        PacMan pacMan = this.app.game.getPacMan();
+        PacMan pacMan = this.app.game.pacMan;
         int direcaoPacMan = pacMan.getUltimaTecla();
         int x = 0, y = 0;
         
-        if(direcaoPacMan == 37) x = pacMan.getX() + (4 * app.game.getVelocidade());
+        if(direcaoPacMan == 37) x = pacMan.getX() + (4 * app.game.velocidade);
         
-        else if(direcaoPacMan == 38) y = pacMan.getY() - (4 * app.game.getVelocidade());
+        else if(direcaoPacMan == 38) y = pacMan.getY() - (4 * app.game.velocidade);
         
-        else if(direcaoPacMan == 39) x = pacMan.getX() - (4 * app.game.getVelocidade());
+        else if(direcaoPacMan == 39) x = pacMan.getX() - (4 * app.game.velocidade);
         
-        else if(direcaoPacMan == 40) y = pacMan.getY() - (4 * app.game.getVelocidade());
+        else if(direcaoPacMan == 40) y = pacMan.getY() - (4 * app.game.velocidade);
         
         if(x < 0) x = 0;
         else if(x > 448) x = 448;
@@ -65,7 +65,7 @@ public class Rosa extends Fantasma{
     @Override
     public void atualiza() {
         // seu alvo é o pacman
-        if(this.app.game.isPerseguindo()){ 
+        if(this.app.game.perseguindo){
             //System.out.println("perseguindo");
             int[] posicaoAlvoPacMan = posicaoAlvoPacMan();
             this.calculaDirecao(posicaoAlvoPacMan[0], posicaoAlvoPacMan[1]);

@@ -25,7 +25,7 @@ public class Laranja extends Fantasma{
     public Laranja(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem, app);
    
-        ArrayList<Estatico> paredes = app.game.getParedes();
+        ArrayList<Estatico> paredes = app.game.paredes;
         paredeInferiorEsquerda = paredes.get(0);
         for(Estatico parede: paredes){
             //System.out.println("parede y: " + parede.getY());
@@ -41,22 +41,22 @@ public class Laranja extends Fantasma{
 
         }
 
-        paredeInferiorEsquerda.setY(528);
-        paredeInferiorEsquerda.setX(432);
+        //paredeInferiorEsquerda.setY(528);
+        //paredeInferiorEsquerda.setX(0);
         
     }
     
     public int distanciaRetilineaAtePacMan(){
-        int diffX = abs(this.x - this.app.game.getPacMan().getX());
-        int diffY = abs(this.y - this.app.game.getPacMan().getY());
+        int diffX = abs(this.x - this.app.game.pacMan.getX());
+        int diffY = abs(this.y - this.app.game.pacMan.getY());
         
         return diffX + diffY;
     }
     
     public int[] posicaoAlvo(){
-        PacMan pacMan = this.app.game.getPacMan();
+        PacMan pacMan = this.app.game.pacMan;
         
-        if(this.app.game.isPerseguindo()){
+        if(this.app.game.perseguindo){
             if(distanciaRetilineaAtePacMan() / 16 > 8){
                 int[] resposta = {pacMan.getX(), pacMan.getY()};
                 return resposta;

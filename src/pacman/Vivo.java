@@ -23,7 +23,7 @@ public abstract class Vivo extends Elemento {
         this.app = app;
         this.ultimaTecla = 0;
         this.teclaAtual = 0;
-        paredes = app.game.getParedes();
+        paredes = app.game.paredes;
     }
     
     public abstract boolean checaColisao();
@@ -39,7 +39,7 @@ public abstract class Vivo extends Elemento {
     public abstract boolean checaColisaoComSuperPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo);
     
     public boolean checaColisaoComParede(int coordEsq, int coordDir, int coordCima, int coordBaixo){
-        ArrayList<Estatico> paredes = getApp().game.getParedes();
+        ArrayList<Estatico> paredes = getApp().game.paredes;
         // tratando como caixas
         
         for(Estatico parede :  paredes){

@@ -106,7 +106,7 @@ public class PacMan extends Vivo{
     @Override
     public boolean checaColisaoComPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
         Estatico remover = null;
-        ArrayList<Estatico> pastilhas = getApp().game.getPastilhas();
+        ArrayList<Estatico> pastilhas = getApp().game.pastilhas;
 
         for(Estatico pastilha : pastilhas){
             int pastilhaEsq = pastilha.getX();
@@ -119,13 +119,13 @@ public class PacMan extends Vivo{
         if(remover == null) return false;
         
         pastilhas.remove(remover);
-        app.game.setPastilhas(pastilhas);
+        app.game.pastilhas = pastilhas;
         return true;
     }
     
     @Override
     public boolean checaColisaoComSuperPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
-        ArrayList<Estatico> superPastilhas = getApp().game.getSuperPastilhas();
+        ArrayList<Estatico> superPastilhas = getApp().game.superPastilhas;
         
         for(Estatico superPastilha : superPastilhas){
             int superPastilhaEsq = superPastilha.getX();
@@ -140,7 +140,7 @@ public class PacMan extends Vivo{
     }
     
     public boolean checaColisaoFantasmas(int coordEsq, int coordDir, int coordCima, int coordBaixo){
-        ArrayList<Vivo> fantasmas = getApp().game.getFantasmas();
+        ArrayList<Vivo> fantasmas = getApp().game.fantasmas;
         
         for(Vivo fantasma : fantasmas){
             int fantasmaEsq = fantasma.getX();
@@ -176,7 +176,7 @@ public class PacMan extends Vivo{
     
     public void mover(int y, int x){
         //this.getApp().image(this.getImagem(), this.getX(), this.getY()); Forca diretamente
-        ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.getMapa();
+        ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.mapa;
         //App app = this.getApp();
         
         //atualiza a posicao onde ele estava para vazia
@@ -184,7 +184,7 @@ public class PacMan extends Vivo{
         Elemento elem = new Elemento('0', getX(), getY(), this.imagemVazia);
         
         mapa.get(getY() / 16).set(getX() / 16, elem);
-        app.game.setMapa(mapa);
+        app.game.mapa = mapa;
         
         int indX = x / 16;
         int indY = y / 16;
@@ -193,7 +193,7 @@ public class PacMan extends Vivo{
         
         
         mapa.get(indY).set(indX, elem);
-        app.game.setMapa(mapa);
+        app.game.mapa = mapa;
         
         app.game.desenhaMapa();
         // atualiza a posicao(move)
@@ -208,7 +208,7 @@ public class PacMan extends Vivo{
     public void mover(){
         
         Elemento elem = new Elemento('0', this.getX(), this.getY(), this.imagemVazia);
-        ArrayList<ArrayList<Elemento>> mapa = app.game.getMapa();
+        ArrayList<ArrayList<Elemento>> mapa = app.game.mapa;
         //System.out.println("posicao que estou: " + this.getY() / 16 + " " + this.getX() / 16);
         mapa.get(this.getY() / 16).set(this.getX() / 16, elem);
         
@@ -216,11 +216,11 @@ public class PacMan extends Vivo{
         elem = new Elemento(this.getIdElemento(), xInicial, yInicial, this.getImagem());
         mapa.get(this.yInicial / 16).set(this.xInicial / 16, elem);
         
-        app.game.setMapa(mapa);
+        app.game.mapa = mapa;
         this.setX(xInicial);
         this.setY(yInicial);
         
-        this.app.game.setVidas(this.app.game.getVidas() - 1);
+        this.app.game.vidas -= 1;
     }
 
     
@@ -231,7 +231,7 @@ public class PacMan extends Vivo{
         
         //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
         int x = this.getX(), y = this.getY();
-        int velocidade = app.game.getVelocidade();
+        int velocidade = app.game.velocidade;
         switch (ultimaTecla) {
             case 37:
                 x -= velocidade;
@@ -268,7 +268,7 @@ public class PacMan extends Vivo{
     }
     
     public int[] fakeMoverTeclaAtual(){
-        int teclaAtual = this.teclaAtual, velocidade = app.game.getVelocidade();
+        int teclaAtual = this.teclaAtual, velocidade = app.game.velocidade;
         int x = this.x, y = this.y;
         switch (teclaAtual) {
             case 37:
@@ -308,7 +308,7 @@ public class PacMan extends Vivo{
     public void desenhaVidas(){
         int x = 20;
         int y = 540;
-        for(int i = 0; i < app.game.getVidas(); i++){
+        for(int i = 0; i < app.game.vidas; i++){
             app.image(imVida, x, y);
             x += 40;
         }

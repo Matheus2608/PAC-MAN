@@ -24,22 +24,22 @@ import processing.core.PImage;
 
 
 public class Game {
-    private App app;
-    private ArrayList<ArrayList<Elemento>> mapa;
-    private String nomeArquivo;
-    private int vidas;
-    private int velocidade;
-    private int tempoAssustado;
-    private HashMap<Character, String> mapElementos;
+    public App app;
+    public ArrayList<ArrayList<Elemento>> mapa;
+    public String nomeArquivo;
+    public int vidas;
+    public int velocidade;
+    public int tempoAssustado;
+    public HashMap<Character, String> mapElementos;
     public ArrayList<Integer> tamanhoModos;
-    private PacMan pacMan;
-    private ArrayList<Vivo> fantasmas;
-    private ArrayList<Estatico> paredes;
-    private ArrayList<Estatico> frutas;
-    private ArrayList<Estatico> pastilhas;
-    private ArrayList<Estatico> superPastilhas;
-    private boolean resetarGame;
-    private boolean perseguindo; 
+    public PacMan pacMan;
+    public ArrayList<Vivo> fantasmas;
+    public ArrayList<Estatico> paredes;
+    public ArrayList<Estatico> frutas;
+    public ArrayList<Estatico> pastilhas;
+    public ArrayList<Estatico> superPastilhas;
+    public boolean resetarGame;
+    public boolean perseguindo; 
 
     public Game(App app) {
         this.app = app;
@@ -228,136 +228,6 @@ public class Game {
             }
         }
     }
-
-    public App getApp() {
-        return app;
-    }
-
-    public void setApp(App app) {
-        this.app = app;
-    }
-
-    public ArrayList<ArrayList<Elemento>> getMapa() {
-        return mapa;
-    }
-
-    public void setMapa(ArrayList<ArrayList<Elemento>> mapa) {
-        this.mapa = mapa;
-    }
-
-    public String getNomeArquivo() {
-        return nomeArquivo;
-    }
-
-    public void setNomeArquivo(String nomeArquivo) {
-        this.nomeArquivo = nomeArquivo;
-    }
-
-    public int getVidas() {
-        return vidas;
-    }
-
-    public void setVidas(int vidas) {
-        this.vidas = vidas;
-    }
-
-    public int getVelocidade() {
-        return velocidade;
-    }
-
-    public void setVelocidade(int velocidade) {
-        this.velocidade = velocidade;
-    }
-
-    public int getTempoAssustado() {
-        return tempoAssustado;
-    }
-
-    public void setTempoAssustado(int tempoAssustado) {
-        this.tempoAssustado = tempoAssustado;
-    }
-
-    public HashMap<Character, String> getMapElementos() {
-        return mapElementos;
-    }
-
-    public void setMapElementos(HashMap<Character, String> mapElementos) {
-        this.mapElementos = mapElementos;
-    }
-
-    public PacMan getPacMan() {
-        return pacMan;
-    }
-
-    public void setPacMan(PacMan pacMan) {
-        this.pacMan = pacMan;
-    }
-
-    public ArrayList<Vivo> getFantasmas() {
-        return fantasmas;
-    }
-
-    public void setFantasmas(ArrayList<Vivo> fantasmas) {
-        this.fantasmas = fantasmas;
-    }
-
-    public ArrayList<Estatico> getParedes() {
-        return paredes;
-    }
-
-    public void setParedes(ArrayList<Estatico> paredes) {
-        this.paredes = paredes;
-    }
-
-    public ArrayList<Estatico> getFrutas() {
-        return frutas;
-    }
-
-    public void setFrutas(ArrayList<Estatico> frutas) {
-        this.frutas = frutas;
-    }
-
-    public ArrayList<Estatico> getPastilhas() {
-        return pastilhas;
-    }
-
-    public void setPastilhas(ArrayList<Estatico> pastilhas) {
-        this.pastilhas = pastilhas;
-    }
-
-    public ArrayList<Estatico> getSuperPastilhas() {
-        return superPastilhas;
-    }
-
-    public void setSuperPastilhas(ArrayList<Estatico> superPastilhas) {
-        this.superPastilhas = superPastilhas;
-    }
-
-    public boolean isResetarGame() {
-        return resetarGame;
-    }
-
-    public void setResetarGame(boolean resetarGame) {
-        this.resetarGame = resetarGame;
-    }
-
-    public ArrayList<Integer> getTamanhoModos() {
-        return tamanhoModos;
-    }
-
-    public void setTamanhoModos(ArrayList<Integer> tamanhoModos) {
-        this.tamanhoModos = tamanhoModos;
-    }
-
-    public boolean isPerseguindo() {
-        return perseguindo;
-    }
-
-    public void setPerseguindo(boolean perseguindo) {
-        this.perseguindo = perseguindo;
-    }
-    
-    
 }
         
 

@@ -58,7 +58,7 @@ public class App extends PApplet {
         background(0, 0, 0);
         
         
-        if (this.game.isResetarGame()) {
+        if (this.game.resetarGame) {
             resetGame();
         }
         
@@ -67,7 +67,7 @@ public class App extends PApplet {
         // checar se eh pra resetar o game
         
        if (this.game.vitoriaOuDerrota(this)) {
-            this.game.setResetarGame(true);
+            this.game.resetarGame = true;
             return;
         }
        
@@ -83,11 +83,11 @@ public class App extends PApplet {
     
     
     public void atualizaElementos() {
-        for(Vivo fantasma : game.getFantasmas()){
+        for(Vivo fantasma : game.fantasmas){
             fantasma.atualiza();
         }
         
-        game.getPacMan().atualiza();
+        game.pacMan.atualiza();
     }
     
         public void resetGame() {
@@ -106,7 +106,7 @@ public class App extends PApplet {
     public void keyPressed(){
         // 37 é esquerda, 38 pra cima, 39 direita, 40 pra baixo
         if (keyCode >= 37 && keyCode <= 40) { // é uma das setas
-            this.game.getPacMan().setUltimaTecla(keyCode);
+            this.game.pacMan.setUltimaTecla(keyCode);
         }
     }
     
