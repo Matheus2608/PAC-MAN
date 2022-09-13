@@ -11,42 +11,10 @@ import processing.core.PImage;
  * @author matheus
  */
 public class Estatico extends Elemento{
-    private boolean fruta, parede, pastilha, superPastilha;
+    public boolean fruta, parede, pastilha, superPastilha;
 
     Estatico(char idElemento, int x, int y, PImage imagem) {
         super(idElemento, x, y, imagem);
-    }
-    
-    public boolean isFruta() {
-        return fruta;
-    }
-
-    public void setFruta(boolean fruta) {
-        this.fruta = fruta;
-    }
-
-    public boolean isParede() {
-        return parede;
-    }
-
-    public void setParede(boolean parede) {
-        this.parede = parede;
-    }
-
-    public boolean isPastilha() {
-        return pastilha;
-    }
-
-    public void setPastilha(boolean pastilha) {
-        this.pastilha = pastilha;
-    }
-
-    public boolean isSuperPastilha() {
-        return superPastilha;
-    }
-
-    public void setSuperPastilha(boolean superPastilha) {
-        this.superPastilha = superPastilha;
     }
    
 }

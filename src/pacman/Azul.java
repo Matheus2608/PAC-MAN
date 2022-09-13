@@ -2,10 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package fantasmas;
+package pacman;
 
-import pacman.App;
-import pacman.Fantasma;
 import processing.core.PImage;
 /**
  *
@@ -18,7 +16,7 @@ public class Azul extends Fantasma{
     }
 
     @Override
-    public boolean checaColisao() {
+    public boolean checaLidaComColisao() {
         return false;
     }
 
@@ -27,7 +25,7 @@ public class Azul extends Fantasma{
         
     }
 
-    @Override
+    
     public void mover() {
         
     }
