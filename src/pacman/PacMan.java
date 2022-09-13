@@ -12,9 +12,9 @@ import processing.core.PImage;
  * @author matheus
  */
 public class PacMan extends Vivo{
-    //private boolean checarX, checarY;
+    // imagens dos estados do pacman e do simbolo de vida e vazio
     private PImage imCima, imBaixo, imEsq, imDir, imagemVazia, imVida, imBocaFechada;
-    
+
     public PacMan(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x, y, imagem, app);
         
@@ -25,35 +25,40 @@ public class PacMan extends Vivo{
         this.imagemVazia = this.app.loadImage("src/imagens/empty.png");
         this.imVida = this.app.loadImage("src/imagens/pacman/playerRight.png");
         this.imBocaFechada = this.app.loadImage("src/imagens/pacman/playerClosed.png");
+        System.out.println("numero de paredes na classe pacman: " + this.paredes.size());
     }
     
-    @Override 
-    public int[] fakeMover() {return null;}
     
+    // checa se houve colisao e lida
     @Override
-    public boolean checaColisao(){
-         // vao ser considerados verdadeiras colisoes se forem com uma parede ou com fantasma
+    public boolean checaLidaComColisao(){
+        
+        // vao ser considerados verdadeiras colisoes se forem com uma parede ou com fantasma
         // para melhor funcionamento e legibilidade do codigo
         
+        // posicao que estaria caso se movimentasse de acordo com a ultima tecla pressioanda
         int[] posicao = fakeMoverUltimaTecla(); 
         int y = posicao[0];
         int x = posicao[1];
         
+        // esta fora do mapa?
         boolean foraEscopoX = x < 0 || x > 448;
         boolean foraEscopoY = y < 0 || y > 576;
         
+        // coordenadas necessarias para utilizacao em funcoes de colisao
         int coordEsq = x;
         int coordDir = x + 16;
         int coordCima = y;
         int coordBaixo = y + 16;
         
-
+        // se colide com fantasmas
         if(checaColisaoFantasmas(coordEsq, coordDir, coordCima, coordBaixo)){
-            //System.out.println("colide com fantasma");
-            mover();
+            // move ambos para a posicao inicial
+            lidaColisaoFantasma();
             return true;
         }
         
+        // se  não colidir com uma parede ou estiver fora do mapa
         if (! ( (foraEscopoX || foraEscopoY) || checaColisaoComParede(coordEsq, coordDir, coordCima, coordBaixo) ) ) {
             // se nao tiver nenhuma colisao
             // atualiza a tecla atual para ultima tecla
@@ -67,7 +72,10 @@ public class PacMan extends Vivo{
         }
         
         else{
-            // se chocou
+            // se colidiu
+            // os testes serao com a teclaAtual agora
+           
+            // posicao que estaria caso se movimentasse de acordo com a tecla atual
             posicao = fakeMoverTeclaAtual(); 
             y = posicao[0];
             x = posicao[1];
@@ -75,38 +83,46 @@ public class PacMan extends Vivo{
             foraEscopoX = x < 0 || x > 448;
             foraEscopoY = y < 0 || y > 576;
             
-             if (foraEscopoX || foraEscopoY) {
-            return true;
-        }
+            // se estiver fora do mapa
+             if (foraEscopoX || foraEscopoY) return true;
+        
         
         coordEsq = x;
         coordDir = x + 16;
         coordCima = y;
         coordBaixo = y + 16;
         
+        // se colidir com fantasmas
         if(checaColisaoFantasmas(coordEsq, coordDir, coordCima, coordBaixo)){
-            //System.out.println("colide com fantasma");
-            mover();
+            // move os para a posicao inicial
+            lidaColisaoFantasma();
             return true;
         }
         
-        
+        // se chocar com parede
         if(checaColisaoComParede(coordEsq, coordDir, coordCima, coordBaixo)){
-            //System.out.println("colide com parede");
+            // nao move, continua na parede
             return true;
         }
         
+        // se chocou(comeu) pastilha, remove ela do mapa e do classe jogo
         checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo);
         mover(y, x);
         return false;
         }
+        
+     // so pq o netbeans pediu(msm q n colidiu)   
      return false;
     }
     
+    // funcoes de checagem de colisao usam as coordenadas dos elementos e os tratam como caixas para verem se
+    // estao colidindo, se forem somente com numeros das coordenadas(ja testados varias vezes) nao funciona
+    
+    // a unica diferenca dessa eh q ela remove a pastilha
     @Override
     public boolean checaColisaoComPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
         Estatico remover = null;
-        ArrayList<Estatico> pastilhas = getApp().game.pastilhas;
+        ArrayList<Estatico> pastilhas = this.pastilhas;
 
         for(Estatico pastilha : pastilhas){
             int pastilhaEsq = pastilha.getX();
@@ -123,9 +139,11 @@ public class PacMan extends Vivo{
         return true;
     }
     
+    // funcoes de checagem de colisao usam as coordenadas dos elementos e os tratam como caixas para verem se
+    // estao colidindo, se forem somente com numeros das coordenadas(ja testados varias vezes) nao funciona
     @Override
     public boolean checaColisaoComSuperPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
-        ArrayList<Estatico> superPastilhas = getApp().game.superPastilhas;
+        ArrayList<Estatico> superPastilhas = this.superPastilhas;
         
         for(Estatico superPastilha : superPastilhas){
             int superPastilhaEsq = superPastilha.getX();
@@ -139,8 +157,12 @@ public class PacMan extends Vivo{
         return false;
     }
     
+    // funcoes de checagem de colisao usam as coordenadas dos elementos e os tratam como caixas para verem se
+    // estao colidindo, se forem somente com numeros das coordenadas(ja testados varias vezes) nao funciona
+    
+    // unica diferenca eh q atualiza os fantasmas
     public boolean checaColisaoFantasmas(int coordEsq, int coordDir, int coordCima, int coordBaixo){
-        ArrayList<Vivo> fantasmas = getApp().game.fantasmas;
+        ArrayList<Vivo> fantasmas = this.fantasmas;
         
         for(Vivo fantasma : fantasmas){
             int fantasmaEsq = fantasma.getX();
@@ -148,7 +170,10 @@ public class PacMan extends Vivo{
             int fantasmaCima = fantasma.getY();
             int fantasmaBaixo = fantasmaCima + 16;
             if(coordEsq < fantasmaDir && coordDir > fantasmaEsq && coordCima < fantasmaBaixo && coordBaixo > fantasmaCima){
+                // transforma o elemento vivo em fantasma(pois eh um fantasma) para poder usar a funcao de move
+                // los para posicao inicial
                 Fantasma fColide = (Fantasma) fantasma;
+                // move os fantasmas para a posicao inicial
                 fColide.moverFanstasmasPosInicial();
                 return true;
             }
@@ -157,55 +182,59 @@ public class PacMan extends Vivo{
         return false;
     }
     
-
+    // funcao que e chamada 60 vezes por segundo para atualizar a posicao do pacman
     @Override
     public void atualiza(){
         
         desenhaVidas();
-        if(this.getUltimaTecla() >= 37 && this.getUltimaTecla() <= 40){
+        
+        // se a tecla for uma seta
+        if(this.ultimaTecla >= 37 && this.ultimaTecla <= 40){
+            // checa se acabou ou nao o jogo
+            app.game.vitoriaOuDerrota(app);
             
-            App app = this.getApp();
-            Game game = app.game;
-            //game.parseJSON();
-            game.vitoriaOuDerrota(app);
-            checaColisao();
+            // chama a principal funcao para lidar com o movimento do pacman
+            checaLidaComColisao();
             
         }   
     }
         
     
     public void mover(int y, int x){
-        //this.getApp().image(this.getImagem(), this.getX(), this.getY()); Forca diretamente
-        ArrayList<ArrayList<Elemento>> mapa = this.getApp().game.mapa;
-        //App app = this.getApp();
+        
+        ArrayList<ArrayList<Elemento>> mapa = this.app.game.mapa;
         
         //atualiza a posicao onde ele estava para vazia
         
+        // inicializa um elemento como sendo vazio
         Elemento elem = new Elemento('0', getX(), getY(), this.imagemVazia);
         
+        // no lugar onde o pacman estava, coloca o elemento vazio
         mapa.get(getY() / 16).set(getX() / 16, elem);
-        app.game.mapa = mapa;
         
+        // posicao do pacman conforme a tecla
         int indX = x / 16;
         int indY = y / 16;
-        //System.out.println(indY + " " + indX);
+        
+        // inicializa o pacman nessa posicao
         elem = new Elemento(this.getIdElemento(), x, y, this.getImagem());
         
-        
+        // atualiza o mapa com o pacman nessa posicao
         mapa.get(indY).set(indX, elem);
+        
+        //atualiza o mapa na classe jogo
         app.game.mapa = mapa;
         
-        app.game.desenhaMapa();
-        // atualiza a posicao(move)
-        this.setX(x);
-        this.setY(y);
+        // atualiza a posicao do pacman nessa classe
+        this.x = x;
+        this.y = y;
         
         
     }
     
-    @Override
+    
     // move o pacman para posicao inicial
-    public void mover(){
+    public void lidaColisaoFantasma(){
         
         Elemento elem = new Elemento('0', this.getX(), this.getY(), this.imagemVazia);
         ArrayList<ArrayList<Elemento>> mapa = app.game.mapa;
@@ -213,12 +242,12 @@ public class PacMan extends Vivo{
         mapa.get(this.getY() / 16).set(this.getX() / 16, elem);
         
         //System.out.println("posicao inicial: " + this.yInicial / 16 + " " + xInicial / 16);
-        elem = new Elemento(this.getIdElemento(), xInicial, yInicial, this.getImagem());
+        elem = new Elemento(this.idElemento, xInicial, yInicial, this.getImagem());
         mapa.get(this.yInicial / 16).set(this.xInicial / 16, elem);
         
         app.game.mapa = mapa;
-        this.setX(xInicial);
-        this.setY(yInicial);
+        this.x = xInicial;
+        this.y = yInicial;
         
         this.app.game.vidas -= 1;
     }
@@ -227,7 +256,7 @@ public class PacMan extends Vivo{
 
     
     public int[] fakeMoverUltimaTecla(){
-        int ultimaTecla = this.getUltimaTecla();
+        int ultimaTecla = this.ultimaTecla;
         
         //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
         int x = this.getX(), y = this.getY();

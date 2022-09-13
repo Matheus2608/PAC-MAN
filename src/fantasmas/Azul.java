@@ -18,7 +18,7 @@ public class Azul extends Fantasma{
     }
 
     @Override
-    public boolean checaColisao() {
+    public boolean checaLidaComColisao() {
         return false;
     }
 
@@ -27,7 +27,7 @@ public class Azul extends Fantasma{
         
     }
 
-    @Override
+    
     public void mover() {
         
     }

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import pacman.App;
-import pacman.Estatico;
 import pacman.Fantasma;
 import processing.core.PImage;
 
@@ -17,25 +16,9 @@ import processing.core.PImage;
  * @author matheus
  */
 public class Vermelho extends Fantasma{
-    private Estatico paredeSuperiorEsquerda;
     
     public Vermelho(char IdElemento, int x, int y, PImage imagem, App app){
-        super(IdElemento, x,y,imagem, app);
-        ArrayList<Estatico> paredes = app.game.paredes;
-        paredeSuperiorEsquerda = paredes.get(0);
-        for(Estatico parede: paredes){
-            if(parede.getY() < paredeSuperiorEsquerda.getY()){
-                paredeSuperiorEsquerda = parede;
-            }
-            
-            else if(parede.getY() == paredeSuperiorEsquerda.getY()){
-                if(parede.getX() < paredeSuperiorEsquerda.getX()){
-                    paredeSuperiorEsquerda = parede;
-                }
-            }
-
-        }
-        
+        super(IdElemento, x,y,imagem, app);   
     }
     
     public boolean estaPerseguindo() {
@@ -54,7 +37,6 @@ public class Vermelho extends Fantasma{
         }
         
         // retorna se esta perseguindo
-        System.out.println(this.app.game.perseguindo);
         return this.app.game.perseguindo;
     }
 
@@ -63,12 +45,10 @@ public class Vermelho extends Fantasma{
         
         // seu alvo é o pacman
         if(estaPerseguindo()){ 
-            System.out.println("perseguindo");
             this.calculaDirecao(this.app.game.pacMan.getX(), this.app.game.pacMan.getY());
         }
         // seu alvo é o canto superior esquerdo mais proximo
         else{
-            System.out.println("disperso");
             this.calculaDirecao(paredeSuperiorEsquerda.getX(), paredeSuperiorEsquerda.getY());
         }
         
@@ -78,7 +58,7 @@ public class Vermelho extends Fantasma{
     
     
     
-    @Override
+    
     public void mover(){
         if(this.ultimaTecla >= 37 && this.ultimaTecla <= 40){
             int[] posicao = fakeMover(ultimaTecla);
@@ -91,7 +71,6 @@ public class Vermelho extends Fantasma{
     }
     
     
-
 
     @Override
     public void estrategia() {

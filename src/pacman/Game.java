@@ -7,6 +7,10 @@ package pacman;
  *
  * @author matheus
  */
+import fantasmas.Laranja;
+import fantasmas.Vermelho;
+import fantasmas.Azul;
+import fantasmas.Rosa;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -18,7 +22,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import fantasmas.*;
 import org.json.simple.JSONArray;
 import processing.core.PImage;
 
@@ -57,37 +60,38 @@ public class Game {
         carregaMapElementos();
     }
     
-    
+    // preenche o hashmap com imagens necessarias dos seus respectivos elementos
     public void carregaMapElementos() {
-        this.mapElementos.put('0', "src/imagens/empty.png");
-        this.mapElementos.put('1', "src/imagens/paredes/horizontal.png");
-        this.mapElementos.put('2', "src/imagens/paredes/vertical.png");
-        this.mapElementos.put('3', "src/imagens/paredes/upLeft.png");
-        this.mapElementos.put('4', "src/imagens/paredes/upRight.png");
-        this.mapElementos.put('5', "src/imagens/paredes/downLeft.png");
-        this.mapElementos.put('6', "src/imagens/paredes/downRight.png");
-        this.mapElementos.put('7', "src/imagens/fruit.png");
-        this.mapElementos.put('8', "src/imagens/superFruit.png");
-        this.mapElementos.put('p', "src/imagens/pacman/playerClosed.png");
-        this.mapElementos.put('g', "src/imagens/fantasmas/ghost.png");
-        this.mapElementos.put('a', "src/imagens/fantasmas/ambusher.png");
-        this.mapElementos.put('c', "src/imagens/fantasmas/chaser.png");
-        this.mapElementos.put('i', "src/imagens/fantasmas/ignorant.png");
-        this.mapElementos.put('w', "src/imagens/fantasmas/whim.png");
-        this.mapElementos.put('s', "src/imagens/sodaCan.png");
+        this.mapElementos.put('0', "src/imagens/empty.png"); // imagem vazia
+        this.mapElementos.put('1', "src/imagens/paredes/horizontal.png"); // parede horizontal
+        this.mapElementos.put('2', "src/imagens/paredes/vertical.png"); // parede vertical
+        this.mapElementos.put('3', "src/imagens/paredes/upLeft.png"); // parede superiorEsquerda
+        this.mapElementos.put('4', "src/imagens/paredes/upRight.png"); // parede superiorDireita
+        this.mapElementos.put('5', "src/imagens/paredes/downLeft.png"); // parede inferiorEsquerda
+        this.mapElementos.put('6', "src/imagens/paredes/downRight.png"); // parede inferiorDireita
+        this.mapElementos.put('7', "src/imagens/fruit.png"); // pastilha
+        this.mapElementos.put('8', "src/imagens/superFruit.png"); // superPastilha
+        this.mapElementos.put('p', "src/imagens/pacman/playerClosed.png"); //pacMan fechado
+        this.mapElementos.put('g', "src/imagens/fantasmas/ghost.png"); // fantasma generico
+        this.mapElementos.put('a', "src/imagens/fantasmas/ambusher.png"); // fantasma rosa
+        this.mapElementos.put('c', "src/imagens/fantasmas/chaser.png"); // fantasma vermelho
+        this.mapElementos.put('i', "src/imagens/fantasmas/ignorant.png"); // fantasma laranja
+        this.mapElementos.put('w', "src/imagens/fantasmas/whim.png"); // fantasma azul
+        this.mapElementos.put('s', "src/imagens/sodaCan.png"); // refrigerante
     }
     
     
-    
+    // naveja pelo arquivo config.json onde ha as informacoes iniciais e importantes para o funcionamento do jogo
     public void parseJSON() {
-        // Create a JSONParser object
+        
+        // Cria um objeto JSONParser a fim de analisar o arquivo
         JSONParser jsonParser = new JSONParser();
         try {
-            // Parse the config file
+            // le a analisa o arquivo
             FileReader fReader = new FileReader("config.json");
             JSONObject jsonObject = (JSONObject) jsonParser.parse(fReader);
 
-            // Store the values into instance attributes
+            // armazena os valores em atributos da classe Jogo para nao precissar iterar mais uma vez
             this.nomeArquivo = jsonObject.get("mapa").toString();
             this.vidas = Integer.parseInt(jsonObject.get("vidas").toString());
             this.velocidade = Integer.parseInt(jsonObject.get("velocidade").toString());
@@ -99,7 +103,8 @@ public class Game {
                 int modo = Integer.parseInt(obj.toString());
                 this.tamanhoModos.add(modo);
             }
-
+            
+        // se tiver algum erro no processo    
         } catch (FileNotFoundException fnfe) {
             fnfe.printStackTrace();
             return;
@@ -113,13 +118,17 @@ public class Game {
     }
     
     public boolean vitoriaOuDerrota(App app) {
+        // checa se nao tem pastilhas = vitoria
         if (this.pastilhas.isEmpty()) {
             desenhaVitoria(app);
             return true;
+        // checa se nao possui vidas = derrota
         } else if (this.vidas == 0) {
             desenhaDerrota(app);
             return true;
         }
+        
+        // caso nao tenha ganhado nem perdido, o jogo nao acabou
         return false;
     }
 
@@ -135,79 +144,105 @@ public class Game {
     }
     
     public void carregaJogo(App app){
+        // inicializa a matriz do jogo vazia inicialmente
         ArrayList<ArrayList<Elemento>> matrizJogo = new ArrayList<ArrayList<Elemento>>();
 
         try {
-            // Read into the file
+            // le o arquivo do mapa
             File arquivo = new File("mapa.txt");
             Scanner scan = new Scanner(arquivo);
-
+            
+            // cada elemento vai ter 16 por 16 pixels, logo ha necessidade de guardar os valores das coordenadas
+            // dos pixels nos elementos
+            
+            // y são as linhas e x são as colunas
             int y = 0;
+            
+            // enquanto houver linhas a serem lidas no arquivo
             while (scan.hasNextLine()) {
                 String linha = scan.nextLine();
-                // Create an array for the current row
+                
+                // Inicializa um array para cada linha
                 ArrayList<Elemento> linhaAtual = new ArrayList<Elemento>();
               
                 int x = 0;
-                // Iterate through the line
+                // Para cada elemento(id nesse caso) contido na linha
                 for (char idElemento : linha.toCharArray()) {
 
                     int id = Character.getNumericValue(idElemento);
+                    
                     // acha o caminho da imagem no hashmap
                     String caminhoImagem = mapElementos.get(idElemento);
                     // carrega a imagem
                     PImage imagem = app.loadImage(caminhoImagem);
+                    
+                    //cria o elemento
                     Elemento elem = new Elemento(idElemento, x, y, imagem);
                     
+                    // inicializa um elemento estatico para posterior utilizacao se for um elemento estatico
                     Estatico estatico = estatico = new Estatico(idElemento, x, y, imagem);
                     
-                    if(id  >= 1 && id <= 6){ // é uma parede
-                        estatico.setParede(true);
+                    // checa se e uma parede
+                    if(id  >= 1 && id <= 6){ 
+                        estatico.parede = true;
+                        // adiciona no array de paredes
                         paredes.add(estatico);
                     }
-
+                    
+                    // checa se e uma pastilha
                     else if(id == 7){
-                        estatico.setPastilha(true);
+                        estatico.pastilha = true;
                         pastilhas.add(estatico);
                     }
-
+                    
+                    // checa se e uma super pastilha
                     else if(id == 8){
-                        estatico.setSuperPastilha(true);
+                        estatico.superPastilha = true;
                         superPastilhas.add(estatico);
                     }
-
+                    
+                    // checa se e o pacman
                     else if(idElemento == 'p') {
                         this.pacMan =  new PacMan(idElemento, x, y, imagem, app);
                     }
-
+                    
+                    // checa se e o fantasma rosa
                     else if(idElemento == 'a'){
                         Rosa rosa = new Rosa(idElemento,x,y,imagem, app);
                         fantasmas.add(rosa);
                     }
-
+                    
+                    // checa se e o fantasma vermelho
                     else if(idElemento == 'c'){
                         Vermelho vermelho = new Vermelho(idElemento, x,y,imagem,app);
                         fantasmas.add(vermelho);
                     }
-
+                    
+                    // checa se e o fantasma laranja
                     else if(idElemento == 'i'){
                         Laranja laranja = new Laranja(idElemento, x,y,imagem, app);
                         fantasmas.add(laranja);
                     }
-
+                    
+                    // checa se e o fantasma azul
                     else if(idElemento == 'w'){
                         Azul azul = new Azul(idElemento, x,y,imagem, app);
                         fantasmas.add(azul);
                     }
                     
+                    // adiciona o elemento na linha
                     linhaAtual.add(elem);
+                    // muda de coluna
                     x += 16;
                 }
                 
+                // adiciona a linha na matriz do jogo
                 matrizJogo.add(linhaAtual);
+                // muda de linha
                 y += 16;
             }
             
+            // referencia a matriz como sendo o mapa do jogo
             this.mapa = matrizJogo;           
         }
         
@@ -216,12 +251,16 @@ public class Game {
         }
         
         
+        System.out.println("numero de paredes no game: " + this.paredes.size());
+        
+        
     }
     
     public void desenhaMapa(){
+        // para cada elemento contido no mapa imprime na tela somente os que não são fantasmas
+        // pois esses vao se auto imprimir quando forem atualizados
         for(ArrayList<Elemento> linha : this.mapa){
             for(Elemento elem : linha){
-                
                 if (!("aciwg".contains(Character.toString(elem.getIdElemento())))) {
                     app.image(elem.getImagem(), elem.getX(), elem.getY());
                 }

@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import pacman.App;
-import pacman.Estatico;
 import pacman.Fantasma;
 import pacman.PacMan;
 import processing.core.PImage;
@@ -18,32 +17,9 @@ import processing.core.PImage;
  *
  * @author matheus
  */
-public class Laranja extends Fantasma{
-    
-    private Estatico paredeInferiorEsquerda;
-    
+public class Laranja extends Fantasma{ 
     public Laranja(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem, app);
-   
-        ArrayList<Estatico> paredes = app.game.paredes;
-        paredeInferiorEsquerda = paredes.get(0);
-        for(Estatico parede: paredes){
-            //System.out.println("parede y: " + parede.getY());
-            if(parede.getY() > paredeInferiorEsquerda.getY()){
-                paredeInferiorEsquerda = parede;
-            }
-            
-            else if(parede.getY() == paredeInferiorEsquerda.getY()){
-                if(parede.getX() < paredeInferiorEsquerda.getX()){
-                    paredeInferiorEsquerda = parede;
-                }
-            }
-
-        }
-
-        //paredeInferiorEsquerda.setY(528);
-        //paredeInferiorEsquerda.setX(0);
-        
     }
     
     public int distanciaRetilineaAtePacMan(){
@@ -83,7 +59,7 @@ public class Laranja extends Fantasma{
         mover();
     }
 
-    @Override
+    
     public void mover(){
         if(this.ultimaTecla >= 37 && this.ultimaTecla <= 40){
             int[] posicao = fakeMover(ultimaTecla);

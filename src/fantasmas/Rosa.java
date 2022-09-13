@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import pacman.App;
-import pacman.Estatico;
 import pacman.Fantasma;
 import pacman.PacMan;
 import processing.core.PImage;
@@ -18,46 +17,30 @@ import processing.core.PImage;
  * @author matheus
  */
 public class Rosa extends Fantasma{
-    private Estatico paredeSuperiorDireita;
     public Rosa(char IdElemento, int x, int y, PImage imagem, App app){
         super(IdElemento, x,y,imagem, app);
-        ArrayList<Estatico> paredes = app.game.paredes;
-        
-        paredeSuperiorDireita = paredes.get(0);
-        for(Estatico parede: paredes){
-            if(parede.getY() < paredeSuperiorDireita.getY()){
-                paredeSuperiorDireita = parede;
-            }
-            
-            else if(parede.getY() == paredeSuperiorDireita.getY()){
-                if(parede.getX() > paredeSuperiorDireita.getX()){
-                    paredeSuperiorDireita = parede;
-                }
-            }
-
-        }
     }
     
     public int[] posicaoAlvoPacMan(){
         PacMan pacMan = this.app.game.pacMan;
-        int direcaoPacMan = pacMan.getUltimaTecla();
-        int x = 0, y = 0;
+        int direcaoPacMan = pacMan.ultimaTecla;
+        int X = 0, Y = 0;
         
-        if(direcaoPacMan == 37) x = pacMan.getX() + (4 * app.game.velocidade);
+        if(direcaoPacMan == 37) X = pacMan.getX() + (4 * app.game.velocidade);
         
-        else if(direcaoPacMan == 38) y = pacMan.getY() - (4 * app.game.velocidade);
+        else if(direcaoPacMan == 38) Y = pacMan.getY() + (4 * app.game.velocidade);
         
-        else if(direcaoPacMan == 39) x = pacMan.getX() - (4 * app.game.velocidade);
+        else if(direcaoPacMan == 39) X = pacMan.getX() - (4 * app.game.velocidade);
         
-        else if(direcaoPacMan == 40) y = pacMan.getY() - (4 * app.game.velocidade);
+        else if(direcaoPacMan == 40) Y = pacMan.getY() - (4 * app.game.velocidade);
         
-        if(x < 0) x = 0;
-        else if(x > 448) x = 448;
+        if(X < 0) X = 0;
+        else if(X > 448) X = 448;
         
-        if(y < 0) y = 0;
-        else if(y > 576) y = 576;
+        if(Y < 0) Y = 0;
+        else if(Y > 576) Y = 576;
         
-        int[] resposta = {x,y};
+        int[] resposta = {X,Y};
         return resposta;   
     }
     
@@ -80,7 +63,7 @@ public class Rosa extends Fantasma{
         
     }
 
-    @Override
+    
     public void mover(){
         if(this.ultimaTecla >= 37 && this.ultimaTecla <= 40){
             int[] posicao = fakeMover(ultimaTecla);
