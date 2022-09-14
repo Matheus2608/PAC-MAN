@@ -38,12 +38,14 @@ public class Game {
     public PacMan pacMan;
     public ArrayList<Vivo> fantasmas;
     public ArrayList<Estatico> paredes;
+    public Estatico paredeSuperiorDireita, paredeSuperiorEsquerda, paredeInferiorEsquerda, paredeInferiorDireita;
     public ArrayList<Estatico> frutas;
     public ArrayList<Estatico> pastilhas;
     public ArrayList<Estatico> superPastilhas;
     public boolean resetarGame;
     public boolean perseguindo;
     public boolean fantasmasAssustados;
+    
 
     public Game(App app) {
         this.app = app;
@@ -252,7 +254,10 @@ public class Game {
             fnfe.printStackTrace();
         }
         
-        
+        inicializaParedeSuperiorEsquerda();
+        inicializaParedeSuperiorDireita();
+        inicializaParedeInferiorDireita();
+        inicializaParedeInferiorEsquerda();
         System.out.println("numero de paredes no game: " + this.paredes.size());
         
         
@@ -268,6 +273,75 @@ public class Game {
                 }
             }
         }
+    }
+    
+    
+    public void inicializaParedeSuperiorEsquerda(){
+        this.paredeSuperiorEsquerda = this.paredes.get(0);
+        for(Estatico parede: this.paredes){
+            if(parede.y < this.paredeSuperiorEsquerda.y){
+                this.paredeSuperiorEsquerda = parede;
+            }
+            
+            else if(parede.y == this.paredeSuperiorEsquerda.y){
+                if(parede.x < this.paredeSuperiorEsquerda.x){
+                    this.paredeSuperiorEsquerda = parede;
+                }
+            }
+
+        }
+        
+    }
+    
+    public void inicializaParedeSuperiorDireita(){
+        this.paredeSuperiorDireita = this.paredes.get(0);
+        for(Estatico parede: this.paredes){
+            if(parede.y < this.paredeSuperiorDireita.getY()){
+                this.paredeSuperiorDireita = parede;
+            }
+            
+            else if(parede.y == this.paredeSuperiorDireita.y){
+                if(parede.x > this.paredeSuperiorDireita.x){
+                    this.paredeSuperiorDireita = parede;
+                }
+            }
+
+        }
+        
+    }
+    
+    public void inicializaParedeInferiorDireita(){
+        this.paredeInferiorDireita = this.paredes.get(0);
+        for(Estatico parede: this.paredes){
+            if(parede.y > this.paredeInferiorDireita.y){
+                this.paredeInferiorDireita = parede;
+            }
+            
+            else if(parede.y == this.paredeInferiorDireita.y){
+                if(parede.x > this.paredeInferiorDireita.x){
+                    this.paredeInferiorDireita = parede;
+                }
+            }
+
+        }
+        
+    }
+    
+    public void inicializaParedeInferiorEsquerda(){
+        this.paredeInferiorEsquerda = this.paredes.get(0);
+        for(Estatico parede: this.paredes){
+            if(parede.y > this.paredeInferiorEsquerda.y){
+                this.paredeInferiorEsquerda = parede;
+            }
+            
+            else if(parede.y == this.paredeInferiorEsquerda.y){
+                if(parede.x < this.paredeInferiorEsquerda.x){
+                    this.paredeInferiorEsquerda = parede;
+                }
+            }
+
+        }
+        
     }
 }
         

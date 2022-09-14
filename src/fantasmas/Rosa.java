@@ -57,7 +57,7 @@ public class Rosa extends Fantasma{
         // seu alvo é o canto superior esquerdo mais proximo
         else{
             //System.out.println("disperso");
-            this.calculaDirecao(paredeSuperiorDireita.getX(), paredeSuperiorDireita.getY());
+            this.calculaDirecao(app.game.paredeSuperiorDireita.getX(), app.game.paredeSuperiorDireita.getY());
         }
         
         mover();

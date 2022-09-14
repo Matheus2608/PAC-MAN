@@ -49,11 +49,10 @@ public class Vermelho extends Fantasma{
         }
         // seu alvo é o canto superior esquerdo mais proximo
         else{
-            this.calculaDirecao(paredeSuperiorEsquerda.getX(), paredeSuperiorEsquerda.getY());
+            this.calculaDirecao(app.game.paredeSuperiorEsquerda.getX(), app.game.paredeSuperiorEsquerda.getY());
         }
         
         if(!app.game.fantasmasAssustados) mover(); 
-
     }
 
     

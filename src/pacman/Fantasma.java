@@ -13,7 +13,7 @@ import processing.core.PImage;
 public abstract class Fantasma extends Vivo{
     protected int indModoAtual;
     protected int diffAcumuladaModos;
-    protected Estatico paredeSuperiorDireita, paredeSuperiorEsquerda, paredeInferiorEsquerda, paredeInferiorDireita;
+    
     protected PImage fantasmaAssustado;
     
     public Fantasma(char idElemento, int x, int y, PImage imagem, App app){
@@ -23,83 +23,8 @@ public abstract class Fantasma extends Vivo{
         this.fantasmaAssustado = this.app.loadImage("src/imagens/fantasmas/frightened.png");
         
         System.out.println("numero de paredes na classe fantasma: " + this.paredes.size());
-        inicializaParedeSuperiorEsquerda();
-        inicializaParedeSuperiorDireita();
-        inicializaParedeInferiorDireita();
-        inicializaParedeInferiorEsquerda();
-    }
-    
-    
-    public void inicializaParedeSuperiorEsquerda(){
-        this.paredeSuperiorEsquerda = this.paredes.get(0);
-        for(Estatico parede: this.paredes){
-            if(parede.y < this.paredeSuperiorEsquerda.y){
-                this.paredeSuperiorEsquerda = parede;
-            }
-            
-            else if(parede.y == this.paredeSuperiorEsquerda.y){
-                if(parede.x < this.paredeSuperiorEsquerda.x){
-                    this.paredeSuperiorEsquerda = parede;
-                }
-            }
-
-        }
         
     }
-    
-    public void inicializaParedeSuperiorDireita(){
-        this.paredeSuperiorDireita = this.paredes.get(0);
-        for(Estatico parede: this.paredes){
-            if(parede.y < this.paredeSuperiorDireita.getY()){
-                this.paredeSuperiorDireita = parede;
-            }
-            
-            else if(parede.y == this.paredeSuperiorDireita.y){
-                if(parede.x > this.paredeSuperiorDireita.x){
-                    this.paredeSuperiorDireita = parede;
-                }
-            }
-
-        }
-        
-    }
-    
-    public void inicializaParedeInferiorDireita(){
-        this.paredeInferiorDireita = this.paredes.get(0);
-        for(Estatico parede: this.paredes){
-            if(parede.y > this.paredeInferiorDireita.y){
-                this.paredeInferiorDireita = parede;
-            }
-            
-            else if(parede.y == this.paredeInferiorDireita.y){
-                if(parede.x < this.paredeInferiorDireita.x){
-                    this.paredeInferiorDireita = parede;
-                }
-            }
-
-        }
-        
-    }
-    
-    public void inicializaParedeInferiorEsquerda(){
-        this.paredeInferiorEsquerda = this.paredes.get(0);
-        for(Estatico parede: this.paredes){
-            if(parede.y > this.paredeInferiorEsquerda.y){
-                this.paredeInferiorEsquerda = parede;
-            }
-            
-            else if(parede.y == this.paredeInferiorEsquerda.y){
-                if(parede.x > this.paredeInferiorEsquerda.x){
-                    this.paredeInferiorEsquerda = parede;
-                }
-            }
-
-        }
-        
-    }
-    
-    
-    
     
     public boolean movimentoValido(int tecla){
         if(checaColisao(tecla)) return false;

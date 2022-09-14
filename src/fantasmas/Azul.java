@@ -67,7 +67,7 @@ public class Azul extends Fantasma{
             this.calculaDirecao(res[0], res[1]);
         }
         else{
-            this.calculaDirecao(paredeInferiorDireita.getX(), paredeInferiorDireita.getY());
+            this.calculaDirecao(app.game.paredeInferiorDireita.getX(), app.game.paredeInferiorDireita.getY());
         }
         
         mover(); 

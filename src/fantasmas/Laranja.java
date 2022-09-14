@@ -38,7 +38,7 @@ public class Laranja extends Fantasma{
                 return resposta;
             }
             else{
-                int[] resposta = {paredeInferiorEsquerda.getX(), paredeInferiorEsquerda.getY()};
+                int[] resposta = {app.game.paredeInferiorEsquerda.getX(), app.game.paredeInferiorEsquerda.getY()};
                 return resposta;
             }
             
@@ -46,7 +46,7 @@ public class Laranja extends Fantasma{
         }
         
         else{
-            int[] resposta = {paredeInferiorEsquerda.getX(), paredeInferiorEsquerda.getY()};
+            int[] resposta = {app.game.paredeInferiorEsquerda.getX(), app.game.paredeInferiorEsquerda.getY()};
             return resposta;
         } 
     }
