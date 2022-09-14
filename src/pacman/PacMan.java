@@ -67,6 +67,10 @@ public class PacMan extends Vivo{
             // remove a pastilha se for colidir com ela para funcionar a funcao VitoriaOuDerrota
             checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo);
             
+            if(checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo)){
+                app.game.fantasmasAssustados = true;
+            }
+            
             // e move o pacman de acordo com as coordenadas da ultima tecla
             mover(y,x);
         }
@@ -173,6 +177,9 @@ public class PacMan extends Vivo{
                 // transforma o elemento vivo em fantasma(pois eh um fantasma) para poder usar a funcao de move
                 // los para posicao inicial
                 Fantasma fColide = (Fantasma) fantasma;
+                if(app.game.fantasmasAssustados){
+                    
+                }
                 // move os fantasmas para a posicao inicial
                 fColide.moverFanstasmasPosInicial();
                 return true;

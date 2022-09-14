@@ -42,7 +42,8 @@ public class Game {
     public ArrayList<Estatico> pastilhas;
     public ArrayList<Estatico> superPastilhas;
     public boolean resetarGame;
-    public boolean perseguindo; 
+    public boolean perseguindo;
+    public boolean fantasmasAssustados;
 
     public Game(App app) {
         this.app = app;
@@ -57,6 +58,7 @@ public class Game {
         this.pacMan = null;
         this.resetarGame = false;
         this.perseguindo = false;
+        this.fantasmasAssustados = false;
         carregaMapElementos();
     }
     

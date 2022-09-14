@@ -14,11 +14,13 @@ public abstract class Fantasma extends Vivo{
     protected int indModoAtual;
     protected int diffAcumuladaModos;
     protected Estatico paredeSuperiorDireita, paredeSuperiorEsquerda, paredeInferiorEsquerda, paredeInferiorDireita;
-        
+    protected PImage fantasmaAssustado;
+    
     public Fantasma(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem, app);
         this.indModoAtual = 0;
         this.diffAcumuladaModos = 0;
+        this.fantasmaAssustado = this.app.loadImage("src/imagens/fantasmas/frightened.png");
         
         System.out.println("numero de paredes na classe fantasma: " + this.paredes.size());
         inicializaParedeSuperiorEsquerda();

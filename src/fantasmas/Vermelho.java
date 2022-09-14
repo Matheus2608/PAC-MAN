@@ -52,7 +52,7 @@ public class Vermelho extends Fantasma{
             this.calculaDirecao(paredeSuperiorEsquerda.getX(), paredeSuperiorEsquerda.getY());
         }
         
-        mover(); 
+        if(!app.game.fantasmasAssustados) mover(); 
 
     }
 
