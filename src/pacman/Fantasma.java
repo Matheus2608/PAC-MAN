@@ -12,20 +12,18 @@ import processing.core.PImage;
  */
 public abstract class Fantasma extends Vivo{
     protected int indModoAtual;
-    protected int diffAcumuladaModos;
-    
+    protected int diffAcumuladaModos; 
     protected PImage fantasmaAssustado;
     
+    // construtor
     public Fantasma(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem, app);
         this.indModoAtual = 0;
         this.diffAcumuladaModos = 0;
-        this.fantasmaAssustado = this.app.loadImage("src/imagens/fantasmas/frightened.png");
-        
-        System.out.println("numero de paredes na classe fantasma: " + this.paredes.size());
-        
+        this.fantasmaAssustado = this.app.loadImage("src/imagens/fantasmas/frightened.png");       
     }
     
+    // função para ver se o proximo movimento nao tera colisao com parede
     public boolean movimentoValido(int tecla){
         if(checaColisao(tecla)) return false;
             
@@ -37,12 +35,12 @@ public abstract class Fantasma extends Vivo{
         return true;
     }
     
+    // função necessaria para a logica do comportamento dos fantasmas
     public long calculaQuadradoDistanciaEuclidiana(int x1, int y1, int x2, int y2){
         return ((x1 - x2) * (x1 - x2)) + ((y1- y2) * (y1 - y2));
-    }
+    }   
     
-    
-    
+    // 
     public void moverFanstasmasPosInicial(){
         for(Vivo fantasma: this.fantasmas){
             fantasma.x = fantasma.xInicial;

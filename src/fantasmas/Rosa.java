@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import pacman.App;
+import pacman.Atualizavel;
 import pacman.Fantasma;
 import pacman.PacMan;
 import processing.core.PImage;
@@ -17,7 +18,7 @@ import processing.core.PImage;
  *
  * @author matheus
  */
-public class Rosa extends Fantasma{
+public class Rosa extends Fantasma implements Atualizavel{
     public Rosa(char IdElemento, int x, int y, PImage imagem, App app){
         super(IdElemento, x,y,imagem, app);
     }

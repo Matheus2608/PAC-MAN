@@ -12,7 +12,8 @@ import processing.core.PImage;
  */
 public class Estatico extends Elemento{
     public boolean fruta, parede, pastilha, superPastilha;
-
+    
+    // Elementos que nao se mexem, fazem parte do mapa.
     Estatico(char idElemento, int x, int y, PImage imagem) {
         super(idElemento, x, y, imagem);
     }

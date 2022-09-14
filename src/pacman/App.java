@@ -57,7 +57,7 @@ public class App extends PApplet {
     função que é chamada 60 vezes por segundo da classe PApplet
     */
     @Override
-    public void draw() {
+    public void draw() throws NullPointerException  { // Exceção que sera lançada caso não reconheça a imagem no PC
         // deixa a tela totalmente preta
         background(0, 0, 0);
         
@@ -79,8 +79,15 @@ public class App extends PApplet {
         }
        
        // desenha os elementos estaticos na interface
-        this.game.desenhaMapa();
-        
+       try{
+          this.game.desenhaMapa();
+        }
+        catch(NullPointerException e) //Caso ocorra erro no deseno do mapa, por falta de arquivos no PC ou algo do genero
+        {
+          System.out.println("Ocorreu um NullPointerException ao executar o metodo carregaMapElementos()");
+          System.out.println("Tente ver se os arquivos necessarios estao no PC");
+        }
+       
         //Atualiza e desenha os elementos vivos
         atualizaElementosVivos();
         this.tempo += 1;

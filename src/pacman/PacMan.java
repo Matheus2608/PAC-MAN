@@ -11,7 +11,7 @@ import processing.core.PImage;
  *
  * @author matheus
  */
-public class PacMan extends Vivo{
+public class PacMan extends Vivo implements Atualizavel{
     // imagens dos estados do pacman e do simbolo de vida e vazio
     private PImage imCima, imBaixo, imEsq, imDir, imagemVazia, imVida, imBocaFechada;
 
@@ -25,7 +25,6 @@ public class PacMan extends Vivo{
         this.imagemVazia = this.app.loadImage("src/imagens/empty.png");
         this.imVida = this.app.loadImage("src/imagens/pacman/playerRight.png");
         this.imBocaFechada = this.app.loadImage("src/imagens/pacman/playerClosed.png");
-        System.out.println("numero de paredes na classe pacman: " + this.paredes.size());
     }
     
     

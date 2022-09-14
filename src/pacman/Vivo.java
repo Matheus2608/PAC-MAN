@@ -29,18 +29,12 @@ public abstract class Vivo extends Elemento {
         this.pastilhas = app.game.pastilhas;
         this.superPastilhas = app.game.superPastilhas;
         this.fantasmas = app.game.fantasmas;
-        System.out.println("numero de paredes no vivo: " + paredes.size());
     }
     
-    public abstract boolean checaLidaComColisao();
-
-    public abstract void atualiza();
-        
-    //public abstract void lidaColisaoFantasma();
+    public abstract void atualiza(); // atualiza a posição
     
-    //public abstract void mover();
-    
-    //public abstract int[] fakeMover();
+    // Funções de colisão com os elementos estaticos do game
+    public abstract boolean checaLidaComColisao();   
     
     public abstract boolean checaColisaoComPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo);
     

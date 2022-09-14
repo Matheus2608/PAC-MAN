@@ -18,7 +18,7 @@ public class Elemento {
     protected PImage imagem;
 
     
-   
+   // Construtores, sets e gets de posição e imagem dos elementos
     public Elemento(char idElemento, int x, int y, PImage imagem) {
         this.x = x;
         this.y = y;

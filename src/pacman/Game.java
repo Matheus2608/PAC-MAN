@@ -65,7 +65,7 @@ public class Game {
     }
     
     // preenche o hashmap com imagens necessarias dos seus respectivos elementos
-    public void carregaMapElementos() {
+    public void carregaMapElementos(){
         this.mapElementos.put('0', "src/imagens/empty.png"); // imagem vazia
         this.mapElementos.put('1', "src/imagens/paredes/horizontal.png"); // parede horizontal
         this.mapElementos.put('2', "src/imagens/paredes/vertical.png"); // parede vertical
@@ -85,7 +85,7 @@ public class Game {
     }
     
     
-    // naveja pelo arquivo config.json onde ha as informacoes iniciais e importantes para o funcionamento do jogo
+    // navega pelo arquivo config.json onde ha as informacoes iniciais e importantes para o funcionamento do jogo
     public void parseJSON() {
         
         // Cria um objeto JSONParser a fim de analisar o arquivo
@@ -154,6 +154,8 @@ public class Game {
         try {
             // le o arquivo do mapa
             File arquivo = new File("mapa.txt");
+            boolean existe = arquivo.exists();
+            if (!existe) {System.out.println("Ausencia do aquivo mapa.txt no PC");} // caso o arquivo nao exista
             Scanner scan = new Scanner(arquivo);
             
             // cada elemento vai ter 16 por 16 pixels, logo ha necessidade de guardar os valores das coordenadas
@@ -253,17 +255,14 @@ public class Game {
         catch (FileNotFoundException fnfe) {
             fnfe.printStackTrace();
         }
-        
+        // chama as funções que inicializam as paredes dos cantos (util para o funcionamento dos fantasmas)
         inicializaParedeSuperiorEsquerda();
         inicializaParedeSuperiorDireita();
         inicializaParedeInferiorDireita();
-        inicializaParedeInferiorEsquerda();
-        System.out.println("numero de paredes no game: " + this.paredes.size());
-        
-        
+        inicializaParedeInferiorEsquerda();             
     }
     
-    public void desenhaMapa(){
+    public void desenhaMapa() throws NullPointerException  { // Exceção que sera lançada caso não reconheça a imagem no PC
         // para cada elemento contido no mapa imprime na tela somente os que não são fantasmas
         // pois esses vao se auto imprimir quando forem atualizados
         for(ArrayList<Elemento> linha : this.mapa){
@@ -276,6 +275,7 @@ public class Game {
     }
     
     
+    // funções que inicializam as paredes dos cantos
     public void inicializaParedeSuperiorEsquerda(){
         this.paredeSuperiorEsquerda = this.paredes.get(0);
         for(Estatico parede: this.paredes){
