@@ -11,10 +11,12 @@ import processing.core.PImage;
  */
 public abstract class Vivo extends Elemento {
     protected App app;
+
     public int xInicial;
     public int yInicial, ultimaTecla, teclaAtual;
     public ArrayList<Estatico> paredes, pastilhas, superPastilhas;
     public ArrayList<Vivo> fantasmas;
+
     
     public Vivo(char idElemento, int x, int y, PImage imagem, App app){
         super(idElemento, x,y,imagem);

@@ -7,6 +7,7 @@ package fantasmas;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+
 import pacman.App;
 import pacman.Fantasma;
 import pacman.PacMan;

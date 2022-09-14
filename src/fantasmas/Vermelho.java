@@ -53,6 +53,7 @@ public class Vermelho extends Fantasma{
         }
         
         mover(); 
+
     }
 
     

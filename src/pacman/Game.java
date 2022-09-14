@@ -7,10 +7,10 @@ package pacman;
  *
  * @author matheus
  */
-import fantasmas.Laranja;
-import fantasmas.Vermelho;
 import fantasmas.Azul;
+import fantasmas.Laranja;
 import fantasmas.Rosa;
+import fantasmas.Vermelho;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
