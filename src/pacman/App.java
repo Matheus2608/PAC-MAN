@@ -13,19 +13,18 @@ import processing.core.PFont;
 
 public class App extends PApplet {
     
-    // tamanho da tela
-    public static final int WIDTH = 448;
-    public static final int HEIGHT = 576;
+    public static final int LARGURA = 448;
+    public static final int ALTURA = 576;
     public int tempo; // usado para verificar o tempo entre os estados dos fanstasmas
-    public boolean debug;
+    public boolean debug; // se der tempo, fazer um debug em tempo real
     public Game game;
     public PFont font;
 
     
     /**
      * quando o jogo inciar automaticamente as funcoes setup e settings vao ser chamadas e as funcoes
-     * parseJSON deve ler as caracteristicas atuais do jogo e a loadGame deve renderizar o jogo na tela
-     * frameRate faz com que o jogo seja 60 fps
+     * parseJSON deve ler as caracteristicas atuais do jogo e a carregaJogo deve renderizar o jogo na tela
+     * 
      */
     
    public App() {
@@ -37,9 +36,11 @@ public class App extends PApplet {
     
     @Override
     public void setup() {
-        frameRate(60);
-        this.game.parseJSON();
-        this.game.carregaJogo(this);
+        frameRate(60); // faz com que o jogo seja 60 fps
+        this.game.parseJSON(); // le as configuracoes inicias do jogo
+        this.game.carregaJogo(this); // carrega o jogo
+        
+        // especifica a fonte do texto
         this.font = this.createFont("src/imagens/PressStart2P-Regular.ttf", 16f);
         textFont(this.font);
     }
@@ -47,73 +48,82 @@ public class App extends PApplet {
    
     @Override
     public void settings() {
-        size(WIDTH, HEIGHT);
+        // especifica o tamanho da tela
+        size(LARGURA, ALTURA);
     }
     
 
-
+    /*
+    função que é chamada 60 vezes por segundo da classe PApplet
+    */
     @Override
     public void draw() {
         // deixa a tela totalmente preta
         background(0, 0, 0);
         
-        
-        if (this.game.isResetarGame()) {
-            resetGame();
+        // checa se é para resetar o game
+        if (this.game.resetarGame) {
+            // reseta o jogo
+            resetJogo();
         }
         
-        //Atualiza os elementos
-        atualizaElementos();
         
-        // checar se eh pra resetar o game
         
+        
+       // checa se o jogador ganhou ou perdeu
        if (this.game.vitoriaOuDerrota(this)) {
-            this.game.setResetarGame(true);
+           
+           // entao eh necessario resetar o jogo para o usuario jogar novamente
+            this.game.resetarGame = true;
             return;
         }
-        
-        // Draws the game grid and the entities
+       
+       // desenha os elementos estaticos na interface
         this.game.desenhaMapa();
-
-        // Draws the ghost and waka entities to the screen
-        // drawEntities();
+        
+        //Atualiza e desenha os elementos vivos
+        atualizaElementosVivos();
+        this.tempo += 1;
     }
     
-    public void atualizaElementos() {
-        for(Vivo fantasma : game.getFantasmas()){
+    
+    
+    public void atualizaElementosVivos() {
+        for(Vivo fantasma : game.fantasmas){
             fantasma.atualiza();
         }
         
-        game.getPacMan().atualiza();
+        game.pacMan.atualiza();
     }
     
-        public void resetGame() {
-            // tela preta por 5 segundos
-            this.delay(5000);
-            
-            // colocando os atributos para seus valores iniciais
-            this.tempo = 0;
-            this.debug = false;
-            
-            this.game = new Game(this);
-            setup();
-        }
-//    
+    public void resetJogo() {
+        
+        // tela preta por 5 segundos
+        this.delay(5000);
+
+        // colocando os atributos para seus valores iniciais
+        this.tempo = 0;
+        this.debug = false;
+
+        this.game = new Game(this);
+        
+        // começando o jogo novamente
+        setup();
+    }
+    
+    // funcao de evento na qual eh chamada quando o usuario clica em alguma tecla
     @Override
     public void keyPressed(){
-        // 37 é esquerda, 38 pra cima, 39 direita, 40 pra baixo
-        if(keyCode == 37) System.out.println("esquerda");
-        else if(keyCode == 38) System.out.println("cima");
-        else if(keyCode == 39) System.out.println("direita");
-        else if(keyCode == 40) System.out.println("baixo");
-        if (keyCode >= 37 && keyCode <= 40) { // é uma das setas
-            this.game.getPacMan().setUltimaTecla(keyCode);
+        // checa se é uma seta
+        if (keyCode >= 37 && keyCode <= 40) {
+            // atualiza o pacman sobre a ultima tecla pressionada
+            this.game.pacMan.ultimaTecla = keyCode;
         }
     }
     
     public static void main(String[] args) {
+        // inicializa o progarama
         PApplet.main("pacman.App");
     }
     
 }
-
