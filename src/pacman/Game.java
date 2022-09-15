@@ -39,7 +39,6 @@ public class Game {
     public ArrayList<Vivo> fantasmas;
     public ArrayList<Estatico> paredes;
     public Estatico paredeSuperiorDireita, paredeSuperiorEsquerda, paredeInferiorEsquerda, paredeInferiorDireita;
-    public ArrayList<Estatico> frutas;
     public ArrayList<Estatico> pastilhas;
     public ArrayList<Estatico> superPastilhas;
     public boolean resetarGame;
@@ -52,7 +51,6 @@ public class Game {
         this.mapElementos = new HashMap<Character, String>();
         this.mapa = new ArrayList<ArrayList<Elemento>>();
         this.paredes = new ArrayList<Estatico>();
-        this.frutas = new ArrayList<Estatico>();
         this.pastilhas = new ArrayList<Estatico>();
         this.superPastilhas = new ArrayList<Estatico>();
         this.fantasmas = new ArrayList<Vivo>();
@@ -81,12 +79,11 @@ public class Game {
         this.mapElementos.put('c', "src/imagens/fantasmas/chaser.png"); // fantasma vermelho
         this.mapElementos.put('i', "src/imagens/fantasmas/ignorant.png"); // fantasma laranja
         this.mapElementos.put('w', "src/imagens/fantasmas/whim.png"); // fantasma azul
-        this.mapElementos.put('s', "src/imagens/sodaCan.png"); // refrigerante
     }
     
     
     // navega pelo arquivo config.json onde ha as informacoes iniciais e importantes para o funcionamento do jogo
-    public void parseJSON() {
+    public void leJSON() {
         
         // Cria um objeto JSONParser a fim de analisar o arquivo
         JSONParser jsonParser = new JSONParser();
@@ -99,8 +96,7 @@ public class Game {
             this.nomeArquivo = jsonObject.get("mapa").toString();
             this.vidas = Integer.parseInt(jsonObject.get("vidas").toString());
             this.velocidade = Integer.parseInt(jsonObject.get("velocidade").toString());
-            String tempoAssustado = jsonObject.get("tempoAssustado").toString();
-            this.tempoAssustado = Integer.parseInt(tempoAssustado);
+            this.tempoAssustado = Integer.parseInt(jsonObject.get("tempoAssustado").toString());
             
             JSONArray vetorJson = (JSONArray) jsonObject.get("tamanhoModos");
             for (Object obj : vetorJson) {

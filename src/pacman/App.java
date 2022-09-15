@@ -37,7 +37,7 @@ public class App extends PApplet {
     @Override
     public void setup() {
         frameRate(60); // faz com que o jogo seja 60 fps
-        this.game.parseJSON(); // le as configuracoes inicias do jogo
+        this.game.leJSON(); // le as configuracoes inicias do jogo
         this.game.carregaJogo(this); // carrega o jogo
         
         // especifica a fonte do texto

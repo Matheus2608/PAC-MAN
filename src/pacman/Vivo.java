@@ -11,11 +11,11 @@ import processing.core.PImage;
  */
 public abstract class Vivo extends Elemento {
     protected App app;
-
-    public int xInicial;
-    public int yInicial, ultimaTecla, teclaAtual;
-    public ArrayList<Estatico> paredes, pastilhas, superPastilhas;
-    public ArrayList<Vivo> fantasmas;
+    
+    public int ultimaTecla;
+    protected int xInicial, yInicial, teclaAtual;
+    protected ArrayList<Estatico> paredes, pastilhas, superPastilhas;
+    protected ArrayList<Vivo> fantasmas;
 
     
     public Vivo(char idElemento, int x, int y, PImage imagem, App app){
@@ -25,16 +25,13 @@ public abstract class Vivo extends Elemento {
         this.app = app;
         this.ultimaTecla = 0;
         this.teclaAtual = 0;
-        this.paredes = app.game.paredes;
-        this.pastilhas = app.game.pastilhas;
-        this.superPastilhas = app.game.superPastilhas;
+        this.paredes = this.app.game.paredes;
+        this.pastilhas = this.app.game.pastilhas;
+        this.superPastilhas = this.app.game.superPastilhas;
         this.fantasmas = app.game.fantasmas;
     }
     
-    public abstract void atualiza(); // atualiza a posição
-    
-    // Funções de colisão com os elementos estaticos do game
-    public abstract boolean checaLidaComColisao();   
+    public abstract void atualiza(); // atualiza a posição  
     
     public abstract boolean checaColisaoComPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo);
     

@@ -4,6 +4,9 @@
  */
 package pacman;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import processing.core.PImage;
 
 /**
@@ -49,8 +52,7 @@ public abstract class Fantasma extends Vivo{
     }
     
     
-    @Override
-    public boolean checaLidaComColisao(){return false;}
+    
     public boolean checaColisao(int tecla){
         if(tecla == 0) return true;
         
@@ -75,11 +77,6 @@ public abstract class Fantasma extends Vivo{
         
         return false;
     }
-
-    public abstract void estrategia();
-    public abstract void desenha(App app);
-    public abstract void calculaDirecao(int x, int y); // recebe a posicao do alvo
-    
     
     public int[] fakeMover(int tecla){
         //System.out.println("coordenada antes: " + ((this.getY() / 16) + 1) + " " + ((this.getX() / 16) + 1));
@@ -112,6 +109,62 @@ public abstract class Fantasma extends Vivo{
         return res;
     }
     
+    // vai retornar a primeira opcao, senao puder usa a segunda
+    public void calculaDirecao(int x, int y){
+        
+        HashMap<Long, Integer> distanciaTecla = new HashMap<>();
+        ArrayList<Long> distancias = new ArrayList<>();
+        
+        long distancia;
+        // 37 -> esquerda
+        distancia = calculaQuadradoDistanciaEuclidiana(this.x - 16, this.y, x, y);
+        distanciaTecla. put(distancia, 37);
+        distancias.add(distancia);
+        
+        // 38 -> pra cima
+        distancia = calculaQuadradoDistanciaEuclidiana(this.x, this.y - 16, x, y);
+        distanciaTecla. put(distancia, 38);
+        distancias.add(distancia);
+        
+        // 39 -> pra direita
+        distancia = calculaQuadradoDistanciaEuclidiana(this.x + 16, this.y, x, y);
+        distanciaTecla. put(distancia, 39);
+        distancias.add(distancia);
+        
+        // 40 -> pra baixo
+        distancia = calculaQuadradoDistanciaEuclidiana(this.x, this.y + 16, x, y);
+        distanciaTecla. put(distancia, 40);
+        distancias.add(distancia);
+        
+        Collections.sort(distancias);
+        
+        for(long dist : distancias){
+            if(Math.pow(dist, 0.5) / 16 <= 1 && !(app.game.perseguindo)){
+                this.ultimaTecla = 0;
+                break;
+            }
+            
+            int tecla = distanciaTecla.get(dist);
+            
+            if(movimentoValido(tecla)){
+                this.ultimaTecla = tecla;
+                break;
+            }
+            
+        }
+    }
+    
+    public void mover(){
+        if(this.ultimaTecla >= 37 && this.ultimaTecla <= 40){
+            int[] posicao = fakeMover(ultimaTecla);
+            this.x = posicao[0];
+            this.y = posicao[1];
+        }
+        
+        app.image(this.imagem, this.x, this.y);
+        
+    }
+    
     @Override
     public boolean checaColisaoComPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
         return false;
@@ -121,5 +174,4 @@ public abstract class Fantasma extends Vivo{
     public boolean checaColisaoComSuperPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
         return false;
     }
-
 }

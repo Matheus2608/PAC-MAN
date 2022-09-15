@@ -11,7 +11,7 @@ import processing.core.PImage;
  *
  * @author matheus
  */
-public class PacMan extends Vivo implements Atualizavel{
+public class PacMan extends Vivo{
     // imagens dos estados do pacman e do simbolo de vida e vazio
     private PImage imCima, imBaixo, imEsq, imDir, imagemVazia, imVida, imBocaFechada;
 
@@ -28,9 +28,8 @@ public class PacMan extends Vivo implements Atualizavel{
     }
     
     
-    // checa se houve colisao e lida
-    @Override
-    public boolean checaLidaComColisao(){
+    // checa se houve colisao e lida com ela
+    public void lidaComColisao(){
         
         // vao ser considerados verdadeiras colisoes se forem com uma parede ou com fantasma
         // para melhor funcionamento e legibilidade do codigo
@@ -54,7 +53,7 @@ public class PacMan extends Vivo implements Atualizavel{
         if(checaColisaoFantasmas(coordEsq, coordDir, coordCima, coordBaixo)){
             // move ambos para a posicao inicial
             lidaColisaoFantasma();
-            return true;
+            return;
         }
         
         // se  não colidir com uma parede ou estiver fora do mapa
@@ -87,7 +86,7 @@ public class PacMan extends Vivo implements Atualizavel{
             foraEscopoY = y < 0 || y > 576;
             
             // se estiver fora do mapa
-             if (foraEscopoX || foraEscopoY) return true;
+             if (foraEscopoX || foraEscopoY) return;
         
         
         coordEsq = x;
@@ -99,23 +98,19 @@ public class PacMan extends Vivo implements Atualizavel{
         if(checaColisaoFantasmas(coordEsq, coordDir, coordCima, coordBaixo)){
             // move os para a posicao inicial
             lidaColisaoFantasma();
-            return true;
+            return;
         }
         
         // se chocar com parede
         if(checaColisaoComParede(coordEsq, coordDir, coordCima, coordBaixo)){
             // nao move, continua na parede
-            return true;
+            return;
         }
         
         // se chocou(comeu) pastilha, remove ela do mapa e do classe jogo
         checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo);
         mover(y, x);
-        return false;
         }
-        
-     // so pq o netbeans pediu(msm q n colidiu)   
-     return false;
     }
     
     // funcoes de checagem de colisao usam as coordenadas dos elementos e os tratam como caixas para verem se
@@ -200,7 +195,7 @@ public class PacMan extends Vivo implements Atualizavel{
             app.game.vitoriaOuDerrota(app);
             
             // chama a principal funcao para lidar com o movimento do pacman
-            checaLidaComColisao();
+            lidaComColisao();
             
         }   
     }
@@ -244,10 +239,9 @@ public class PacMan extends Vivo implements Atualizavel{
         
         Elemento elem = new Elemento('0', this.getX(), this.getY(), this.imagemVazia);
         ArrayList<ArrayList<Elemento>> mapa = app.game.mapa;
-        //System.out.println("posicao que estou: " + this.getY() / 16 + " " + this.getX() / 16);
+        
         mapa.get(this.getY() / 16).set(this.getX() / 16, elem);
         
-        //System.out.println("posicao inicial: " + this.yInicial / 16 + " " + xInicial / 16);
         elem = new Elemento(this.idElemento, xInicial, yInicial, this.getImagem());
         mapa.get(this.yInicial / 16).set(this.xInicial / 16, elem);
         
