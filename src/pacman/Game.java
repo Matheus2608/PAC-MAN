@@ -38,19 +38,19 @@ public class Game {
     public PacMan pacMan;
     public ArrayList<Vivo> fantasmas;
     public ArrayList<Estatico> paredes;
-    public ArrayList<Estatico> frutas;
+    public Estatico paredeSuperiorDireita, paredeSuperiorEsquerda, paredeInferiorEsquerda, paredeInferiorDireita;
     public ArrayList<Estatico> pastilhas;
     public ArrayList<Estatico> superPastilhas;
     public boolean resetarGame;
     public boolean perseguindo;
     public boolean fantasmasAssustados;
+    
 
     public Game(App app) {
         this.app = app;
         this.mapElementos = new HashMap<Character, String>();
         this.mapa = new ArrayList<ArrayList<Elemento>>();
         this.paredes = new ArrayList<Estatico>();
-        this.frutas = new ArrayList<Estatico>();
         this.pastilhas = new ArrayList<Estatico>();
         this.superPastilhas = new ArrayList<Estatico>();
         this.fantasmas = new ArrayList<Vivo>();
@@ -63,7 +63,7 @@ public class Game {
     }
     
     // preenche o hashmap com imagens necessarias dos seus respectivos elementos
-    public void carregaMapElementos() {
+    public void carregaMapElementos(){
         this.mapElementos.put('0', "src/imagens/empty.png"); // imagem vazia
         this.mapElementos.put('1', "src/imagens/paredes/horizontal.png"); // parede horizontal
         this.mapElementos.put('2', "src/imagens/paredes/vertical.png"); // parede vertical
@@ -79,12 +79,11 @@ public class Game {
         this.mapElementos.put('c', "src/imagens/fantasmas/chaser.png"); // fantasma vermelho
         this.mapElementos.put('i', "src/imagens/fantasmas/ignorant.png"); // fantasma laranja
         this.mapElementos.put('w', "src/imagens/fantasmas/whim.png"); // fantasma azul
-        this.mapElementos.put('s', "src/imagens/sodaCan.png"); // refrigerante
     }
     
     
-    // naveja pelo arquivo config.json onde ha as informacoes iniciais e importantes para o funcionamento do jogo
-    public void parseJSON() {
+    // navega pelo arquivo config.json onde ha as informacoes iniciais e importantes para o funcionamento do jogo
+    public void leJSON() {
         
         // Cria um objeto JSONParser a fim de analisar o arquivo
         JSONParser jsonParser = new JSONParser();
@@ -97,8 +96,7 @@ public class Game {
             this.nomeArquivo = jsonObject.get("mapa").toString();
             this.vidas = Integer.parseInt(jsonObject.get("vidas").toString());
             this.velocidade = Integer.parseInt(jsonObject.get("velocidade").toString());
-            String tempoAssustado = jsonObject.get("tempoAssustado").toString();
-            this.tempoAssustado = Integer.parseInt(tempoAssustado);
+            this.tempoAssustado = Integer.parseInt(jsonObject.get("tempoAssustado").toString());
             
             JSONArray vetorJson = (JSONArray) jsonObject.get("tamanhoModos");
             for (Object obj : vetorJson) {
@@ -152,6 +150,8 @@ public class Game {
         try {
             // le o arquivo do mapa
             File arquivo = new File("mapa.txt");
+            boolean existe = arquivo.exists();
+            if (!existe) {System.out.println("Ausencia do aquivo mapa.txt no PC");} // caso o arquivo nao exista
             Scanner scan = new Scanner(arquivo);
             
             // cada elemento vai ter 16 por 16 pixels, logo ha necessidade de guardar os valores das coordenadas
@@ -251,14 +251,14 @@ public class Game {
         catch (FileNotFoundException fnfe) {
             fnfe.printStackTrace();
         }
-        
-        
-        System.out.println("numero de paredes no game: " + this.paredes.size());
-        
-        
+        // chama as funções que inicializam as paredes dos cantos (util para o funcionamento dos fantasmas)
+        inicializaParedeSuperiorEsquerda();
+        inicializaParedeSuperiorDireita();
+        inicializaParedeInferiorDireita();
+        inicializaParedeInferiorEsquerda();             
     }
     
-    public void desenhaMapa(){
+    public void desenhaMapa() throws NullPointerException  { // Exceção que sera lançada caso não reconheça a imagem no PC
         // para cada elemento contido no mapa imprime na tela somente os que não são fantasmas
         // pois esses vao se auto imprimir quando forem atualizados
         for(ArrayList<Elemento> linha : this.mapa){
@@ -268,6 +268,76 @@ public class Game {
                 }
             }
         }
+    }
+    
+    
+    // funções que inicializam as paredes dos cantos
+    public void inicializaParedeSuperiorEsquerda(){
+        this.paredeSuperiorEsquerda = this.paredes.get(0);
+        for(Estatico parede: this.paredes){
+            if(parede.y < this.paredeSuperiorEsquerda.y){
+                this.paredeSuperiorEsquerda = parede;
+            }
+            
+            else if(parede.y == this.paredeSuperiorEsquerda.y){
+                if(parede.x < this.paredeSuperiorEsquerda.x){
+                    this.paredeSuperiorEsquerda = parede;
+                }
+            }
+
+        }
+        
+    }
+    
+    public void inicializaParedeSuperiorDireita(){
+        this.paredeSuperiorDireita = this.paredes.get(0);
+        for(Estatico parede: this.paredes){
+            if(parede.y < this.paredeSuperiorDireita.getY()){
+                this.paredeSuperiorDireita = parede;
+            }
+            
+            else if(parede.y == this.paredeSuperiorDireita.y){
+                if(parede.x > this.paredeSuperiorDireita.x){
+                    this.paredeSuperiorDireita = parede;
+                }
+            }
+
+        }
+        
+    }
+    
+    public void inicializaParedeInferiorDireita(){
+        this.paredeInferiorDireita = this.paredes.get(0);
+        for(Estatico parede: this.paredes){
+            if(parede.y > this.paredeInferiorDireita.y){
+                this.paredeInferiorDireita = parede;
+            }
+            
+            else if(parede.y == this.paredeInferiorDireita.y){
+                if(parede.x > this.paredeInferiorDireita.x){
+                    this.paredeInferiorDireita = parede;
+                }
+            }
+
+        }
+        
+    }
+    
+    public void inicializaParedeInferiorEsquerda(){
+        this.paredeInferiorEsquerda = this.paredes.get(0);
+        for(Estatico parede: this.paredes){
+            if(parede.y > this.paredeInferiorEsquerda.y){
+                this.paredeInferiorEsquerda = parede;
+            }
+            
+            else if(parede.y == this.paredeInferiorEsquerda.y){
+                if(parede.x < this.paredeInferiorEsquerda.x){
+                    this.paredeInferiorEsquerda = parede;
+                }
+            }
+
+        }
+        
     }
 }
         

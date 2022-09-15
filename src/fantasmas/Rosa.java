@@ -17,10 +17,13 @@ import processing.core.PImage;
  *
  * @author matheus
  */
-public class Rosa extends Fantasma{
+public class Rosa extends Fantasma implements Estrategia{
     public Rosa(char IdElemento, int x, int y, PImage imagem, App app){
         super(IdElemento, x,y,imagem, app);
     }
+    
+    @Override
+    public void movimentar(Fantasma classe){}
     
     public int[] posicaoAlvoPacMan(){
         PacMan pacMan = this.app.game.pacMan;
@@ -57,79 +60,36 @@ public class Rosa extends Fantasma{
         // seu alvo é o canto superior esquerdo mais proximo
         else{
             //System.out.println("disperso");
-            this.calculaDirecao(paredeSuperiorDireita.getX(), paredeSuperiorDireita.getY());
+            this.calculaDirecao(app.game.paredeSuperiorDireita.getX(), app.game.paredeSuperiorDireita.getY());
         }
         
         mover();
         
     }
 
-    
-    public void mover(){
-        if(this.ultimaTecla >= 37 && this.ultimaTecla <= 40){
-            int[] posicao = fakeMover(ultimaTecla);
-            this.x = posicao[0];
-            this.y = posicao[1];
-        }
-        
-        app.image(this.imagem, this.x, this.y);
-        
+    public int getIndModoAtual() {
+        return indModoAtual;
     }
 
-    @Override
-    public void estrategia() {
-        
+    public void setIndModoAtual(int indModoAtual) {
+        this.indModoAtual = indModoAtual;
     }
 
-    @Override
-    public void desenha(App app) {
-        
+    public int getDiffAcumuladaModos() {
+        return diffAcumuladaModos;
     }
-    
-    @Override
-    // vai retornar a primeira opcao, senao puder usa a segunda
-    public void calculaDirecao(int x, int y){
-        
-        HashMap<Long, Integer> distanciaTecla = new HashMap<>();
-        ArrayList<Long> distancias = new ArrayList<>();
-        
-        long distancia;
-        // 37 -> esquerda
-        distancia = calculaQuadradoDistanciaEuclidiana(this.x - 16, this.y, x, y);
-        distanciaTecla. put(distancia, 37);
-        distancias.add(distancia);
-        
-        // 38 -> pra cima
-        distancia = calculaQuadradoDistanciaEuclidiana(this.x, this.y - 16, x, y);
-        distanciaTecla. put(distancia, 38);
-        distancias.add(distancia);
-        
-        // 39 -> pra direita
-        distancia = calculaQuadradoDistanciaEuclidiana(this.x + 16, this.y, x, y);
-        distanciaTecla. put(distancia, 39);
-        distancias.add(distancia);
-        
-        // 40 -> pra baixo
-        distancia = calculaQuadradoDistanciaEuclidiana(this.x, this.y + 16, x, y);
-        distanciaTecla. put(distancia, 40);
-        distancias.add(distancia);
-        
-        Collections.sort(distancias);
-        
-        for(long dist : distancias){
-            if(Math.pow(dist, 0.5) / 16 <= 1){
-                this.ultimaTecla = 0;
-                break;
-            }
-            
-            int tecla = distanciaTecla.get(dist);
-            
-            if(movimentoValido(tecla)){
-                this.ultimaTecla = tecla;
-                break;
-            }
-            
-        }
+
+    public void setDiffAcumuladaModos(int diffAcumuladaModos) {
+        this.diffAcumuladaModos = diffAcumuladaModos;
     }
+
+    public PImage getFantasmaAssustado() {
+        return fantasmaAssustado;
+    }
+
+    public void setFantasmaAssustado(PImage fantasmaAssustado) {
+        this.fantasmaAssustado = fantasmaAssustado;
+    }
+
 
 }

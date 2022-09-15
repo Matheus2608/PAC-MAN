@@ -25,13 +25,10 @@ public class PacMan extends Vivo{
         this.imagemVazia = this.app.loadImage("src/imagens/empty.png");
         this.imVida = this.app.loadImage("src/imagens/pacman/playerRight.png");
         this.imBocaFechada = this.app.loadImage("src/imagens/pacman/playerClosed.png");
-        System.out.println("numero de paredes na classe pacman: " + this.paredes.size());
     }
-    
-    
-    // checa se houve colisao e lida
-    @Override
-    public boolean checaLidaComColisao(){
+        
+    // checa se houve colisao e lida com ela
+    public void lidaComColisao(){
         
         // vao ser considerados verdadeiras colisoes se forem com uma parede ou com fantasma
         // para melhor funcionamento e legibilidade do codigo
@@ -55,7 +52,7 @@ public class PacMan extends Vivo{
         if(checaColisaoFantasmas(coordEsq, coordDir, coordCima, coordBaixo)){
             // move ambos para a posicao inicial
             lidaColisaoFantasma();
-            return true;
+            return;
         }
         
         // se  não colidir com uma parede ou estiver fora do mapa
@@ -88,7 +85,7 @@ public class PacMan extends Vivo{
             foraEscopoY = y < 0 || y > 576;
             
             // se estiver fora do mapa
-             if (foraEscopoX || foraEscopoY) return true;
+             if (foraEscopoX || foraEscopoY) return;
         
         
         coordEsq = x;
@@ -100,23 +97,19 @@ public class PacMan extends Vivo{
         if(checaColisaoFantasmas(coordEsq, coordDir, coordCima, coordBaixo)){
             // move os para a posicao inicial
             lidaColisaoFantasma();
-            return true;
+            return;
         }
         
         // se chocar com parede
         if(checaColisaoComParede(coordEsq, coordDir, coordCima, coordBaixo)){
             // nao move, continua na parede
-            return true;
+            return;
         }
         
         // se chocou(comeu) pastilha, remove ela do mapa e do classe jogo
         checaColisaoComPastilha(coordEsq, coordDir, coordCima, coordBaixo);
         mover(y, x);
-        return false;
         }
-        
-     // so pq o netbeans pediu(msm q n colidiu)   
-     return false;
     }
     
     // funcoes de checagem de colisao usam as coordenadas dos elementos e os tratam como caixas para verem se
@@ -201,7 +194,7 @@ public class PacMan extends Vivo{
             app.game.vitoriaOuDerrota(app);
             
             // chama a principal funcao para lidar com o movimento do pacman
-            checaLidaComColisao();
+            lidaComColisao();
             
         }   
     }
@@ -245,10 +238,9 @@ public class PacMan extends Vivo{
         
         Elemento elem = new Elemento('0', this.getX(), this.getY(), this.imagemVazia);
         ArrayList<ArrayList<Elemento>> mapa = app.game.mapa;
-        //System.out.println("posicao que estou: " + this.getY() / 16 + " " + this.getX() / 16);
+        
         mapa.get(this.getY() / 16).set(this.getX() / 16, elem);
         
-        //System.out.println("posicao inicial: " + this.yInicial / 16 + " " + xInicial / 16);
         elem = new Elemento(this.idElemento, xInicial, yInicial, this.getImagem());
         mapa.get(this.yInicial / 16).set(this.xInicial / 16, elem);
         
@@ -258,10 +250,7 @@ public class PacMan extends Vivo{
         
         this.app.game.vidas -= 1;
     }
-
-    
-
-    
+ 
     public int[] fakeMoverUltimaTecla(){
         int ultimaTecla = this.ultimaTecla;
         
@@ -348,5 +337,61 @@ public class PacMan extends Vivo{
             app.image(imVida, x, y);
             x += 40;
         }
+    }
+
+    public PImage getImCima() {
+        return imCima;
+    }
+
+    public void setImCima(PImage imCima) {
+        this.imCima = imCima;
+    }
+
+    public PImage getImBaixo() {
+        return imBaixo;
+    }
+
+    public void setImBaixo(PImage imBaixo) {
+        this.imBaixo = imBaixo;
+    }
+
+    public PImage getImEsq() {
+        return imEsq;
+    }
+
+    public void setImEsq(PImage imEsq) {
+        this.imEsq = imEsq;
+    }
+
+    public PImage getImDir() {
+        return imDir;
+    }
+
+    public void setImDir(PImage imDir) {
+        this.imDir = imDir;
+    }
+
+    public PImage getImagemVazia() {
+        return imagemVazia;
+    }
+
+    public void setImagemVazia(PImage imagemVazia) {
+        this.imagemVazia = imagemVazia;
+    }
+
+    public PImage getImVida() {
+        return imVida;
+    }
+
+    public void setImVida(PImage imVida) {
+        this.imVida = imVida;
+    }
+
+    public PImage getImBocaFechada() {
+        return imBocaFechada;
+    }
+
+    public void setImBocaFechada(PImage imBocaFechada) {
+        this.imBocaFechada = imBocaFechada;
     }
 }

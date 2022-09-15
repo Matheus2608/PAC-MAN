@@ -11,14 +11,12 @@ import processing.core.PImage;
  * @author matheus
  */
 public class Elemento {
-
-    protected final int ALTURA = 16, LARGURA = 16;
     protected int x ,y;
     protected char idElemento;
     protected PImage imagem;
 
     
-   
+   // Construtores, sets e gets de posição e imagem dos elementos
     public Elemento(char idElemento, int x, int y, PImage imagem) {
         this.x = x;
         this.y = y;
