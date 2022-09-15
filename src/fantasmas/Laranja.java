@@ -62,4 +62,28 @@ public class Laranja extends Fantasma implements Estrategia{
         mover();
     }
 
+    public int getIndModoAtual() {
+        return indModoAtual;
+    }
+
+    public void setIndModoAtual(int indModoAtual) {
+        this.indModoAtual = indModoAtual;
+    }
+
+    public int getDiffAcumuladaModos() {
+        return diffAcumuladaModos;
+    }
+
+    public void setDiffAcumuladaModos(int diffAcumuladaModos) {
+        this.diffAcumuladaModos = diffAcumuladaModos;
+    }
+
+    public PImage getFantasmaAssustado() {
+        return fantasmaAssustado;
+    }
+
+    public void setFantasmaAssustado(PImage fantasmaAssustado) {
+        this.fantasmaAssustado = fantasmaAssustado;
+    }
+
 }

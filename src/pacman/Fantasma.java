@@ -174,4 +174,28 @@ public abstract class Fantasma extends Vivo{
     public boolean checaColisaoComSuperPastilha(int coordEsq, int coordDir, int coordCima, int coordBaixo){
         return false;
     }
+
+    public int getIndModoAtual() {
+        return indModoAtual;
+    }
+
+    public void setIndModoAtual(int indModoAtual) {
+        this.indModoAtual = indModoAtual;
+    }
+
+    public int getDiffAcumuladaModos() {
+        return diffAcumuladaModos;
+    }
+
+    public void setDiffAcumuladaModos(int diffAcumuladaModos) {
+        this.diffAcumuladaModos = diffAcumuladaModos;
+    }
+
+    public PImage getFantasmaAssustado() {
+        return fantasmaAssustado;
+    }
+
+    public void setFantasmaAssustado(PImage fantasmaAssustado) {
+        this.fantasmaAssustado = fantasmaAssustado;
+    }
 }

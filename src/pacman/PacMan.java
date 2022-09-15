@@ -26,8 +26,7 @@ public class PacMan extends Vivo{
         this.imVida = this.app.loadImage("src/imagens/pacman/playerRight.png");
         this.imBocaFechada = this.app.loadImage("src/imagens/pacman/playerClosed.png");
     }
-    
-    
+        
     // checa se houve colisao e lida com ela
     public void lidaComColisao(){
         
@@ -251,10 +250,7 @@ public class PacMan extends Vivo{
         
         this.app.game.vidas -= 1;
     }
-
-    
-
-    
+ 
     public int[] fakeMoverUltimaTecla(){
         int ultimaTecla = this.ultimaTecla;
         
@@ -341,5 +337,61 @@ public class PacMan extends Vivo{
             app.image(imVida, x, y);
             x += 40;
         }
+    }
+
+    public PImage getImCima() {
+        return imCima;
+    }
+
+    public void setImCima(PImage imCima) {
+        this.imCima = imCima;
+    }
+
+    public PImage getImBaixo() {
+        return imBaixo;
+    }
+
+    public void setImBaixo(PImage imBaixo) {
+        this.imBaixo = imBaixo;
+    }
+
+    public PImage getImEsq() {
+        return imEsq;
+    }
+
+    public void setImEsq(PImage imEsq) {
+        this.imEsq = imEsq;
+    }
+
+    public PImage getImDir() {
+        return imDir;
+    }
+
+    public void setImDir(PImage imDir) {
+        this.imDir = imDir;
+    }
+
+    public PImage getImagemVazia() {
+        return imagemVazia;
+    }
+
+    public void setImagemVazia(PImage imagemVazia) {
+        this.imagemVazia = imagemVazia;
+    }
+
+    public PImage getImVida() {
+        return imVida;
+    }
+
+    public void setImVida(PImage imVida) {
+        this.imVida = imVida;
+    }
+
+    public PImage getImBocaFechada() {
+        return imBocaFechada;
+    }
+
+    public void setImBocaFechada(PImage imBocaFechada) {
+        this.imBocaFechada = imBocaFechada;
     }
 }

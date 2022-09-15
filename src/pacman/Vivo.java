@@ -11,7 +11,6 @@ import processing.core.PImage;
  */
 public abstract class Vivo extends Elemento {
     protected App app;
-    
     public int ultimaTecla;
     protected int xInicial, yInicial, teclaAtual;
     protected ArrayList<Estatico> paredes, pastilhas, superPastilhas;
@@ -49,6 +48,70 @@ public abstract class Vivo extends Elemento {
         }
         
         return false;
+    }
+
+    public App getApp() {
+        return app;
+    }
+
+    public void setApp(App app) {
+        this.app = app;
+    }
+
+    public int getxInicial() {
+        return xInicial;
+    }
+
+    public void setxInicial(int xInicial) {
+        this.xInicial = xInicial;
+    }
+
+    public int getyInicial() {
+        return yInicial;
+    }
+
+    public void setyInicial(int yInicial) {
+        this.yInicial = yInicial;
+    }
+
+    public int getTeclaAtual() {
+        return teclaAtual;
+    }
+
+    public void setTeclaAtual(int teclaAtual) {
+        this.teclaAtual = teclaAtual;
+    }
+
+    public ArrayList<Estatico> getParedes() {
+        return paredes;
+    }
+
+    public void setParedes(ArrayList<Estatico> paredes) {
+        this.paredes = paredes;
+    }
+
+    public ArrayList<Estatico> getPastilhas() {
+        return pastilhas;
+    }
+
+    public void setPastilhas(ArrayList<Estatico> pastilhas) {
+        this.pastilhas = pastilhas;
+    }
+
+    public ArrayList<Estatico> getSuperPastilhas() {
+        return superPastilhas;
+    }
+
+    public void setSuperPastilhas(ArrayList<Estatico> superPastilhas) {
+        this.superPastilhas = superPastilhas;
+    }
+
+    public ArrayList<Vivo> getFantasmas() {
+        return fantasmas;
+    }
+
+    public void setFantasmas(ArrayList<Vivo> fantasmas) {
+        this.fantasmas = fantasmas;
     }
     
 }
